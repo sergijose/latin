@@ -1,0 +1,6 @@
+2022-01-07 16:39:49: <br />
+<b>Notice</b>:  Trying to access array offset on value of type int in <b>C:\xampp\htdocs\sistema\extensiones\tcpdf\pdf\phpqrcode\qrsplit.php</b> on line <b>71</b><br />
+<br />
+<b>Notice</b>:  Trying to access array offset on value of type int in <b>C:\xampp\htdocs\sistema\extensiones\tcpdf\pdf\phpqrcode\qrsplit.php</b> on line <b>53</b><br />
+<br />
+<b>Notice</b>:  Trying to access array offset on value of type int in <b>C:\xampp\htdocs\sistema\extensiones\tcpdf\pdf\phpqrcode\qrsplit.php</b> on line <b>62</b><br />
