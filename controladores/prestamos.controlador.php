@@ -84,6 +84,35 @@ class ControladorPrestamos
 				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
 			}
 
+
+			/*PROBAR SI FUNCIONA*/
+			$listaProductosPedidos = json_decode($_POST["listaProductosPedidos"], true);
+			$totalProductosComprados = array();
+	  
+			foreach ($listaProductosPedidos as $key => $value) {
+	  
+			  array_push($totalProductosComprados, $value["cantidad"]);
+			  $tablaProductos = "producto_lotes";
+	  
+			  $item = "id";
+			  $valor = $value["id"];
+			  $orden = "id";
+	  
+			  $traerProducto = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
+			  $item1a = "salidas";
+			  $valor1a = $value["cantidad"] + $traerProducto["salidas"];
+	  
+			  $nuevasVentas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
+			  $item1b = "stock";
+			  $valor1b = $value["stock"];
+	  
+			  $nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
+			}
+	  
+	  
+	  
+			
+			/*FINAL*/
 			/*=============================================
 			GUARDAR EL PRESTAMO
 			=============================================*/
@@ -94,10 +123,14 @@ class ControladorPrestamos
 				"idusuario" => $_POST["idUsuario"],
 				"codigo_prestamo" => $_POST["nuevoPrestamo"],
 				"productos" => $_POST["listaProductos"],
+				"productos_lotes" => $_POST["listaProductosPedidos"],
 				"idempleado" => $_POST["nuevoEmpleado"],
 				"observacion_prestamo" => $_POST["observacionPrestamo"],
 				"estado_prestamo" => "PENDIENTE",
-				"creado_por" => $_POST["creado_por"]
+				"tipo_servicio" => $_POST["servicio"],
+				"creado_por" => $_POST["creado_por"],
+				"codigo_cliente" => $_POST["codigo_cliente"],
+				"comentario_asignado" => $_POST["comentario_asignado"]
 			);
 
 			$respuesta = ModeloPrestamos::mdlIngresarPrestamo($tabla, $datos);
@@ -209,33 +242,135 @@ class ControladorPrestamos
 				$valor1a = "OCUPADO";
 				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
 			}
+
+//PARA EL PEDIDO POR LOTES
+if ($_POST["listaProductosPedidos"] == "") {
+
+	$listaProductosPedidos = $traerPrestamo["productos_lotes"];
+	$cambioProductoPedidos = false;
+  } else {
+
+	$listaProductosPedidos = $_POST["listaProductosPedidos"];
+	$cambioProductoPedidos = true;
+  }
+
+  if ($cambioProductoPedidos) {
+
+	$productosPedido =  json_decode($traerPrestamo["productos_lotes"], true);
+	$totalProductosComprados = array();
+
+	if (!is_null($productosPedido) && is_array($productosPedido)) {
+	foreach ($productosPedido as $key => $value) {
+
+	  array_push($totalProductosComprados, $value["cantidad"]);
+
+	  $tablaProductos = "producto_lotes";
+
+	  $item = "id";
+	  $valor = $value["id"];
+	  $orden = "id";
+	  //TRAER PRODUCTOS LOTES
+	  $traerProductoPedido = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
+
+	  $item1a = "salidas";
+	  $valor1a = $traerProductoPedido["salidas"] - $value["cantidad"];
+
+	  $nuevasSalidas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
+
+	  $item1b = "stock";
+	  $valor1b = $value["cantidad"] + $traerProductoPedido["stock"];
+
+	  $nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
+	}
+}
+
+	  /*=============================================
+				ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
+				=============================================*/
+				$listaProductos_2 = json_decode($listaProductosPedidos, true);
+
+				$totalProductosComprados_2 = array();
+		
+				foreach ($listaProductos_2 as $key => $value) {
+		
+				  array_push($totalProductosComprados_2, $value["cantidad"]);
+		
+				  $tablaProductos_2 = "producto_lotes";
+		
+				  $item_2 = "id";
+				  $valor_2 = $value["id"];
+				  $orden = "id";
+		
+				  $traerProducto_2 = ModeloProductos::mdlMostrarProductos($tablaProductos_2, $item_2, $valor_2, $orden);
+		
+				  $item1a_2 = "salidas";
+				  $valor1a_2 = $value["cantidad"] + $traerProducto_2["salidas"];
+		
+				  $nuevasSalidas_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1a_2, $valor1a_2, $valor_2);
+		
+				  $item1b_2 = "stock";
+				  $valor1b_2 = $traerProducto_2["stock"] - $value["cantidad"];
+		
+				  $nuevoStock_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1b_2, $valor1b_2, $valor_2);
+				}
+
+}
+//FIN DE MOVIMIENTO PARA PRODUCTOS LOTES
+
+
 			date_default_timezone_set('America/Bogota');
 
 				$fecha = date('Y-m-d');
 				$hora = date('H:i:s');
 				$fechaActual = $fecha . ' ' . $hora;
-
+			
 
 			/*=============================================
 				GUARDAR EL PRESTAMO
 			=============================================*/
 
-			//$tabla = "prestamo";
 
-			$datos = array(
-				"id_prestamo" => $_POST["idPrestamo"],
-				"idusuario" => $_POST["idUsuario"],
-				"codigo_prestamo" => $_POST["editarPrestamo"],
-				"codigo_prestamo" => $_POST["editarPrestamo"],
-				"productos" => $listaProductos,
-				"idempleado" => $_POST["nuevoEmpleado"],
-				"observacion_prestamo" => $_POST["observacionPrestamo"],
-				"estado_prestamo" => "PENDIENTE",
-				"observacion_devolucion" => null,
-				"fecha_devolucion" => null,
-				"actualizado_por" => $_POST["actualizado_por"],
-				"fecha_actualizacion" => $fechaActual
-			);
+			if($_POST["editar_tipo_prestamo"]=="ASIGNADO"){
+				
+				$datos = array(
+					"id_prestamo" => $_POST["idPrestamo"],
+					"idusuario" => $_POST["idUsuario"],
+					"codigo_prestamo" => $_POST["editarPrestamo"],
+					//"codigo_prestamo" => $_POST["editarPrestamo"],
+					"productos" => $listaProductos,
+					"productos_lotes" => $listaProductosPedidos,
+					"idempleado" => $_POST["nuevoEmpleado"],
+					"observacion_prestamo" => $_POST["observacionPrestamo"],
+					"tipo_servicio" => $_POST["editar_servicio"],
+					"estado_prestamo" => "ASIGNADO",
+					"codigo_cliente"=>$_POST["codigo_cliente"],	
+					"comentario_asignado"=>$_POST["comentario_asignado"],
+					"observacion_devolucion" => null,
+					"fecha_devolucion" => null,
+					"actualizado_por" => $_POST["actualizado_por"],
+					"fecha_actualizacion" => $fechaActual
+				);
+			}
+			
+			else if($_POST["editar_tipo_prestamo"]=="PENDIENTE"){
+				$datos = array(
+					"id_prestamo" => $_POST["idPrestamo"],
+					"idusuario" => $_POST["idUsuario"],
+					"codigo_prestamo" => $_POST["editarPrestamo"],
+					//"codigo_prestamo" => $_POST["editarPrestamo"],
+					"productos" => $listaProductos,
+					"productos_lotes" => $listaProductosPedidos,
+					"idempleado" => $_POST["nuevoEmpleado"],
+					"observacion_prestamo" => $_POST["observacionPrestamo"],
+					"tipo_servicio" => $_POST["editar_servicio"],
+					"estado_prestamo" => "PENDIENTE",
+					"observacion_devolucion" => null,
+					"fecha_devolucion" => null,
+					"actualizado_por" => $_POST["actualizado_por"],
+					"fecha_actualizacion" => $fechaActual
+				);
+			}
+			var_dump($datos);
 
 			$respuesta = ModeloPrestamos::mdlEditarPrestamo($tabla, $datos);
 
@@ -385,6 +520,70 @@ swal({
 			}
 		}
 	}
+
+
+//ASIGNADO POR
+
+static public function ctrAsignarPrestamo()
+{
+if (isset($_POST["codigo_cliente"])) {
+
+	/*=============================================
+	//FORMATEAR TABLA PRODUCTOS
+	=============================================*/
+
+	$tabla = "prestamo";
+	date_default_timezone_set('America/Bogota');
+
+	$fecha = date('Y-m-d');
+	$hora = date('H:i:s');
+	$fechaActual = $fecha . ' ' . $hora;
+
+
+	$datos = array(
+		"id_prestamo" =>  $_POST["idPrestamoAsignar"],
+		"codigo_cliente" => $_POST["codigo_cliente"],
+		"comentario_asignado" => $_POST["comentario_asignado"],
+		"estado_prestamo" => "ASIGNADO",
+		"fecha_asignado" => $fechaActual,
+		"asignado_por" => $_POST["asignado_por"]
+
+	);
+
+	$respuesta = ModeloPrestamos::mdlAsignarPrestamo($tabla, $datos);
+
+
+
+	if ($respuesta == "ok") {
+		echo '<script>
+
+swal({
+type: "success",
+title: "Prestamo Asignado con Exito",
+showConfirmButton: true,
+allowOutsideClick: false,
+confirmButtonText: "Cerrar"
+}).then(function(result){
+		if (result.value) {
+
+		window.location = "prestamos";
+
+		}
+	})
+
+</script>';
+	} else {
+
+		echo '<script>
+
+
+alertify.error("No se pudo Finalizar ");
+
+
+</script>';
+	}
+}
+}
 
 
 

@@ -47,7 +47,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
           <div class="box-header with-border"></div>
 
-          <form role="form" method="post" class="formularioPrestamo" id="formularioPrestamo">
+          <form role="form" method="post" class="formularioPrestamo formularioPedido" id="formularioPrestamo">
 
             <div class="box-body">
 
@@ -55,10 +55,25 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                 <?php
 
+              
+
                 $item = "id";
                 $valor = $_GET["idPrestamo"];
 
                 $prestamo = ControladorPrestamos::ctrMostrarPrestamos($item, $valor);
+
+                //servicio capturado
+                $servicioSeleccionado=$prestamo["tipo_servicio"];
+                //lista de servicio
+                $servicios = ["instalacion", "averia", "reserva"];
+
+
+                //estado prestamo
+                $estadoPrestamoSeleccionado=$prestamo["estado_prestamo"];
+                $codigoCliente=$prestamo["codigo_cliente"];
+                $comentarioAsignado=$prestamo["comentario_asignado"];
+                //lista de servicio
+                $tipoDePrestamos = ["PENDIENTE", "ASIGNADO"];
 
                 $itemUsuario = "id";
                 $valorUsuario = $prestamo["idusuario"];
@@ -69,7 +84,24 @@ if ($_SESSION["perfil"] == "Visitante") {
                 $empleado = ControladorEmpleados::ctrMostrarEmpleados($itemEmpleado, $valorEmpleado);
 
                 ?>
+                   <!--=====================================
+                TIPO DE SERVICIO
+                ======================================-->
 
+                <div class="form-group">
+
+                <?php
+                foreach ($servicios as $servicio) {
+            $checked = ($servicio == $servicioSeleccionado) ? 'checked' : '';
+            echo '<label class="radio-inline">';
+            echo '<input type="radio" name="editar_servicio" value="' . $servicio . '" ' . $checked . '>' . $servicio;
+            echo '</label>';
+           
+             }
+              ?>
+                
+
+                </div  
 
                 <!--=====================================
                 ENTRADA DEL USUARIO
@@ -190,7 +222,56 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                 </div>
 
+               
+                        <!--======================================= 
+                          ENTRADA PARA AGREGAR PRODUCTO  POR LOTE
+                         =========================================-->
+                  <div class="form-group row nuevoProductoPedido">
+
+                    <?php
+                    $listaProductoLote = json_decode($prestamo["productos_lotes"], true);
+                    if($listaProductoLote !== null && is_array($listaProductoLote)){
+
+                    
+                    foreach ($listaProductoLote as $key => $value) {
+                      $item = "id";
+                      $valor = $value["id"];
+                      $orden = "id";
+                      $respuesta = ControladorProductosLotes::ctrMostrarProductosLotes($item, $valor, $orden);
+                      $stockAntiguo = $respuesta["stock"] + $value["cantidad"];
+
+                      echo '<div class="row" style="padding:5px 15px">
+  <!-- Descripción del producto -->
+  <div class="col-xs-6" style="padding-right:0px">
+  <div class="input-group">
+  <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto="' . $value["id"] . '">
+  <i class="fa fa-times"></i></button></span>
+  <input type="text" class="form-control nuevaDescripcionProducto" idProducto="' . $value["id"] . '" name="agregarProducto" value="' . $value["descripcion"] .  '" readonly required>
+  </div>
+  </div>
+  <!-- Cantidad del producto -->
+  <div class="col-xs-3">
+  <input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="' . $value["cantidad"] . '" stock="' . $stockAntiguo . '" nuevoStock="' . $value["stock"] . '" required>
+  </div>
+  <!-- Precio del producto -->
+  <div class="col-xs-3 ingresoPrecio" style="padding-left:0px">
+  <div class="input-group">
+  <span class="input-group-addon"><i class="">stock</i></span>
+  <input type="text" class="form-control nuevoPrecioProducto" precioReal="' . $respuesta["precio_venta"] . '" name="nuevoPrecioProducto" value="' . $value["stock"] . '" readonly required>
+  </div>
+  </div>
+  </div>';
+                    }
+
+                  }
+
+                    ?>
+
+                  </div>
+
+              
                 <input type="hidden" id="listaProductosPrestamos" name="listaProductos">
+                <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">
 
                 <input type="hidden" class="form-control input-lg" name="actualizado_por" value="<?php echo $_SESSION["id"]; ?>" required>
 
@@ -224,6 +305,32 @@ if ($_SESSION["perfil"] == "Visitante") {
                 </div>
 
               </div>
+<?php
+              if($prestamo["estado_prestamo"]=="ASIGNADO"){
+                echo '
+                <p><b>ESTE PRESTAMO ESTA ASIGNADO A UN CLIENTE<b/> si deseas puedes modificar estos campos</p>
+                ';
+                
+                foreach ($tipoDePrestamos as $tipoPrestamo) {
+            $checked = ($tipoPrestamo == $estadoPrestamoSeleccionado) ? 'checked' : '';
+            echo '<label class="radio-inline">';
+            echo '<input type="radio" name="editar_tipo_prestamo" value="' . $tipoPrestamo . '" ' . $checked . '>' . $tipoPrestamo;
+            echo '</label>';
+           
+             }
+
+              echo'
+                <div class="form-group">
+                <label for="codigoCliente">Código de Cliente:</label>
+                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente" value="'.$codigoCliente.'">
+              </div>
+              <div class="form-group">
+                <label for="comentario">Comentario:</label>
+                <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="3">'.$comentarioAsignado.'</textarea>
+              </div>';
+              }
+
+              ?>
               <div class="box-footer">
 
                 <button type="submit" class="btn btn-primary pull-right" id="guardarPrestamo">Guardar prestamo</button>
@@ -316,6 +423,31 @@ if ($_SESSION["perfil"] == "Visitante") {
 
 
     </div>
+
+      <!--=====================================
+      LA TABLA DE PRODUCTOS POR LOTES
+======================================-->
+<div class="col-lg-6 hidden-md hidden-sm hidden-xs">
+        <div class="box box-success">
+          <div class="box-header with-border"></div>
+          <div class="box-body">
+            <table class="table table-bordered table-striped dt-responsive tablaN text-center">
+              <thead>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Categoria</th>
+                  <th>Producto</th>
+                  <th>Medida</th>
+                  <th>Stock</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+
+            </table>
+          </div>
+        </div>
+      </div>
 
 </div>
 

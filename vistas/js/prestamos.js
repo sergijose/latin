@@ -318,6 +318,7 @@ function listarProductosPrestamos() {
   }
 
   $("#listaProductosPrestamos").val(JSON.stringify(listaProductosPrestamos));
+ 
 }
 /*=============================================
 LISTAR TODOS LOS PRODUCTOS PARA GENERAR PRESTAMOS
@@ -391,6 +392,32 @@ $(".tablas").on("click", ".btnEditarPrestamo", function () {
     success: function (respuesta) {
       $("#idPrestamo").val(respuesta["id"]);
       $("#idProducto").val(respuesta["idproducto"]);
+    },
+  });
+
+ 
+});
+
+
+//traer datos para pintar en la asignacion
+
+$(".tablas").on("click", ".btn-asignar", function () {
+  var idPrestamo = $(this).attr("idPrestamo");
+  console.log(idPrestamo);
+  var datos = new FormData();
+  datos.append("idPrestamo", idPrestamo);
+
+  $.ajax({
+    url: "ajax/prestamos.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      $("#codigo_cliente").val(respuesta["codigo_cliente"]);
+      $("#comentario_asignado").val(respuesta["comentario_asignado"]);
     },
   });
 
@@ -478,7 +505,14 @@ $('#daterange-btn').daterangepicker(
 //select2 para listar empleados
 $(document).ready(function() {
   $('.mi-selector').select2();
-});
+
+  $('.selector2').select2()
+  ;
+})
+
+
+ 
+
 
 /*=============================================
 CANCELAR RANGO DE FECHAS
@@ -584,3 +618,20 @@ $("div #cajaPadre").find("*").prop('disabled', false);
 $("div #tablaProductos").find("*").prop('disabled', false);
    }     
 }
+
+//PARA CAPTURAR EL ID DEL PRESTAMO
+document.addEventListener('DOMContentLoaded', function () {
+  // Obtén una referencia al botón
+  var botonEditarPrestamo = document.querySelector('.btn-asignar');
+
+
+
+  // Agrega un evento click al botón
+  botonEditarPrestamo.addEventListener('click', function () {
+      // Obtén el valor del atributo idPrestamo
+      var idPrestamo = botonEditarPrestamo.getAttribute('idPrestamo');
+      idPrestamoAsignar.value = idPrestamo;
+    
+      
+  });
+});

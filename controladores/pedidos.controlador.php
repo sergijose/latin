@@ -93,7 +93,7 @@ class ControladorPedidos
 
       //$item1a = "compras";
 
-      //      $valor1a = array_sum($totalProductosComprados) + $traerCliente["compras"];
+      //      $valor1a = ($totalProductosComprados) + $traerCliente["compras"];
 
       //    $comprasCliente = ModeloClientes::mdlActualizarCliente($tablaClientes, $item1a, $valor1a, $valor);
 

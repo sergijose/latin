@@ -235,7 +235,7 @@ $(".tablaProductos tbody").on("click", "a.btnEditarProducto", function () {
 					// $("#editarEstado").html(respuesta["descripcion"]);
 				},
 			});
-
+			$("#editarUbicacion").val(respuesta["id_ubicacion"]);
 			$("#editarCodigo").val(respuesta["cod_producto"]);
 			$("#editarNumSerie").val(respuesta["num_serie"]);
 
@@ -383,6 +383,7 @@ $(document).ready(function() {
 	width: '250px'
 
  });
+
 });
 
 

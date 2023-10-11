@@ -20,10 +20,10 @@ class ControladorProductos
 	MOSTRAR PRODUCTOS DETALLE CPU
 	=============================================*/
 
-	static public function ctrMostrarProductosDetalle($categoria,$busqueda,$marca,$oficina,$posicion,$referencia,$direccion_ip)
+	static public function ctrMostrarProductosDetalle($categoria,$busqueda,$marca)
 	{
 
-		$respuesta = ModeloProductos::mdlMostrarProductosDetalle($categoria,$busqueda,$marca,$oficina,$posicion,$referencia,$direccion_ip);
+		$respuesta = ModeloProductos::mdlMostrarProductosDetalle($categoria,$busqueda,$marca);
 
 		return $respuesta;
 	}
@@ -202,6 +202,7 @@ class ControladorProductos
 				$fechaActual = $fecha . ' ' . $hora;
 
 				$datos = array(
+					"id_ubicacion" => $_POST["editarUbicacion"],
 					"idmodelo" => $_POST["editarModelo"],
 					"cod_producto" => $_POST["editarCodigo"],
 					"num_serie" => $_POST["editarNumSerie"],
@@ -272,10 +273,10 @@ class ControladorProductos
 		}
 	}
 
-
+/*
 	public static function search($searchTerm,$posicion) {
         $results = ModeloProductos::search($searchTerm,$posicion);
         return $results;
     }
-
+*/
 }

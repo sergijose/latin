@@ -175,6 +175,7 @@ $(".formularioPedido").on("click", "button.quitarProducto", function () {
     listarProductosPedidos()
   }
 })
+
 /*========================================
 AGREGANDO PRODUCTOS DESDE EL BOTÓN PARADISPOSITIVOS
  =============================================*/
@@ -273,10 +274,13 @@ $(".formularioPedido").on("change", "select.nuevaDescripcionProducto", function 
     }
   })
 })
+
+
 /*=============================================
 MODIFICAR LA CANTIDAD
 =============================================*/
 $(".formularioPedido").on("change", "input.nuevaCantidadProducto", function () {
+  alert("hola");
 
  // var precio = $(this).parent().parent().children(".ingresoPrecio").children().children(".nuevoPrecioProducto");
   //var precioFinal = $(this).val() * precio.attr("precioReal");//
@@ -312,6 +316,8 @@ SI LA CANTIDAD ES SUPERIOR AL STOCK REGRESAR VALORES INICIALES
   // AGRUPAR PRODUCTOS EN FORMATO JSON
   listarProductosPedidos()
 })
+
+
 /*=============================================
 SUMAR TODOS LOS PRECIOS
 =============================================

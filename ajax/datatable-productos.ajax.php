@@ -33,15 +33,15 @@ class TablaProductos
 		$categoria = $_POST['categoria'];
 		$busqueda = $_POST['busqueda'] ;
 		$marca = $_POST['marca'];
-		$oficina = $_POST['oficina'];
-		$posicion = $_POST['posicion'];
-		$referencia = $_POST['referencia'];
-		$direccion_ip = $_POST['direccion_ip'];
+		//$oficina = $_POST['oficina'];
+		//$posicion = $_POST['posicion'];
+		//$referencia = $_POST['referencia'];
+		//$direccion_ip = $_POST['direccion_ip'];
 		
 		//$item = null;
 		//$valor =9;
 
-		$productos = ControladorProductos::ctrMostrarProductosDetalle($categoria,$busqueda,$marca,$oficina,$posicion,$referencia,$direccion_ip);
+		$productos = ControladorProductos::ctrMostrarProductosDetalle($categoria,$busqueda,$marca);
 		//return var_dump($productos);
 		if (count($productos) == 0) {
 
@@ -70,6 +70,9 @@ class TablaProductos
 			} else if ($productos[$i]["estado_fisico"] == "malogrado") {
 				$estadoFisicoProducto = "<span class='label label-danger'>Malogrado <i class='fas fa-thumbs-down'></i></span> ";
 			}
+			else if ($productos[$i]["estado_fisico"] == "en revision") {
+				$estadoFisicoProducto = "<span class='label label-warning'>En Revision</i></span> ";
+			}
 			
 
 			//VALIDAR SI TRAE INFORMACION NUMERO DE SERIE DEL PRODUCTO
@@ -97,10 +100,6 @@ class TablaProductos
 
 				$estado = "<span class='label label-warning'>No Aplica</span>";
 			}
-			else if($productos[$i]["estado_prestamo"] == "EN OFICINA"){
-
-				$estado = "<span class='label label-warning'>En Oficina</span>";
-			}
 			else {
 
 				$estado = "<span class='label label-danger'>Ocupado</span>";
@@ -126,6 +125,7 @@ class TablaProductos
 			$datosJson .= '[
 			      "' . ($i + 1) . '",
 				  "' . $productos[$i]["codigo"] . '",
+				  "' . $productos[$i]["referencia"] . '",
 				  "' . $imagen.'",
 				  "' . $caracteristica.'",
 				  "' .$estadoFisicoProducto. '",

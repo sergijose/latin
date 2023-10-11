@@ -18,9 +18,9 @@
 
                 $item = "id";
                 $valor = $_GET["idPedido"];
-                
 
-                $pedidos = ControladorPedidos::ctrMostrarPedido($item, $valor,null);
+
+                $pedidos = ControladorPedidos::ctrMostrarPedido($item, $valor, null);
 
                 $itemUsuario = "id";
                 $valorUsuario = $pedidos["id_usuario"];
@@ -105,8 +105,8 @@
                       </div>
 
                     </div>
-                  </div>  
-                  
+                  </div>
+
 
 
 
@@ -157,7 +157,7 @@
 
                   <!--======================================= 
       ENTRADA PARA AGREGAR PRODUCTO  
-=========================================-->
+                  =========================================-->
                   <div class="form-group row nuevoProducto">
 
                     <?php

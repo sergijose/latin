@@ -46,17 +46,17 @@ if ($_SESSION["perfil"] == "Visitante") {
 
         </button>
 
-
+ <!--
         <a href="productos-cpu">
 
-
+           
           <button class="btn btn-primary">
 
             Agregar Detalle de CPU's y Laptop's <i class="fa fa-laptop" aria-hidden="true"></i>
 
           </button>
         </a>
-
+-->
         <button class="btn btn-dark" id="limpiarFiltrosButton"><i class="fas fa-times-circle"></i> Eliminar Filtro</button>
 
         <div class="card" style="margin-top:15px;">
@@ -114,22 +114,17 @@ if ($_SESSION["perfil"] == "Visitante") {
                 <label for="codigo">Codigo de Producto</label>
                 <input type="text" id="busqueda" class="form-control busqueda" placeholder="Codigo Producto">
               </div>
+
               <div class="col-md-2">
-                <label for="oficina">Oficina</label>
-                <input type="text" id="oficina" class="form-control oficina" placeholder="oficina">
+                <label for="posicion">Numero de Serie</label>
+                <input type="text" id="num_serie" class="form-control num_serie" placeholder="num_serie">
+                </div>
+                
+              <div class="col-md-2">
+                <label for="oficina">Ubicacion</label>
+                <input type="text" id="ubicacion" class="form-control ubicacion" placeholder="ubicacion">
               </div>
-              <div class="col-md-2">
-                <label for="posicion">Posicion</label>
-                <input type="text" id="posicion" class="form-control posicion" placeholder="posicion">
-                </div>
-                <div class="col-md-2">
-                <label for="posicion">Referencia</label>
-                <input type="text" id="referencia" class="form-control referencia" placeholder="referencia">
-                </div>
-                <div class="col-md-2">
-                <label for="posicion">IP</label>
-                <input type="text" id="direccion_ip" class="form-control direccion_ip" placeholder="direccion_ip">
-                </div>
+              
               
             </div>
           </div>
@@ -150,6 +145,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
               <th style="width:10px">#</th>
               <th>Codigo</th>
+              <th>Ubicacion</th>
               <th>Imagen</th>
               <th>Detalle Producto</th>
               <th>Estado Fisico</th>
@@ -206,7 +202,39 @@ MODAL AGREGAR PRODUCTO
         <div class="modal-body">
 
           <div class="box-body">
+          <div class="form-group">
 
+<div class="input-group">
+
+    <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+
+    <select class="form-control input-md" id="ubicacion" name="ubicacion" onchange="ShowSelected(this);" required>
+
+        <option value="">Seleccionar Ubicacion</option>
+
+        <?php
+
+        $item = null;
+        $valor = null;
+
+
+        $productoUbicacionLista = ControladorProductoUbicacion::ctrMostrarUbicacionLista($item, $valor);
+
+        foreach ($productoUbicacionLista as $key => $value) {
+
+            echo '<option value="' . $value["id"] . '"  ruta="' . $value["imagen"] . '">' . $value["descripcion"] . '</option>';
+        }
+
+
+        ?>
+
+    </select>
+
+
+</div>
+
+
+</div>      
 
 
             <!-- ENTRADA PARA SELECCIONAR MODELO -->
@@ -318,7 +346,6 @@ MODAL AGREGAR PRODUCTO
                   <option value="DISPONIBLE">DISPONIBLE</option>
                   <option value="OCUPADO">OCUPADO</option>
                   <option value="NO APLICA">NO APLICA</option>
-                  <option value="EN OFICINA">EN OFICINA</option>
                 </select>
 
               </div>
@@ -416,7 +443,41 @@ MODAL EDITAR PRODUCTO
 
           <div class="box-body">
 
+              <!-- ENTRADA LISTA DE UBICACION-->
 
+              <div class="form-group">
+
+<div class="input-group">
+
+    <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+
+    <select class="form-control input-md" id="editarUbicacion" name="editarUbicacion" required>
+
+        <option value="">Seleccionar Ubicacion</option>
+
+        <?php
+
+        $item = null;
+        $valor = null;
+
+
+        $productoUbicacionLista = ControladorProductoUbicacion::ctrMostrarUbicacionLista($item, $valor);
+
+        foreach ($productoUbicacionLista as $key => $value) {
+
+            echo '<option value="' . $value["id"] . '">' . $value["descripcion"] . '</option>';
+        }
+
+
+        ?>
+
+    </select>
+
+
+</div>
+
+
+</div>     
 
             <!-- ENTRADA PARA EDITAR  SELECCIONAR MODELO -->
 
@@ -531,7 +592,6 @@ MODAL EDITAR PRODUCTO
                   <option value="DISPONIBLE">DISPONIBLE</option>
                   <option value="OCUPADO">OCUPADO</option>
                   <option value="NO APLICA">NO APLICA</option>
-                  <option value="EN OFICINA">EN OFICINA</option>
                 </select>
 
               </div>

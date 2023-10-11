@@ -47,11 +47,28 @@ if ($_SESSION["perfil"] == "Visitante") {
 
           <div class="box-header with-border"></div>
 
-          <form role="form" method="post" class="formularioPrestamo">
+          <form role="form" method="post" class="formularioPrestamo formularioPedido">
 
             <div class="box-body">
 
               <div class="box">
+                  
+              <!-- TIPO DE SERVICIO
+-->
+               <div class="form-group">
+                <label>Servicio:</label>
+                <label class="radio-inline">
+                    <input type="radio" name="servicio" value="Instalación" checked> Instalación
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="servicio" value="Avería"> Avería
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="servicio" value="Reserva"> Reserva
+                </label>
+            </div>
+
+             
 
                 <!--=====================================
                 ENTRADA DEL USUARIO
@@ -136,7 +153,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                       foreach ($modelo as $key => $value) {
 
-                        echo '<option value="' . $value["idempleado"] . '">' . $value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] ."-".$value["num_documento"]. '</option>';
+                        echo '<option value="' . $value["idempleado"] . '">' . $value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] . "-" . $value["num_documento"] . '</option>';
                       }
 
                       ?>
@@ -160,7 +177,7 @@ if ($_SESSION["perfil"] == "Visitante") {
                 </div>
 
                 <input type="hidden" id="listaProductosPrestamos" name="listaProductos">
-
+                <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">     
 
 
 
@@ -175,14 +192,14 @@ if ($_SESSION["perfil"] == "Visitante") {
 
 
               </div>
-                  <!--=====================================
+              <!--=====================================
                ENTRADA PARA INGRESAR LAS OBSERVACIONES DEL PRESTAMO
                 ======================================-->
 
               <div class="form-group">
-              <p><strong>Escriba algun comentario para este prestamo </strong></p>
+                <p><strong>Escriba algun comentario para este prestamo </strong></p>
                 <div class="input-group">
-               
+
 
                   <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
 
@@ -193,6 +210,15 @@ if ($_SESSION["perfil"] == "Visitante") {
                 </div>
 
               </div>
+
+              <div class="form-group">
+            <label for="codigoCliente">Código de Cliente:</label>
+            <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente">
+          </div>
+          <div class="form-group">
+            <label for="comentario">Comentario:</label>
+            <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="3"></textarea>
+          </div>
 
 
             </div>
@@ -252,6 +278,35 @@ if ($_SESSION["perfil"] == "Visitante") {
 
 
       </div>
+
+      <!--prueba
+ <!--=====================================
+      LA TABLA DE PRODUCTOS
+      ======================================-->
+
+      <div class="col-lg-6 hidden-md hidden-sm hidden-xs">
+        <div class="box box-success">
+          <div class="box-header with-border"></div>
+          <div class="box-body">
+            <table class="table table-bordered table-striped dt-responsive tablaN text-center">
+              <thead>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Categoria</th>
+                  <th>Producto</th>
+                  <th>Medida</th>
+                  <th>Stock</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              
+            </table>
+          </div>
+        </div>
+      </div>
+
+                    -->
 
     </div>
 
