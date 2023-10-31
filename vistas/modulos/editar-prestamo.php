@@ -170,8 +170,8 @@ if ($_SESSION["perfil"] == "Visitante") {
                       $modelo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
 
                       foreach ($modelo as $key => $value) {
-
-                        echo '<option value="' . $value["idempleado"] . '">' . $value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] . '</option>';
+                        echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] ). "-[D.N.I:" . $value["num_documento"] . ']</option>';
+                       
                       }
 
                       ?>
@@ -193,7 +193,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                   <?php
                   $listaProducto = json_decode($prestamo["productos"], true);
-
+                  if (!is_null($listaProducto) && is_array($listaProducto)) {   
                   foreach ($listaProducto as $key => $value) {
 
 
@@ -215,7 +215,7 @@ if ($_SESSION["perfil"] == "Visitante") {
                     </div>
                     </div>';
                   }
-
+                }
 
 
                   ?>
@@ -353,6 +353,7 @@ if ($_SESSION["perfil"] == "Visitante") {
             <input type="hidden" class="form-control" name="editarPrestamoFinalizar" value="<?php echo $prestamo["codigo_prestamo"]; ?>" >
 
             <input type="hidden" id="listaProductos" name="listaProductos">
+            <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">
             <input type="hidden" class="form-control input-lg" name="finalizado_por" value="<?php echo $_SESSION["id"]; ?>" required>
             
 
@@ -397,8 +398,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
         <div class="box-header with-border"></div>
 
-        <div class="box-body">
-
+        <div class="box-body">    
           <table class="table table-bordered table-striped dt-responsive tablaPrestamos">
 
             <thead>
@@ -408,6 +408,8 @@ if ($_SESSION["perfil"] == "Visitante") {
                 <th>Imagen</th>
                 <th>Modelo</th>
                 <th>Código del Producto</th>
+                <th>Serie</th>
+                <th>Mac</th>
                 <th>Estado Producto</th>
                 <th>Estado del Prestamo</th>
                 <th>Acciones</th>
@@ -427,10 +429,11 @@ if ($_SESSION["perfil"] == "Visitante") {
       <!--=====================================
       LA TABLA DE PRODUCTOS POR LOTES
 ======================================-->
-<div class="col-lg-6 hidden-md hidden-sm hidden-xs">
-        <div class="box box-success">
+<div class="col-lg-8 hidden-md hidden-sm hidden-xs">
+        <div class="box  box-warning">
           <div class="box-header with-border"></div>
           <div class="box-body">
+          <p>PRODUCTOS POR STOCK</p> 
             <table class="table table-bordered table-striped dt-responsive tablaN text-center">
               <thead>
                 <tr>

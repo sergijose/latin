@@ -133,7 +133,7 @@ $totalProductos = count($productos);
 
 </div>
 
-
+<!--
 <div class="row">
 
 
@@ -160,9 +160,6 @@ $totalProductos = count($productos);
             <th>CATEGORIA</th>
             <th>MARCA</th>
             <th>MODELO</th>
-            <th>OFICINA</th>
-            <th>POSICION</th>
-            <th>REFERENCIA</th>
           </tr>
         </thead>
         <tbody>
@@ -192,8 +189,8 @@ $totalProductos = count($productos);
     }
     
   </style>
-
-
+-->
+<!--
   <script type="text/javascript">
     $(document).ready(function() {
           var table = $('#resultsTable').DataTable({
@@ -281,7 +278,7 @@ $totalProductos = count($productos);
             });
           });
   </script>
-
+    
 
 
 
@@ -289,11 +286,7 @@ $totalProductos = count($productos);
 
 
 </div>
-
-
-
-
-
+    -->
 
 <div class="col-lg-12 col-xs-12">
   <h3 class="box-title">ESTADO FISICO DE PRODUCTOS</h3>
@@ -306,6 +299,7 @@ $totalProductos = count($productos);
         <th style="width:10px">#</th>
         <th>CATEGORIA</th>
         <th>MARCA</th>
+        <th>MODELO</th>
         <th>TOTAL</th>
         <th>OPERATIVOS</th>
         <th>MALOGRADOS</th>
@@ -333,8 +327,8 @@ $totalProductos = count($productos);
                  
                    <td class="text-uppercase">' . $value["CATEGORIA"] . '</td>
                    <td class="text-uppercase">' . $value["MARCA"] . '</td>
+                   <td class="text-uppercase">' . $value["MODELO"] . '</td>
                    <td class="text-uppercase">' . $value["TOTAL"] . '</td>
-
                   <td>' . $value["OPERATIVO"] . '</td>
                   <td>' . $value["MALOGRADO"] . '</td>
                   <td>' . $value["REPARACION_INTERNA"] . '</td>
@@ -367,9 +361,11 @@ $totalProductos = count($productos);
         <th style="width:10px">#</th>
         <th>CATEGORIA</th>
         <th>MARCA</th>
+        <th>MODELO</th>
         <th>TOTAL</th>
         <th>OCUPADO</th>
         <th>LIBRE</th>
+        <th>NO APLICA</th>
 
       </tr>
 
@@ -390,10 +386,12 @@ $totalProductos = count($productos);
  
                      <td class="text-uppercase">' . $value["CATEGORIA"] . '</td>
                      <td class="text-uppercase">' . $value["MARCA"] . '</td>
+                     <td class="text-uppercase">' . $value["MODELO"] . '</td>
 
                     <td>' . $value["TOTAL"] . '</td>
                     <td>' . $value["OCUPADO"] . '</td>
                     <td>' . $value["LIBRE"] . '</td>
+                    <td>' . $value["NO_APLICA"] . '</td>
                      
  
                    </tr>';

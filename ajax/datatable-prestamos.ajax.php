@@ -115,6 +115,8 @@ class TablaProductosPrestamos{
                 "'.$imagenProducto.'",
 			      "'.$modelos["descripcion"].'",
 			      "'.$productos[$i]["cod_producto"].'",
+				  "'.$productos[$i]["num_serie"].'",
+				  "'.$productos[$i]["mac"].'",
 			      "'.$estado.'",
 			      "'.$estadoPrestamoProducto.'",
 			      "'.$botones.'"

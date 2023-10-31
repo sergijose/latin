@@ -10,7 +10,7 @@ class ControladorModelos{
 
 		if(isset($_POST["nuevaMarca"])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevaMarca"])
+			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ. ]+$/', $_POST["nuevaMarca"])
 			
 			){
 
@@ -167,7 +167,7 @@ class ControladorModelos{
 
 		if(isset($_POST["editarModelo"])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarModelo"])){
+			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ. ]+$/', $_POST["editarModelo"])){
 
 				
 							$ruta = $_POST["imagenActual"];

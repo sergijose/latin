@@ -58,13 +58,13 @@ if ($_SESSION["perfil"] == "Visitante") {
                <div class="form-group">
                 <label>Servicio:</label>
                 <label class="radio-inline">
-                    <input type="radio" name="servicio" value="Instalación" checked> Instalación
+                    <input type="radio" name="servicio" value="instalacion" checked> Instalación
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="servicio" value="Avería"> Avería
+                    <input type="radio" name="servicio" value="averia"> Avería
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="servicio" value="Reserva"> Reserva
+                    <input type="radio" name="servicio" value="reserva"> Reserva
                 </label>
             </div>
 
@@ -142,7 +142,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                     <select class="form-control input-md mi-selector" id="nuevoEmpleado" name="nuevoEmpleado" required>
 
-                      <option value="">Seleccionar Empleado</option>
+                      <option value="">--SELECCIONAR--</option>
 
                       <?php
 
@@ -153,7 +153,8 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                       foreach ($modelo as $key => $value) {
 
-                        echo '<option value="' . $value["idempleado"] . '">' . $value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] . "-" . $value["num_documento"] . '</option>';
+                       
+                        echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] ). "-[D.N.I:" . $value["num_documento"] . ']</option>';
                       }
 
                       ?>
@@ -263,6 +264,8 @@ if ($_SESSION["perfil"] == "Visitante") {
                   <th>Imagen</th>
                   <th>Modelo</th>
                   <th>Código del Producto</th>
+                  <th>Serie</th>
+                  <th>Mac</th>
                   <th>Estado Producto</th>
                   <th>Estado del Prestamo</th>
                   <th>Acciones</th>
@@ -284,10 +287,11 @@ if ($_SESSION["perfil"] == "Visitante") {
       LA TABLA DE PRODUCTOS
       ======================================-->
 
-      <div class="col-lg-6 hidden-md hidden-sm hidden-xs">
-        <div class="box box-success">
+      <div class="col-lg-8 hidden-md hidden-sm hidden-xs">
+        <div class="box  box-warning">
           <div class="box-header with-border"></div>
           <div class="box-body">
+            <p>PRODUCTOS POR STOCK</p>
             <table class="table table-bordered table-striped dt-responsive tablaN text-center">
               <thead>
                 <tr>
@@ -306,7 +310,7 @@ if ($_SESSION["perfil"] == "Visitante") {
         </div>
       </div>
 
-                    -->
+                    
 
     </div>
 

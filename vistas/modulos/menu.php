@@ -131,17 +131,6 @@
 
 				</a>
 
-			</li>
-			
-			<li>
-
-				<a href="ubicacion-productos">
-
-					<i class="fas fa-map-marker-alt"></i>
-					<span>Ubicacion de Productos</span>
-
-				</a>
-
 			</li>';
 			}
 

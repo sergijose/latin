@@ -267,7 +267,7 @@
  }
  .sidebar-toggle::before {
   content: "\f0c9";
-}
+ }
  .main-header .sidebar-toggle:hover {
    color: #fff;
  }
@@ -2349,7 +2349,7 @@
    display: block;
  }
  .btn-default {
-   background-color: #f4f4f4;
+   background-color: #9eadac;
    color: #444;
    border-color: #ddd;
  }
@@ -2376,6 +2376,23 @@
  .btn-success.hover {
    background-color: #008d4c;
  }
+ 
+ /* btn propio */
+ 
+ .btn-dark {
+   background-color: #222D32;
+   /* border-color: #222D32; */
+   color:#e7e7e7;
+ }
+ 
+ .btn-dark:hover,
+ .btn-dark:active,
+ .btn-dark.hover {
+   background-color: #202521;
+   color:#ddf3b5;
+ }
+ 
+ 
  .btn-info {
    background-color: #00c0ef;
    border-color: #00acd6;
@@ -3404,26 +3421,29 @@
  
  .login-page #back{
    position: absolute;
-   opacity: 1;
    top:0;
    left:0;
    width:100%;
    height:100vh;
-   background: url(../../img/plantilla/logo-geincos.jfif);
-   background-size:cover;
+   background: url(../../img/plantilla/logo4.jpg);
    overflow:hidden;
    z-index:-1;
  
+   /*background-image: url('tuimagen.jpg'); /* Ruta a tu imagen de fondo */
+   background-size: cover; /* Escala la imagen para cubrir todo el contenedor */
+   background-position: center; /* Centra la imagen horizontal y verticalmente */
+   background-repeat: no-repeat; /* Evita que se repita la imagen */
+   /* Puedes agregar más estilos según tus necesidades */
+   /* Por ejemplo, definir el color del texto y otros estilos de diseño */
+   color: white;
+   padding: 20px;
+
  }
  
  .login-box,
  .register-box {
    width: 360px;
    margin: 7% auto;
-   opacity: 0.9; 
-   border: solid #09010f;
-   
-   /*para poner transparente el cuadro de login*/
  }
  @media (max-width: 768px) {
    .login-box,

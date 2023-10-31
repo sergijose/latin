@@ -1,5 +1,5 @@
 <?php
-
+//require 'vendor/autoload.php';
 
 
 class ControladorPrestamos
@@ -47,7 +47,9 @@ class ControladorPrestamos
 			ACTUALIZAR LAS EL ESTADO DE PRESTAMO DE LOS PRODUCTOS 
 			=============================================*/
 
-			if ($_POST["listaProductos"] == "" or $_POST["listaProductos"] == "[]") {
+			if (($_POST["listaProductos"] == "" or $_POST["listaProductos"] == "[]")
+			&& ($_POST["listaProductosPedidos"] == "" or $_POST["listaProductosPedidos"] == "[]")
+			) {
 
 				echo '<script>
 
@@ -88,30 +90,30 @@ class ControladorPrestamos
 			/*PROBAR SI FUNCIONA*/
 			$listaProductosPedidos = json_decode($_POST["listaProductosPedidos"], true);
 			$totalProductosComprados = array();
-	  
+
 			foreach ($listaProductosPedidos as $key => $value) {
-	  
-			  array_push($totalProductosComprados, $value["cantidad"]);
-			  $tablaProductos = "producto_lotes";
-	  
-			  $item = "id";
-			  $valor = $value["id"];
-			  $orden = "id";
-	  
-			  $traerProducto = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
-			  $item1a = "salidas";
-			  $valor1a = $value["cantidad"] + $traerProducto["salidas"];
-	  
-			  $nuevasVentas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
-			  $item1b = "stock";
-			  $valor1b = $value["stock"];
-	  
-			  $nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
+
+				array_push($totalProductosComprados, $value["cantidad"]);
+				$tablaProductos = "producto_lotes";
+
+				$item = "id";
+				$valor = $value["id"];
+				$orden = "id";
+
+				$traerProducto = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
+				$item1a = "salidas";
+				$valor1a = $value["cantidad"] + $traerProducto["salidas"];
+
+				$nuevasVentas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
+				$item1b = "stock";
+				$valor1b = $value["stock"];
+
+				$nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
 			}
-	  
-	  
-	  
-			
+
+
+
+
 			/*FINAL*/
 			/*=============================================
 			GUARDAR EL PRESTAMO
@@ -190,13 +192,42 @@ class ControladorPrestamos
 			/*=============================================
 			//REVISAR SI VIENE PRODUCTOS EDITADOS
 			=============================================*/
+			
+
+
+
+			$producto = json_decode($traerPrestamo["productos"], true);
+			foreach ($producto as $key => $value) {
+				$tablaProducto = "producto";
+				$item1b_2 = "estado_prestamo";
+				$valor1b_2 = "DISPONIBLE";
+				$valor_2 = $value["id"];
+				$actualizarEstado_2 = ModeloProductos::mdlActualizarProducto($tablaProducto, $item1b_2, $valor1b_2, $valor_2);
+			}
+			/*=============================================
+			ACTUALIZAR LAS EL ESTADO DE PRESTAMO DE LOS PRODUCTOS 
+			=============================================*/
 			if ($_POST["listaProductos"] == "") {
 
 				$listaProductos = $traerPrestamo["productos"];
 			} else {
 				$listaProductos = $_POST["listaProductos"];
 			}
-			if ($listaProductos == "" or $listaProductos == "[]") {
+
+				//PARA EL PEDIDO POR LOTES
+				if ($_POST["listaProductosPedidos"] == "") {
+
+					$listaProductosPedidos = $traerPrestamo["productos_lotes"];
+					$cambioProductoPedidos = false;
+				} else {
+	
+					$listaProductosPedidos = $_POST["listaProductosPedidos"];
+					$cambioProductoPedidos = true;
+				}
+	
+			if (($listaProductos == "" or $listaProductos == "[]")
+			&&( $listaProductosPedidos  == "" or $listaProductosPedidos  == "[]")
+			) {
 
 				echo '<script>
 
@@ -214,21 +245,6 @@ class ControladorPrestamos
 
 
 
-			$producto = json_decode($traerPrestamo["productos"], true);
-			foreach ($producto as $key => $value) {
-				$tablaProducto = "producto";
-				$item1b_2 = "estado_prestamo";
-				$valor1b_2 = "DISPONIBLE";
-				$valor_2 = $value["id"];
-				$actualizarEstado_2 = ModeloProductos::mdlActualizarProducto($tablaProducto, $item1b_2, $valor1b_2, $valor_2);
-			}
-			/*=============================================
-			ACTUALIZAR LAS EL ESTADO DE PRESTAMO DE LOS PRODUCTOS 
-			=============================================*/
-
-		
-
-
 			$listaProductos_2 = json_decode($listaProductos, true);
 			//$listaProductos2 = json_decode($_POST["listaProductos2"], true);
 
@@ -243,133 +259,110 @@ class ControladorPrestamos
 				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
 			}
 
-//PARA EL PEDIDO POR LOTES
-if ($_POST["listaProductosPedidos"] == "") {
+		
+			if ($cambioProductoPedidos) {
 
-	$listaProductosPedidos = $traerPrestamo["productos_lotes"];
-	$cambioProductoPedidos = false;
-  } else {
+				$productosPedido =  json_decode($traerPrestamo["productos_lotes"], true);
+				$totalProductosComprados = array();
 
-	$listaProductosPedidos = $_POST["listaProductosPedidos"];
-	$cambioProductoPedidos = true;
-  }
+				if (!is_null($productosPedido) && is_array($productosPedido)) {
+					foreach ($productosPedido as $key => $value) {
 
-  if ($cambioProductoPedidos) {
+						array_push($totalProductosComprados, $value["cantidad"]);
 
-	$productosPedido =  json_decode($traerPrestamo["productos_lotes"], true);
-	$totalProductosComprados = array();
+						$tablaProductos = "producto_lotes";
 
-	if (!is_null($productosPedido) && is_array($productosPedido)) {
-	foreach ($productosPedido as $key => $value) {
+						$item = "id";
+						$valor = $value["id"];
+						$orden = "id";
+						//TRAER PRODUCTOS LOTES
+						$traerProductoPedido = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
 
-	  array_push($totalProductosComprados, $value["cantidad"]);
+						$item1a = "salidas";
+						$valor1a = $traerProductoPedido["salidas"] - $value["cantidad"];
 
-	  $tablaProductos = "producto_lotes";
+						$nuevasSalidas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
 
-	  $item = "id";
-	  $valor = $value["id"];
-	  $orden = "id";
-	  //TRAER PRODUCTOS LOTES
-	  $traerProductoPedido = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
+						$item1b = "stock";
+						$valor1b = $value["cantidad"] + $traerProductoPedido["stock"];
 
-	  $item1a = "salidas";
-	  $valor1a = $traerProductoPedido["salidas"] - $value["cantidad"];
+						$nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
+					}
+				}
 
-	  $nuevasSalidas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
-
-	  $item1b = "stock";
-	  $valor1b = $value["cantidad"] + $traerProductoPedido["stock"];
-
-	  $nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
-	}
-}
-
-	  /*=============================================
+				/*=============================================
 				ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
 				=============================================*/
 				$listaProductos_2 = json_decode($listaProductosPedidos, true);
 
 				$totalProductosComprados_2 = array();
-		
-				foreach ($listaProductos_2 as $key => $value) {
-		
-				  array_push($totalProductosComprados_2, $value["cantidad"]);
-		
-				  $tablaProductos_2 = "producto_lotes";
-		
-				  $item_2 = "id";
-				  $valor_2 = $value["id"];
-				  $orden = "id";
-		
-				  $traerProducto_2 = ModeloProductos::mdlMostrarProductos($tablaProductos_2, $item_2, $valor_2, $orden);
-		
-				  $item1a_2 = "salidas";
-				  $valor1a_2 = $value["cantidad"] + $traerProducto_2["salidas"];
-		
-				  $nuevasSalidas_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1a_2, $valor1a_2, $valor_2);
-		
-				  $item1b_2 = "stock";
-				  $valor1b_2 = $traerProducto_2["stock"] - $value["cantidad"];
-		
-				  $nuevoStock_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1b_2, $valor1b_2, $valor_2);
-				}
 
-}
-//FIN DE MOVIMIENTO PARA PRODUCTOS LOTES
+				foreach ($listaProductos_2 as $key => $value) {
+
+					array_push($totalProductosComprados_2, $value["cantidad"]);
+
+					$tablaProductos_2 = "producto_lotes";
+
+					$item_2 = "id";
+					$valor_2 = $value["id"];
+					$orden = "id";
+
+					$traerProducto_2 = ModeloProductos::mdlMostrarProductos($tablaProductos_2, $item_2, $valor_2, $orden);
+
+					$item1a_2 = "salidas";
+					$valor1a_2 = $value["cantidad"] + $traerProducto_2["salidas"];
+
+					$nuevasSalidas_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1a_2, $valor1a_2, $valor_2);
+
+					$item1b_2 = "stock";
+					$valor1b_2 = $traerProducto_2["stock"] - $value["cantidad"];
+
+					$nuevoStock_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1b_2, $valor1b_2, $valor_2);
+				}
+			}
+			//FIN DE MOVIMIENTO PARA PRODUCTOS LOTES
 
 
 			date_default_timezone_set('America/Bogota');
 
-				$fecha = date('Y-m-d');
-				$hora = date('H:i:s');
-				$fechaActual = $fecha . ' ' . $hora;
-			
+			$fecha = date('Y-m-d');
+			$hora = date('H:i:s');
+			$fechaActual = $fecha . ' ' . $hora;
+
 
 			/*=============================================
 				GUARDAR EL PRESTAMO
 			=============================================*/
+			if (isset($_POST["editar_tipo_prestamo"])) {
+				$estadoPrestamo = $_POST["editar_tipo_prestamo"];
+			} else {
+
+				$estadoPrestamo = "PENDIENTE";
+			}
+			//$tipoPrestamo = $_POST["editar_tipo_prestamo"];
+
+			$datos = array(
+				"id_prestamo" => $_POST["idPrestamo"],
+				"idusuario" => $_POST["idUsuario"],
+				"codigo_prestamo" => $_POST["editarPrestamo"],
+				//"codigo_prestamo" => $_POST["editarPrestamo"],
+				"productos" => $listaProductos,
+				"productos_lotes" => $listaProductosPedidos,
+				"idempleado" => $_POST["nuevoEmpleado"],
+				"observacion_prestamo" => $_POST["observacionPrestamo"],
+				"tipo_servicio" => $_POST["editar_servicio"],
+				"estado_prestamo" => $estadoPrestamo,
+				"codigo_cliente" => $_POST["codigo_cliente"],
+				"comentario_asignado" => $_POST["comentario_asignado"],
+				"observacion_devolucion" => null,
+				"fecha_devolucion" => null,
+				"actualizado_por" => $_POST["actualizado_por"],
+				"fecha_actualizacion" => $fechaActual
+			);
 
 
-			if($_POST["editar_tipo_prestamo"]=="ASIGNADO"){
-				
-				$datos = array(
-					"id_prestamo" => $_POST["idPrestamo"],
-					"idusuario" => $_POST["idUsuario"],
-					"codigo_prestamo" => $_POST["editarPrestamo"],
-					//"codigo_prestamo" => $_POST["editarPrestamo"],
-					"productos" => $listaProductos,
-					"productos_lotes" => $listaProductosPedidos,
-					"idempleado" => $_POST["nuevoEmpleado"],
-					"observacion_prestamo" => $_POST["observacionPrestamo"],
-					"tipo_servicio" => $_POST["editar_servicio"],
-					"estado_prestamo" => "ASIGNADO",
-					"codigo_cliente"=>$_POST["codigo_cliente"],	
-					"comentario_asignado"=>$_POST["comentario_asignado"],
-					"observacion_devolucion" => null,
-					"fecha_devolucion" => null,
-					"actualizado_por" => $_POST["actualizado_por"],
-					"fecha_actualizacion" => $fechaActual
-				);
-			}
-			
-			else if($_POST["editar_tipo_prestamo"]=="PENDIENTE"){
-				$datos = array(
-					"id_prestamo" => $_POST["idPrestamo"],
-					"idusuario" => $_POST["idUsuario"],
-					"codigo_prestamo" => $_POST["editarPrestamo"],
-					//"codigo_prestamo" => $_POST["editarPrestamo"],
-					"productos" => $listaProductos,
-					"productos_lotes" => $listaProductosPedidos,
-					"idempleado" => $_POST["nuevoEmpleado"],
-					"observacion_prestamo" => $_POST["observacionPrestamo"],
-					"tipo_servicio" => $_POST["editar_servicio"],
-					"estado_prestamo" => "PENDIENTE",
-					"observacion_devolucion" => null,
-					"fecha_devolucion" => null,
-					"actualizado_por" => $_POST["actualizado_por"],
-					"fecha_actualizacion" => $fechaActual
-				);
-			}
+
+
 			var_dump($datos);
 
 			$respuesta = ModeloPrestamos::mdlEditarPrestamo($tabla, $datos);
@@ -413,7 +406,7 @@ if ($_POST["listaProductosPedidos"] == "") {
 
 
 	static public function ctrFinalizarPrestamo()
-		{
+	{
 		if (isset($_POST["observacionDevolucion"])) {
 
 			/*=============================================
@@ -435,9 +428,6 @@ if ($_POST["listaProductosPedidos"] == "") {
 				$listaProductos = $_POST["listaProductos"];
 			}
 
-
-
-
 			$producto = json_decode($traerPrestamo["productos"], true);
 			foreach ($producto as $key => $value) {
 				$tablaProducto = "producto";
@@ -449,10 +439,6 @@ if ($_POST["listaProductosPedidos"] == "") {
 			/*=============================================
 			ACTUALIZAR LAS EL ESTADO DE PRESTAMO DE LOS PRODUCTOS 
 			=============================================*/
-
-
-
-
 			$listaProductos_2 = json_decode($listaProductos, true);
 			//$listaProductos2 = json_decode($_POST["listaProductos2"], true);
 
@@ -466,7 +452,7 @@ if ($_POST["listaProductosPedidos"] == "") {
 				$valor1a = "DISPONIBLE";
 				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
 			}
-
+			
 			$tabla = "prestamo";
 			$idprestamo = $_GET["idPrestamo"];
 
@@ -522,40 +508,40 @@ swal({
 	}
 
 
-//ASIGNADO POR
+	//ASIGNADO POR
 
-static public function ctrAsignarPrestamo()
-{
-if (isset($_POST["codigo_cliente"])) {
+	static public function ctrAsignarPrestamo()
+	{
+		if (isset($_POST["codigo_cliente"])) {
 
-	/*=============================================
+			/*=============================================
 	//FORMATEAR TABLA PRODUCTOS
 	=============================================*/
 
-	$tabla = "prestamo";
-	date_default_timezone_set('America/Bogota');
+			$tabla = "prestamo";
+			date_default_timezone_set('America/Bogota');
 
-	$fecha = date('Y-m-d');
-	$hora = date('H:i:s');
-	$fechaActual = $fecha . ' ' . $hora;
-
-
-	$datos = array(
-		"id_prestamo" =>  $_POST["idPrestamoAsignar"],
-		"codigo_cliente" => $_POST["codigo_cliente"],
-		"comentario_asignado" => $_POST["comentario_asignado"],
-		"estado_prestamo" => "ASIGNADO",
-		"fecha_asignado" => $fechaActual,
-		"asignado_por" => $_POST["asignado_por"]
-
-	);
-
-	$respuesta = ModeloPrestamos::mdlAsignarPrestamo($tabla, $datos);
+			$fecha = date('Y-m-d');
+			$hora = date('H:i:s');
+			$fechaActual = $fecha . ' ' . $hora;
 
 
+			$datos = array(
+				"id_prestamo" =>  $_POST["idPrestamoAsignar"],
+				"codigo_cliente" => $_POST["codigo_cliente"],
+				"comentario_asignado" => $_POST["comentario_asignado"],
+				"estado_prestamo" => "ASIGNADO",
+				"fecha_asignado" => $fechaActual,
+				"asignado_por" => $_POST["asignado_por"]
 
-	if ($respuesta == "ok") {
-		echo '<script>
+			);
+
+			$respuesta = ModeloPrestamos::mdlAsignarPrestamo($tabla, $datos);
+
+
+
+			if ($respuesta == "ok") {
+				echo '<script>
 
 swal({
 type: "success",
@@ -572,18 +558,18 @@ confirmButtonText: "Cerrar"
 	})
 
 </script>';
-	} else {
+			} else {
 
-		echo '<script>
+				echo '<script>
 
 
 alertify.error("No se pudo Finalizar ");
 
 
 </script>';
+			}
+		}
 	}
-}
-}
 
 
 
@@ -668,14 +654,14 @@ alertify.error("No se pudo Finalizar ");
 			CREAMOS EL ARCHIVO DE EXCEL
 			=============================================*/
 
-			$Name = $_GET["prestamo"].'.xls';
+			$Name = $_GET["prestamo"] . '.xls';
 
 			header('Expires: 0');
 			header('Cache-control: private');
 			header("Content-type: application/vnd.ms-excel"); // Archivo de Excel
 			header("Cache-Control: cache, must-revalidate");
 			header('Content-Description: File Transfer');
-			header('Last-Modified: '.date('D, d M Y H:i:s'));
+			header('Last-Modified: ' . date('D, d M Y H:i:s'));
 			header("Pragma: public");
 			header('Content-Disposition:; filename="' . $Name . '"');
 			header("Content-Transfer-Encoding: binary");
@@ -683,8 +669,9 @@ alertify.error("No se pudo Finalizar ");
 			echo utf8_decode("<table border='0'> 
 
 					<tr> 
+					<td style='font-weight:bold; border:1px solid #eee;'>TIPO SERVICIO</td> 
 					<td style='font-weight:bold; border:1px solid #eee;'>USUARIO</td> 
-					<td style='font-weight:bold; border:1px solid #eee;'>COD PRODUCTO</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>PRODUCTOS</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>EMPLEADO</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>NUM DOCUMENTO</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>F_PRESTAMO</td>
@@ -699,20 +686,27 @@ alertify.error("No se pudo Finalizar ");
 				$usuario = ControladorUsuarios::ctrMostrarUsuarios("id", $item["idusuario"]);
 				$empleados = ControladorEmpleados::ctrMostrarEmpleados("idempleado", $item["idempleado"]);
 				$productos =  json_decode($item["productos"], true);
+				$productos_lotes =  json_decode($item["productos_lotes"], true);
 				//$producto = ControladorProductos::ctrMostrarProductos("id", $item["idproducto"], "id");
 
 				echo utf8_decode("<tr>
+						<td style='border:1px solid #eee;'>" . $item["tipo_servicio"] . "</td>
 			 			<td style='border:1px solid #eee;'>" . $usuario["nombre"] . "</td>");
 
-						 echo utf8_decode("</td><td style='border:1px solid #eee;'>");	
+				echo utf8_decode("</td><td style='border:1px solid #eee;'>");
 
-						 foreach ($productos as $key => $valueProductos) {
-								 
-							 echo utf8_decode($valueProductos["codigo"]."<br>");
-						 
-						 }
-		
-						 echo utf8_decode("</td>
+				foreach ($productos as $key => $valueProductos) {
+
+					echo utf8_decode($valueProductos["codigo"] . "<br>");
+				}
+
+				foreach ($productos_lotes as $key => $valueProductosLotes) {
+
+					echo utf8_decode($valueProductosLotes["cantidad"] ." ".$valueProductosLotes["descripcion"]. "<br>");
+				}
+
+				echo utf8_decode("</td>
+							
 						 <td style='border:1px solid #eee;'>" . $empleados["nombres"] . " " . $empleados["ape_pat"] . " " . $empleados["ape_mat"] . "</td>
 						 <td style='border:1px solid #eee;'>" . $empleados["num_documento"] . "</td>
 						 <td style='border:1px solid #eee;'>" . substr($item["fecha_prestamo"], 0, 10) . "</td>
@@ -727,6 +721,44 @@ alertify.error("No se pudo Finalizar ");
 			echo "</table>";
 		}
 	}
+	public function generarContrato()
+    {
+        // Comprueba si se ha enviado el formulario
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Carga la plantilla del contrato
+            $template = new \PhpOffice\PhpWord\TemplateProcessor('extensiones/tcpdf/pdf/contratos/contrato.docx');
 
+            // Obtiene los datos del formulario
+            $nombre = $_POST['nombre'];
+            $telefono = $_POST['telefono'];
+            $direccion = $_POST['direccion'];
+            $tipoPlan = $_POST['tipo_plan'];
 
+            // Llena la plantilla con los datos
+            $template->setValue('nombre', $nombre);
+            $template->setValue('telefono', $telefono);
+            $template->setValue('direccion', $direccion);
+            
+            
+			$template->setValue('tipo_plan', $tipoPlan);
+
+            // Guarda el contrato llenado
+            $nombre_archivo = 'contrato_llenado.docx';
+            $template->saveAs($nombre_archivo);
+
+            // Envía el contrato al navegador para su descarga
+            header("Content-Disposition: attachment; filename=$nombre_archivo");
+            readfile($nombre_archivo);
+            exit;
+        } else {
+            // Código para mostrar la vista del formulario
+            //include 'ruta/a/vista/formulario_contrato.php'; // Reemplaza con la ruta correcta
+        }
+    }
 }
+
+
+
+
+
+

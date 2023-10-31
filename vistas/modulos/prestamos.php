@@ -97,6 +97,7 @@
               <th>Codigo Prestamo</th>
               <th>Tipo Servicio</th>
               <th>Productos</th>
+             
               <th>F_Prestamo</th>
               <th>F_Devolucion</th>
               <th>observacion_prestamo</th>
@@ -145,7 +146,7 @@
               $valorEmpleado = $value["idempleado"];
               $respuestaEmpleado = ControladorEmpleados::ctrMostrarEmpleados($itemEmpleado, $valorEmpleado);
 
-              echo '<td>' . $respuestaEmpleado["nombres"] . " " . $respuestaEmpleado["ape_pat"] . " " . $respuestaEmpleado["ape_mat"] . "-" . $respuestaEmpleado["num_documento"] . '</td>';
+              echo '<td>' .strtoupper( $respuestaEmpleado["nombres"] . " " . $respuestaEmpleado["ape_pat"] . " " . $respuestaEmpleado["ape_mat"] ). "-" . $respuestaEmpleado["num_documento"] . '</td>';
               /*
               $item = "id";
               $valor = $value["idproducto"];
@@ -156,16 +157,32 @@
               echo '<td>' . $respuestaProducto["cod_producto"] . '</td>';
               */
 
-              echo '<td>' . $value["codigo_prestamo"] . '</td>';
-              echo '<td>' . $value["tipo_servicio"] . '</td>';
+              echo '<td>' . $value["codigo_prestamo"] .'</td>';
+              echo '<td>' . $value["tipo_servicio"] .'<br>'.'Cliente:'.$value["codigo_cliente"]. '</td>';
+
               $productos = json_decode($value["productos"], true);
+
+
+              $productos_lotes = json_decode($value["productos_lotes"], true);
+              $cantidad = '';
+              if (!is_null($productos_lotes) && is_array($productos_lotes)) {
+               foreach ($productos_lotes as $key2 => $value2) {
+             
+              $cantidad .= '<span style="color:blue;">'.$value2["cantidad"]." ".$value2["descripcion"] .'</span>'.'<br>';
+              }
+            }
+
               echo '<td>';
+              if (!is_null($productos) && is_array($productos)) {
               foreach ($productos as $key => $valueProductos) {
 
                 echo ($valueProductos["codigo"] . '<br>');
+             
+                
               }
+            }
+              echo ($cantidad. '<br>');
               echo '</td>';
-
               echo '<td>' . $value["fecha_prestamo"] . '</td>
               <td>' . $value["fecha_devolucion"] . '</td>
               <td>' . $value["observacion_prestamo"] . '</td>
@@ -199,12 +216,12 @@
                   echo '<button class="btn btn-warning btn-xs btnEditarPrestamo" idPrestamo="' . $value["id"] . '" disabled ><i class="fas fa-pencil-alt"></i></button>';
                 } else {
 
-                  echo '<button class="btn btn-warning btn-xs btnEditarPrestamo" idPrestamo="' . $value["id"] . '" data-toggle="modal" data-target="#modalDevolverProducto" data-toggle="tooltip" title="Devolver Producto"><i class="fas fa-pencil-alt"></i></button>';
+                  echo '<button class="btn btn-warning btn-xs btnEditarPrestamo" idPrestamo="' . $value["id"] . '" data-toggle="modal" data-target="#modalDevolverProducto" data-toggle="tooltip" title="Editar Producto"><i class="fas fa-pencil-alt"></i></button>';
                 }
 
 
 
-                if ($value["estado_prestamo"] == "PENDIENTE") {
+                if ($value["estado_prestamo"] == "PENDIENTE" ||$value["estado_prestamo"] == "ASIGNADO" ) {
                   echo '<button class="btn btn-danger btn-xs btnEliminarPrestamo" idPrestamo="' . $value["id"] . '" disabled><i class="fa fa-times"></i></button>';
                 } else {
                   echo '<button class="btn btn-danger btn-xs btnEliminarPrestamo" idPrestamo="' . $value["id"] . '"><i class="fa fa-times"></i></button>';
@@ -215,7 +232,7 @@
                   echo '<button class="btn btn-warning btn-xs btnEditarPrestamo" idPrestamo="' . $value["id"] . '" disabled ><i class="fas fa-pencil-alt"></i></button>';
                 } else {
 
-                  echo '<button class="btn btn-warning btn-xs btnEditarPrestamo" idPrestamo="' . $value["id"] . '" data-toggle="modal" data-target="#modalDevolverProducto" data-toggle="tooltip" title="Devolver Producto"><i class="fas fa-pencil-alt"></i></button>';
+                  echo '<button class="btn btn-warning btn-xs btnEditarPrestamo" idPrestamo="' . $value["id"] . '" data-toggle="modal" data-target="#modalDevolverProducto" data-toggle="tooltip" title="Editar Producto"><i class="fas fa-pencil-alt"></i></button>';
                 }
               }
 
@@ -270,10 +287,10 @@ $eliminarPrestamo->ctrEliminarPrestamo();
           </div>
           <div class="form-group">
             <label for="comentario">Comentario:</label>
-            <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="3"></textarea>
+            <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2"></textarea>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary pull-right">Guardar prestamo</button>
+            <button type="submit" class="btn btn-primary pull-right">Asignar Prestamo</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>
 

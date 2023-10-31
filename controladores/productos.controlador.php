@@ -20,10 +20,10 @@ class ControladorProductos
 	MOSTRAR PRODUCTOS DETALLE CPU
 	=============================================*/
 
-	static public function ctrMostrarProductosDetalle($categoria,$busqueda,$marca)
+	static public function ctrMostrarProductosDetalle($codigoProducto,$serie,$mac)
 	{
 
-		$respuesta = ModeloProductos::mdlMostrarProductosDetalle($categoria,$busqueda,$marca);
+		$respuesta = ModeloProductos::mdlMostrarProductosDetalle($codigoProducto,$serie,$mac);
 
 		return $respuesta;
 	}
@@ -148,10 +148,13 @@ class ControladorProductos
 				$datos = array(
 					"idmodelo" => $_POST["nuevoModelo"],
 					"cod_producto" => strtoupper($_POST["nuevoCodigo"]),
-					"num_serie" => strtoupper($_POST["nuevoNumSerie"]),
+					"num_serie" => $_POST["nuevoNumSerie"],
+					"mac" => $_POST["nuevaMac"],
 					"idestado" => $_POST["nuevoEstado"],
 					"estado_prestamo" => $_POST["nuevoEstadoPrestamo"],
+					"situacion_actual" => $_POST["nuevaSituacionActual"],
 					"observaciones" => $_POST["nuevaObservaciones"],
+					"situacion_actual" => $_POST["nuevaSituacionActual"],
 					"creado_por" => $_POST["creado_por"]
 						);
 
@@ -202,13 +205,14 @@ class ControladorProductos
 				$fechaActual = $fecha . ' ' . $hora;
 
 				$datos = array(
-					"id_ubicacion" => $_POST["editarUbicacion"],
 					"idmodelo" => $_POST["editarModelo"],
 					"cod_producto" => $_POST["editarCodigo"],
 					"num_serie" => $_POST["editarNumSerie"],
+					"mac" => $_POST["editarMac"],
 					"idestado" => $_POST["editarEstado"],
 					"estado_prestamo" => $_POST["editarEstadoPrestamo"],
 					"observaciones" => $_POST["editarObservaciones"],
+					"situacion_actual" => $_POST["editarSituacionActual"],
 					"actualizado_por"=>$_POST["actualizado_por"],
 					"fecha_actualizacion"=>$fechaActual,
 					"id" => $_POST["id"]

@@ -82,7 +82,7 @@ $pdf->SetXY(7, 12); // el numero 2 representa el tamaño de la letra
 //---------------------------------------------------------
 $bloque1 = <<<EOF
 
-<img src="images/logo_ticket.png">
+<img src="images/logo-prueba.png"  >
 <table style="font-size:6px; text-align:left">
 	<tr>
 	<td>
@@ -93,18 +93,18 @@ $bloque1 = <<<EOF
 
 	<tr>
 	<td style="width:40px;"><b>Ruc:</b></td>
-	<td style="width:100px;">20508704055</td>
+	<td style="width:100px;">999999999999</td>
 	</tr>
 	
 	<tr>
 	<td style="width:40px;"><b>Celular:</b></td>
-	<td style="width:100px;">941524646</td>
+	<td style="width:100px;">########</td>
 	</tr>
 
 
 	<tr>
 	<td style="width:40px;"><b>Direccion:</b></td>
-	<td style="width:100px;">Jr Camana #780 of 611 lima-lima</td>
+	<td style="width:100px;">#########</td>
 	</tr>
 
 
@@ -143,23 +143,16 @@ $bloque1 = <<<EOF
 
 </table>
 
-<div  style="text-align:center;font-size:7px;">*******************************************************</div>
-
-<tr>
-<div style="font-size:6.5px; text-align:left;">
-<b>LISTA DE PRODUCTOS</b>
-</div>
-</tr>
-
+<div  style="text-align:center;font-size:7px">*******************************************************</div>
+<b style="font-size:7.5px; text-align:left">LISTA DE PRODUCTOS</b>
 <br>
-<table style="font-size:6px; text-align:left">
+<table style="font-size:6.5px; text-align:left">
 	<tr style="text-align:left; font-weight: bold">
 		<td style="width:40px;">CANTIDAD</td>
 		<td style="width:75px;">PRODUCTO</td>
 		
 	</tr>
 </table>
-<p style="font-size:6.5px; text-align:left;"><b>[escanea el código QR para ver la lista de productos]</b><p/>
 
 EOF;
 $pdf->writeHTML($bloque1, false, false, false, false, '');
@@ -182,13 +175,13 @@ EOF;
 
 //OCULTAMOS LA LISTA DE PRODCUTOS PARA QUE NO APAREZCA EN EL TICKET PARA
 //UTILIZAR EL DODIGO QR
-//$pdf->writeHTML($bloque2, false, false, false, false, '');
+$pdf->writeHTML($bloque2, false, false, false, false, '');
 }
 
 // ---------------------------------------------------------
 $bloque3 = <<<EOF
 <div  style="text-align:center;font-size:7px;">*******************************************************</div>
-<table style="font-size:6.5px; text-align:right; padding-right: 5px">
+<table style="font-size:6.5px; text-align:right; padding-right: 5px;align:center">
 <br>
 <br>
 <br>
@@ -214,7 +207,7 @@ $bloque3 = <<<EOF
 </tr>
 
 </table>
-<div  style="text-align:center;font-size:7px;">*******************************************************</div>
+<div  style="text-align:center;font-size:7px;">*************************************************************</div>
 
 EOF;
 

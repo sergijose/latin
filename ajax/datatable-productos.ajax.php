@@ -28,20 +28,16 @@ class TablaProductos
 
 	public function mostrarTablaProductos()
 	{
+	
 		
-		
-		$categoria = $_POST['categoria'];
-		$busqueda = $_POST['busqueda'] ;
-		$marca = $_POST['marca'];
-		//$oficina = $_POST['oficina'];
-		//$posicion = $_POST['posicion'];
-		//$referencia = $_POST['referencia'];
-		//$direccion_ip = $_POST['direccion_ip'];
-		
-		//$item = null;
-		//$valor =9;
+		//$categoria = $_POST['busquedaCategoria'];
+		//$marca = $_POST['busquedaMarca'] ;
+		$codigoProducto= $_POST['busquedaCodigoProducto'];
+		$serie= $_POST['busquedaSerie'] ;
+		$mac= $_POST['busquedaMac'] ;
+	
 
-		$productos = ControladorProductos::ctrMostrarProductosDetalle($categoria,$busqueda,$marca);
+		$productos = ControladorProductos::ctrMostrarProductosDetalle($codigoProducto,$serie,$mac);
 		//return var_dump($productos);
 		if (count($productos) == 0) {
 
@@ -76,14 +72,14 @@ class TablaProductos
 			
 
 			//VALIDAR SI TRAE INFORMACION NUMERO DE SERIE DEL PRODUCTO
-			if(empty($productos[$i]["num_serie"])){
-				$num_serie="sin dato";
+			if(empty($productos[$i]["num_serie"]) OR empty($productos[$i]["mac"] )){
+				$num_serie="SIN DATO";
 			}else{
 				$num_serie=$productos[$i]["num_serie"];
 				
 			}
 			//INFORMACION DE CARACTERISTICAS DEL PRODUCTO
-			$caracteristica="<b>Categoria:</b>". strtoupper($productos[$i]["categoria"])."<br><b>Marca:</b>". strtoupper($productos[$i]["marca"])."<br>"."<b>Modelo:</b>".$productos[$i]["modelo"]."<br>"."<b>Serie:</b>".$num_serie ;
+			$caracteristica="<b>CATEGORIA:</b>". strtoupper($productos[$i]["categoria"])."<br><b>MARCA:</b>". strtoupper($productos[$i]["marca"])."<br>"."<b>MODELO:</b>". strtoupper($productos[$i]["modelo"])."<br>"."<b>SERIE:</b>".$num_serie."<br>"."<b>MAC:</b>".$productos[$i]["mac"] ;
 
 			//UBICACION DE PRODUCTO
 			$TooltipUbicacion=$productos[$i]['observaciones']. "<button class='btn btn-secondary'href='#' data-toggle='modal' data-target='#modalVerUbicacionProducto'> <i class='fas fa-map-marker-alt'> Ver Ubicacion</i> </button>";
@@ -110,25 +106,25 @@ class TablaProductos
 			  =============================================*/
 
 			if (isset($_GET["perfilOculto"]) && $_GET["perfilOculto"] == "Especial") {
-				$botones ="<div class='dropdown'><button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>Seleccionar opción <span class='caret'></span></button><ul class='dropdown-menu'><li><a style='cursor:pointer;' class='btnEditarProducto' idProducto='" . $productos[$i]["id"] . "' idModelo='" . $productos[$i]["idmodelo"] . "'idEstado='" . $productos[$i]["idestado"]. "' data-toggle='modal' data-target='#modalEditarProducto'> <i class='fas fa-pencil-alt'></i>Editar Producto</a></li><li><a style='cursor:pointer;'class='btnMostrarDetalleProducto' data-toggle='modal'  idProducto='" . $productos[$i]["id"] . "'data-target='#modalVerUbicacionProducto'><i class='fas fa-map-marker-alt'></i> Ver Ubicacion</a></li><li><a style='cursor:pointer;'class='btnMostrarCaracteristicasCpu' data-toggle='modal'  idProducto='" . $productos[$i]["id"] . "'data-target='#modalVerCaracteristicasCpu'> <i class='fas fa-microchip'></i>Caracteristica CPU</a></li></ul></div>";
+				$botones ="<div class='dropdown'><button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>Seleccionar opción <span class='caret'></span></button><ul class='dropdown-menu'><li><a style='cursor:pointer;' class='btnEditarProducto' idProducto='" . $productos[$i]["id"] . "' idModelo='" . $productos[$i]["idmodelo"] . "'idEstado='" . $productos[$i]["idestado"]. "' data-toggle='modal' data-target='#modalEditarProducto'> <i class='fas fa-pencil-alt'></i>Editar Producto</a></li></ul></div>";
 			} 
 			else if ( $productos[$i]["categoria"]=="cpu" ||  $productos[$i]["categoria"]=="laptop"){
-				$botones ="<div class='dropdown'><button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>Seleccionar opción <span class='caret'></span></button><ul class='dropdown-menu'><li><a style='cursor:pointer;' class='btnEditarProducto' idProducto='" . $productos[$i]["id"] . "' idModelo='" . $productos[$i]["idmodelo"] . "'idEstado='" . $productos[$i]["idestado"]. "' data-toggle='modal' data-target='#modalEditarProducto'> <i class='fas fa-pencil-alt'></i>Editar Producto</a></li<li><a  style='cursor:pointer;' class='btnEliminarProducto' idProducto='" . $productos[$i]["id"] . "'><i class='fas fa-trash-alt'></i>Eliminar</a></li><li><a style='cursor:pointer;'class='btnMostrarDetalleProducto' data-toggle='modal'  idProducto='" . $productos[$i]["id"] . "'data-target='#modalVerUbicacionProducto'><i class='fas fa-map-marker-alt'></i> Ver Ubicacion</a></li><li><a style='cursor:pointer;'class='btnMostrarCaracteristicasCpu' data-toggle='modal'  idProducto='" . $productos[$i]["id"] . "'data-target='#modalVerCaracteristicasCpu'> <i class='fas fa-microchip'></i>Caracteristica CPU</a></li></ul></div>";
+				$botones ="<div class='dropdown'><button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>Seleccionar opción <span class='caret'></span></button><ul class='dropdown-menu'><li><a style='cursor:pointer;' class='btnEditarProducto' idProducto='" . $productos[$i]["id"] . "' idModelo='" . $productos[$i]["idmodelo"] . "'idEstado='" . $productos[$i]["idestado"]. "' data-toggle='modal' data-target='#modalEditarProducto'> <i class='fas fa-pencil-alt'></i>Editar Producto</a></li<li><a  style='cursor:pointer;' class='btnEliminarProducto' idProducto='" . $productos[$i]["id"] . "'><i class='fas fa-trash-alt'></i>Eliminar</a></li></ul></div>";
 
 			}
 			
 			else {
-				$botones ="<div class='dropdown'><button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>Seleccionar opción <span class='caret'></span></button><ul class='dropdown-menu'><li><a style='cursor:pointer;' class='btnEditarProducto' idProducto='" . $productos[$i]["id"] . "' idModelo='" . $productos[$i]["idmodelo"] . "'idEstado='" . $productos[$i]["idestado"]. "' data-toggle='modal' data-target='#modalEditarProducto'> <i class='fas fa-pencil-alt'></i>Editar Producto</a></li<li><a  style='cursor:pointer;' class='btnEliminarProducto' idProducto='" . $productos[$i]["id"] . "'><i class='fas fa-trash-alt'></i>Eliminar</a></li><li><a style='cursor:pointer;'class='btnMostrarDetalleProducto' data-toggle='modal'  idProducto='" . $productos[$i]["id"] . "'data-target='#modalVerUbicacionProducto'><i class='fas fa-map-marker-alt'></i> Ver Ubicacion</a></li></ul></div>";
+				$botones ="<div class='dropdown'><button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>Seleccionar opción <span class='caret'></span></button><ul class='dropdown-menu'><li><a style='cursor:pointer;' class='btnEditarProducto' idProducto='" . $productos[$i]["id"] . "' idModelo='" . $productos[$i]["idmodelo"] . "'idEstado='" . $productos[$i]["idestado"]. "' data-toggle='modal' data-target='#modalEditarProducto'> <i class='fas fa-pencil-alt'></i>Editar Producto</a></li<li><a  style='cursor:pointer;' class='btnEliminarProducto' idProducto='" . $productos[$i]["id"] . "'><i class='fas fa-trash-alt'></i>Eliminar</a></li></ul></div>";
 				
 			}
 			
 			$datosJson .= '[
 			      "' . ($i + 1) . '",
 				  "' . $productos[$i]["codigo"] . '",
-				  "' . $productos[$i]["referencia"] . '",
 				  "' . $imagen.'",
 				  "' . $caracteristica.'",
 				  "' .$estadoFisicoProducto. '",
+				  "' . $productos[$i]["situacion_actual"] .'",
 				  "' . $productos[$i]["observaciones"] .'",
 				  "' . $estado . '",
 				  "' . $productos[$i]["fecha"] . '",
