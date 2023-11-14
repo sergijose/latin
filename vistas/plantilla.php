@@ -213,6 +213,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/productos-lotes.js"></script>
   <script src="vistas/js/productos-ubicacion.js"></script>
   <script src="vistas/js/prestamos.js"></script>
+  <script src="vistas/js/tablaPrestamosPrincipal.js"></script>
   <script src="vistas/js/pedidos.js"></script>
   <script src="vistas/js/pedidos2.js"></script>
   <script src="vistas/js/empleados.js"></script>
@@ -220,7 +221,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/compras.js"></script>
   <script src="vistas/js/compras2.js"></script>
 
-
+ 
 </body>
 
 </html>

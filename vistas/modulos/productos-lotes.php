@@ -97,7 +97,7 @@ if($_SESSION["perfil"] == "Visitante"){
     <!-- ENTRADA PARA NOMBRE PRODUCTO LOTES-->
           <div class="form-group">           
               <div class="input-group">          
-                <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span> 
+                <span class="input-group-addon"><i class="fab fa-product-hunt"></i></span> 
                 <input type="text" class="form-control input-lg" name="nuevoNombre"  id="nuevoNombre" placeholder="Ingresar nombre" required>
               </div>
             </div>
@@ -113,7 +113,7 @@ if($_SESSION["perfil"] == "Visitante"){
              <!-- ENTRADA PARA UNIDAD DE MEDIDA PRODUCTO LOTES-->
           <div class="form-group">           
               <div class="input-group">          
-                <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span> 
+                <span class="input-group-addon"><i class="fas fa-balance-scale"></i></span> 
                 <input type="text" class="form-control input-lg" name="nuevaUnidadMedida" id="nuevaUnidadMedida" placeholder="Ingresar unidad de medida">
               </div>
             </div>
@@ -121,7 +121,7 @@ if($_SESSION["perfil"] == "Visitante"){
     <!-- ENTRADA PARA STOCK -->
             <div class="form-group">           
               <div class="input-group">          
-                <span class="input-group-addon"><i class="fa fa-check"></i></span> 
+                <span class="input-group-addon"><i class="fas fa-warehouse"></i></span> 
                 <input type="number" class="form-control input-lg" id="nuevoStock" name="nuevoStock" min="0" placeholder="Stock" required>
               </div>
             </div>
@@ -206,7 +206,7 @@ if($_SESSION["perfil"] == "Visitante"){
             <!-- ENTRADA PARA EL NOMBRE -->           
             <div class="form-group">
               <div class="input-group">          
-                <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span> 
+                <span class="input-group-addon"><i class="fab fa-product-hunt"></i></span> 
                 <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" required>
                 <input type="hidden" class="form-control input-lg" id="id" name="id" readonly required>
               </div>
@@ -215,7 +215,7 @@ if($_SESSION["perfil"] == "Visitante"){
             <!-- ENTRADA PARA LA DEESCRIPCION-->
             <div class="form-group">             
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span> 
+                <span class="input-group-addon"><i class="fa fa-clipboard"></i></span> 
                 <input type="text" class="form-control input-lg" id="editarDescripcion" name="editarDescripcion">
               </div>
             </div>
@@ -223,14 +223,14 @@ if($_SESSION["perfil"] == "Visitante"){
              <!-- ENTRADA PARA EDITAR UNIDAD DE MEDIDA-->
              <div class="form-group">             
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span> 
+                <span class="input-group-addon"><i class="fas fa-balance-scale"></i></span> 
                 <input type="text" class="form-control input-lg" id="editarUnidadMedida" name="editarUnidadMedida">
               </div>
             </div>
             <!-- ENTRADA PARA STOCK -->
             <div class="form-group">
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-check"></i></span> 
+                <span class="input-group-addon"><i class="fas fa-warehouse"></i></span> 
                 <input type="number" class="form-control input-lg" id="editarStock" name="editarStock" min="0" required>
               </div>
             </div>

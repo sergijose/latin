@@ -159,10 +159,10 @@ $bloque1 = <<<EOF
 <br>
 <table style="font-size:5px; text-align:left">
 	<tr style="text-align:left; font-weight: bold">
-	<td style="width:40px; text-align:center">CATEGORIA</td>
+	<td style="width:50px; text-align:center">CATEGORIA</td>
 		<td style="width:40px; text-align:center">MODELO</td>
 		<td style="width:40px; text-align:center">MARCA</td>
-		<td style="width:40px; text-align:center">CODIGO</td>
+		<td style="width:60px; text-align:center">CODIGO</td>
 		
 	</tr>
 </table>
@@ -216,10 +216,10 @@ $bloque2 = <<<EOF
 <table id="valoresProducto" style="font-size:5px;">
 	<tr style="text-align:center;">
 
-		<td style="width:40px">$nombreCategoria</td>
+		<td style="width:50px">$nombreCategoria</td>
 		<td style="width:40px">$respuestaModelo[descripcion]</td>
 		<td style="width:40px">$nombreMarca</td>
-		<td style="width:40px">$respuestaProducto[cod_producto]</td>
+		<td style="width:60px"><b>MAC:</b> $respuestaProducto[mac] <b>COD INT.</b>$respuestaProducto[cod_producto]</td>
 	</tr>
 
 	

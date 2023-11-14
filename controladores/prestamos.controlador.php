@@ -452,7 +452,35 @@ class ControladorPrestamos
 				$valor1a = "DISPONIBLE";
 				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
 			}
+
+			//PROCEDIMIENTO PARA RECUPERAR PRODUCTOS LOTES SI ES QUE FINALIZA UN PRESTAMO
 			
+			foreach ($traerPrestamo as $key => $value) {
+				$productosLotes =  json_decode($traerPrestamo["productos_lotes"], true);
+			  };
+			   // var_dump($productos);
+		
+			  $totalProductosComprados = array();
+		
+			  foreach ($productosLotes as $key => $value) {
+		
+				array_push($totalProductosComprados, $value["cantidad"]);
+		
+				$tablaProductosLotes = "producto_lotes";
+		
+				$item = "id";
+				$valor = $value["id"];
+				$orden = "id";
+		
+				$traerProductoLotes = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductosLotes, $item, $valor, $orden);
+				$item1b = "stock";
+				$valor1b = $value["cantidad"] + $traerProductoLotes["stock"];
+		
+				$nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductosLotes, $item1b, $valor1b, $valor);
+			  }
+			
+			//FIN DE PROCEDIMIENTO PARA RECUPERAR PRODUCTOS LOTES SI ES QUE FINALIZA UN PRESTAMO
+
 			$tabla = "prestamo";
 			$idprestamo = $_GET["idPrestamo"];
 
@@ -619,9 +647,9 @@ alertify.error("No se pudo Finalizar ");
 	static public function ctrRangoFechasPrestamos($fechaInicial, $fechaFinal)
 	{
 
-		$tabla = "prestamo";
+		//$tabla = "prestamo";
 
-		$respuesta = ModeloPrestamos::mdlRangoFechasPrestamos($tabla, $fechaInicial, $fechaFinal);
+		$respuesta = ModeloPrestamos::mdlRangoFechasPrestamos($fechaInicial, $fechaFinal);
 
 		return $respuesta;
 	}
@@ -695,15 +723,20 @@ alertify.error("No se pudo Finalizar ");
 
 				echo utf8_decode("</td><td style='border:1px solid #eee;'>");
 
+				if (!is_null($productos) && is_array($productos)) {
 				foreach ($productos as $key => $valueProductos) {
 
 					echo utf8_decode($valueProductos["codigo"] . "<br>");
 				}
+			}
+
+				if (!is_null($productos_lotes) && is_array($productos_lotes)) {
 
 				foreach ($productos_lotes as $key => $valueProductosLotes) {
 
 					echo utf8_decode($valueProductosLotes["cantidad"] ." ".$valueProductosLotes["descripcion"]. "<br>");
 				}
+			}
 
 				echo utf8_decode("</td>
 							
@@ -721,40 +754,7 @@ alertify.error("No se pudo Finalizar ");
 			echo "</table>";
 		}
 	}
-	public function generarContrato()
-    {
-        // Comprueba si se ha enviado el formulario
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Carga la plantilla del contrato
-            $template = new \PhpOffice\PhpWord\TemplateProcessor('extensiones/tcpdf/pdf/contratos/contrato.docx');
-
-            // Obtiene los datos del formulario
-            $nombre = $_POST['nombre'];
-            $telefono = $_POST['telefono'];
-            $direccion = $_POST['direccion'];
-            $tipoPlan = $_POST['tipo_plan'];
-
-            // Llena la plantilla con los datos
-            $template->setValue('nombre', $nombre);
-            $template->setValue('telefono', $telefono);
-            $template->setValue('direccion', $direccion);
-            
-            
-			$template->setValue('tipo_plan', $tipoPlan);
-
-            // Guarda el contrato llenado
-            $nombre_archivo = 'contrato_llenado.docx';
-            $template->saveAs($nombre_archivo);
-
-            // Envía el contrato al navegador para su descarga
-            header("Content-Disposition: attachment; filename=$nombre_archivo");
-            readfile($nombre_archivo);
-            exit;
-        } else {
-            // Código para mostrar la vista del formulario
-            //include 'ruta/a/vista/formulario_contrato.php'; // Reemplaza con la ruta correcta
-        }
-    }
+	
 }
 
 

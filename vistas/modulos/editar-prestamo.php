@@ -293,22 +293,22 @@ if ($_SESSION["perfil"] == "Visitante") {
                 ======================================-->
 
               <div class="form-group">
-                <p><b>Escriba algun comentario para este prestamo<b /></p>
+                <p><strong>Comentario Prestamo Inicial<strong/></p>
                 <div class="input-group">
 
 
                   <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
 
-                  <textarea class="form-control" id="observacionPrestamo" name="observacionPrestamo" cols="5" rows="2" placeholder="observaciones del prestamo"><?php echo $prestamo["observacion_prestamo"]; ?></textarea>
+                  <textarea class="form-control" id="observacionPrestamo" name="observacionPrestamo" cols="2" rows="2" placeholder="observaciones del prestamo"><?php echo $prestamo["observacion_prestamo"]; ?></textarea>
               
 
                 </div>
 
               </div>
 <?php
-              if($prestamo["estado_prestamo"]=="ASIGNADO"){
+              if($prestamo["estado_prestamo"]=="ASIGNADO" || $prestamo["estado_prestamo"]=="PENDIENTE"){
                 echo '
-                <p><b>ESTE PRESTAMO ESTA ASIGNADO A UN CLIENTE<b/> si deseas puedes modificar estos campos</p>
+                <em>estado del prestamo</em>
                 ';
                 
                 foreach ($tipoDePrestamos as $tipoPrestamo) {
@@ -325,8 +325,8 @@ if ($_SESSION["perfil"] == "Visitante") {
                 <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente" value="'.$codigoCliente.'">
               </div>
               <div class="form-group">
-                <label for="comentario">Comentario:</label>
-                <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="3">'.$comentarioAsignado.'</textarea>
+                <label for="comentario">Nota o Observacion del cliente:</label>
+                <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2">'.$comentarioAsignado.'</textarea>
               </div>';
               }
 

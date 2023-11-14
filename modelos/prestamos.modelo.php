@@ -219,12 +219,19 @@ class ModeloPrestamos{
 	RANGO FECHAS
 	=============================================*/	
 
-	static public function mdlRangoFechasPrestamos($tabla, $fechaInicial, $fechaFinal){
+	static public function mdlRangoFechasPrestamos($fechaInicial, $fechaFinal){
 
 		if($fechaInicial == null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY id DESC");
-
+			$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
+			pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+			pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo
+				FROM prestamo pre
+			 INNER JOIN usuarios usu
+			 ON pre.idusuario=usu.id
+			 INNER JOIN empleado emp
+			 ON pre.idempleado=emp.idempleado
+			 ORDER BY pre.id desc");
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();	
@@ -232,7 +239,16 @@ class ModeloPrestamos{
 
 		}else if($fechaInicial == $fechaFinal){
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_prestamo like '%$fechaFinal%'");
+			$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
+			pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+			pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo
+				FROM prestamo pre
+			 INNER JOIN usuarios usu
+			 ON pre.idusuario=usu.id
+			 INNER JOIN empleado emp
+			 ON pre.idempleado=emp.idempleado
+			 WHERE pre.fecha_prestamo like '%$fechaFinal%'
+			 ORDER BY pre.id desc");
 
 			$stmt -> bindParam(":fecha_prestamo", $fechaFinal, PDO::PARAM_STR);
 
@@ -252,12 +268,30 @@ class ModeloPrestamos{
 
 			if($fechaFinalMasUno == $fechaActualMasUno){
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_prestamo BETWEEN '$fechaInicial' AND '$fechaFinalMasUno'");
+				$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
+				pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+				pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo
+					FROM prestamo pre
+				 INNER JOIN usuarios usu
+				 ON pre.idusuario=usu.id
+				 INNER JOIN empleado emp
+				 ON pre.idempleado=emp.idempleado
+				WHERE pre.fecha_prestamo BETWEEN '$fechaInicial' AND '$fechaFinalMasUno'
+				ORDER BY pre.id desc");
 
 			}else{
 
 
-				$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE fecha_prestamo BETWEEN '$fechaInicial' AND '$fechaFinal'");
+				$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
+				pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+				pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo
+					FROM prestamo pre
+				 INNER JOIN usuarios usu
+				 ON pre.idusuario=usu.id
+				 INNER JOIN empleado emp
+				 ON pre.idempleado=emp.idempleado
+				WHERE pre.fecha_prestamo BETWEEN '$fechaInicial' AND '$fechaFinal'
+				ORDER BY pre.id desc");
 
 			}
 		

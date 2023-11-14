@@ -198,13 +198,13 @@ if ($_SESSION["perfil"] == "Visitante") {
                 ======================================-->
 
               <div class="form-group">
-                <p><strong>Escriba algun comentario para este prestamo </strong></p>
+                <p><strong>Comentario Prestamo Inicial </strong></p>
                 <div class="input-group">
 
 
                   <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
 
-                  <textarea class="form-control" id="observacionPrestamo" name="observacionPrestamo" cols="5" rows="2" placeholder="observaciones del prestamo"></textarea>
+                  <textarea class="form-control" id="observacionPrestamo" name="observacionPrestamo" cols="2" rows="2" placeholder="comentario del prestamo"></textarea>
 
 
 
@@ -213,12 +213,12 @@ if ($_SESSION["perfil"] == "Visitante") {
               </div>
 
               <div class="form-group">
-            <label for="codigoCliente">Código de Cliente:</label>
+            <label for="codigoCliente">Código del Cliente:</label>
             <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente">
           </div>
           <div class="form-group">
-            <label for="comentario">Comentario:</label>
-            <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="3"></textarea>
+            <label for="comentario">Nota o Observacion del cliente:</label>
+            <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2"></textarea>
           </div>
 
 

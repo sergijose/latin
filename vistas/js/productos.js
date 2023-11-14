@@ -5,7 +5,7 @@ CARGAR LA TABLA DINÁMICA DE PRODUCTOS
 $.ajax({
   url: "ajax/datatable-productos.ajax.php",
   success: function (respuesta) {
-    console.log("respuesta", respuesta);
+    console.log("respuesta_producto", respuesta);
   },
 });
 
@@ -16,7 +16,7 @@ var tableProduct = $(".tablaProductos").DataTable({
     url: "ajax/datatable-productos.ajax.php?perfilOculto=" + perfilOculto,
     type: "POST",
     data: function (d) {
-      console.log("que datos", d);
+      //console.log("que datos", d);
       //d.busquedaCategoria = $('#busquedaCategoria').val();
       //d.busquedaMarca = $('#busquedaMarca').val();
       d.busquedaCodigoProducto = $("#busquedaCodigoProducto").val();

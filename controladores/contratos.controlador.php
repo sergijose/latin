@@ -30,55 +30,28 @@ class ControladorContratos{
 				if($respuesta == "ok"){
 
 					require 'vendor/autoload.php'; // Asegúrate de cargar PHPWord
-					$templatePath = 'extensiones/tcpdf/pdf/contratos/contrato.docx'; // Ruta a la plantilla
-					$phpWord = \PhpOffice\PhpWord\IOFactory::load($templatePath);
-		
+					$template = new \PhpOffice\PhpWord\TemplateProcessor('../extensiones/tcpdf/pdf/contratos/contrato.docx');
 
-					   // Configurar las cabeceras HTTP para la descarga
-					   header('Content-Description: File Transfer');
-					   header('Content-Type: application/octet-stream');
-					   header('Content-Disposition: attachment; filename=contrato_generado.docx');
-		   
+					 // Recupera los datos del contrato desde la base de datos
+					 $nombre = "John Doe"; // Reemplaza con los datos reales
+					 $telefono = "123456789";
+					 $direccion = "123 Main St";
+					 $tipoPlan = "Plan A";
+					 // Llena la plantilla con los datos
+					 $template->setValue('nombre', $nombre);
+					 $template->setValue('telefono', $telefono);
+					 $template->setValue('direccion', $direccion);
+					 $template->setValue('tipo_plan', $tipoPlan);
 
-					// Crear estructura del contrato y reemplazar marcadores aquí
-					$section = $phpWord->addSection();
-					$section->addText('CONTRATO DE SERVICIOS', array('bold' => true));
-					$section->addText('Nombre del cliente: ' . $_POST['nuevoNombreCompleto']);
-					$section->addText('DNI del cliente: ' . $_POST['nuevoDni']);
-					$section->addText('Dirección del cliente: ' . $_POST['nuevaDireccion']);
-					$section->addText('Fecha: ' . date('Y-m-d'));
-		
-					// Guardar y ofrecer la descarga del contrato
-					$nombreArchivo = 'php://output';
-					$phpWord->save($nombreArchivo);
-					exit; 
-		
-					// Configurar las cabeceras HTTP para la descarga
-					
-					
-					header('Content-Transfer-Encoding: binary');
-					header('Expires: 0');
-					header('Cache-Control: must-revalidate');
-					header('Pragma: public');
-					header('Content-Length: ' . filesize($nombreArchivo));
-					header('Content-Transfer-Encoding: binary');
-					header('Expires: 0');
-					header('Cache-Control: must-revalidate');
-					header('Pragma: public');
-					header('Content-Length: ' . filesize($nombreArchivo));
-					// Leer y enviar el archivo
-					readfile($nombreArchivo);
-		
-					// Eliminar el archivo temporal
-					unlink($nombreArchivo);
-					exit;
+					 $nombre_archivo = 'contrato_llenado.docx';
+					 $template->saveAs($nombre_archivo);
+					 // Envía el contrato al navegador para su descarga
+    readfile($nombre_archivo);
 
-
-
-
-
-
-
+    // Detén la ejecución del script
+    exit;
+				 
+				
 					echo'<script>
 
 					swal({
