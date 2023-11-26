@@ -558,7 +558,7 @@ swal({
 				"id_prestamo" =>  $_POST["idPrestamoAsignar"],
 				"codigo_cliente" => $_POST["codigo_cliente"],
 				"comentario_asignado" => $_POST["comentario_asignado"],
-				"estado_prestamo" => "ASIGNADO",
+				"estado_prestamo" => "INSTALADO",
 				"fecha_asignado" => $fechaActual,
 				"asignado_por" => $_POST["asignado_por"]
 
@@ -573,7 +573,7 @@ swal({
 
 swal({
 type: "success",
-title: "Prestamo Asignado con Exito",
+title: "Prestamo Instalado con Exito",
 showConfirmButton: true,
 allowOutsideClick: false,
 confirmButtonText: "Cerrar"

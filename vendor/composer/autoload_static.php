@@ -4,9 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb473a1f41b8a03a639274bf5c817729a
+class ComposerStaticInit173583fa114172bdb77f8ed7e6a35bd8
 {
     public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
+            'setasign\\Fpdi\\' => 14,
+        ),
         'P' => 
         array (
             'PhpOffice\\PhpWord\\' => 18,
@@ -18,6 +22,10 @@ class ComposerStaticInitb473a1f41b8a03a639274bf5c817729a
     );
 
     public static $prefixDirsPsr4 = array (
+        'setasign\\Fpdi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+        ),
         'PhpOffice\\PhpWord\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpword/src/PhpWord',
@@ -30,14 +38,15 @@ class ComposerStaticInitb473a1f41b8a03a639274bf5c817729a
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'FPDF' => __DIR__ . '/..' . '/setasign/fpdf/fpdf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb473a1f41b8a03a639274bf5c817729a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb473a1f41b8a03a639274bf5c817729a::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitb473a1f41b8a03a639274bf5c817729a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit173583fa114172bdb77f8ed7e6a35bd8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit173583fa114172bdb77f8ed7e6a35bd8::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit173583fa114172bdb77f8ed7e6a35bd8::$classMap;
 
         }, null, ClassLoader::class);
     }

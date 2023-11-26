@@ -28,30 +28,6 @@ class ControladorContratos{
 				$respuesta = ModeloContratos::mdlIngresarContrato($tabla, $datos);
 
 				if($respuesta == "ok"){
-
-					require 'vendor/autoload.php'; // Asegúrate de cargar PHPWord
-					$template = new \PhpOffice\PhpWord\TemplateProcessor('../extensiones/tcpdf/pdf/contratos/contrato.docx');
-
-					 // Recupera los datos del contrato desde la base de datos
-					 $nombre = "John Doe"; // Reemplaza con los datos reales
-					 $telefono = "123456789";
-					 $direccion = "123 Main St";
-					 $tipoPlan = "Plan A";
-					 // Llena la plantilla con los datos
-					 $template->setValue('nombre', $nombre);
-					 $template->setValue('telefono', $telefono);
-					 $template->setValue('direccion', $direccion);
-					 $template->setValue('tipo_plan', $tipoPlan);
-
-					 $nombre_archivo = 'contrato_llenado.docx';
-					 $template->saveAs($nombre_archivo);
-					 // Envía el contrato al navegador para su descarga
-    readfile($nombre_archivo);
-
-    // Detén la ejecución del script
-    exit;
-				 
-				
 					echo'<script>
 
 					swal({

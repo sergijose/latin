@@ -24,7 +24,17 @@ $.ajax({
 });
 
 $(".tablaPrestamoPrincipal").DataTable({
-  ajax:"ajax/datatable-prestamos-principal.ajax.php?perfilOculto=" + perfilOculto,
+  //ajax:"ajax/datatable-prestamos-principal.ajax.php?perfilOculto=" + perfilOculto,
+  ajax: {
+    url: "ajax/datatable-prestamos-principal.ajax.php?perfilOculto=" + perfilOculto,
+    data: function (d) {
+      // Agregar lógica para obtener las fechas desde la URL
+      var urlParams = new URLSearchParams(window.location.search);
+      d.fechaInicial = urlParams.get('fechaInicial');
+      d.fechaFinal = urlParams.get('fechaFinal');
+      //d.perfilOculto = perfilOculto; // Asegúrate de definir perfilOculto antes de usarlo
+    },
+  },
   deferRender: true,
   retrieve: true,
   processing: true,
@@ -323,11 +333,11 @@ $("div #tablaProductos").find("*").prop('disabled', false);
 //PARA CAPTURAR EL ID DEL PRESTAMO
 document.addEventListener('DOMContentLoaded', function () {
   // Obtén una referencia al botón
-  var botonEditarPrestamo = document.querySelector('.btn-asignar');
-
-
-
+  var botonEditarPrestamo = document.querySelectorAll('.btn-asignar');
   // Agrega un evento click al botón
+
+  // Itera sobre cada botón y agrega el evento click
+  botonEditarPrestamo.forEach(function (botonEditarPrestamo) {
   botonEditarPrestamo.addEventListener('click', function () {
       // Obtén el valor del atributo idPrestamo
       var idPrestamo = botonEditarPrestamo.getAttribute('idPrestamo');
@@ -335,4 +345,5 @@ document.addEventListener('DOMContentLoaded', function () {
     
       
   });
+});
 });

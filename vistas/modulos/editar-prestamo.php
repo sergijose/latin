@@ -73,7 +73,7 @@ if ($_SESSION["perfil"] == "Visitante") {
                 $codigoCliente=$prestamo["codigo_cliente"];
                 $comentarioAsignado=$prestamo["comentario_asignado"];
                 //lista de servicio
-                $tipoDePrestamos = ["PENDIENTE", "ASIGNADO"];
+                $tipoDePrestamos = ["PENDIENTE", "INSTALADO"];
 
                 $itemUsuario = "id";
                 $valorUsuario = $prestamo["idusuario"];
@@ -306,7 +306,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
               </div>
 <?php
-              if($prestamo["estado_prestamo"]=="ASIGNADO" || $prestamo["estado_prestamo"]=="PENDIENTE"){
+              if($prestamo["estado_prestamo"]=="INSTALADO" || $prestamo["estado_prestamo"]=="PENDIENTE"){
                 echo '
                 <em>estado del prestamo</em>
                 ';

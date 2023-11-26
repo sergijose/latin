@@ -247,7 +247,7 @@ class ModeloPrestamos{
 			 ON pre.idusuario=usu.id
 			 INNER JOIN empleado emp
 			 ON pre.idempleado=emp.idempleado
-			 WHERE pre.fecha_prestamo like '%$fechaFinal%'
+			 WHERE pre.fecha_prestamo =:fecha_prestamo
 			 ORDER BY pre.id desc");
 
 			$stmt -> bindParam(":fecha_prestamo", $fechaFinal, PDO::PARAM_STR);
@@ -276,7 +276,7 @@ class ModeloPrestamos{
 				 ON pre.idusuario=usu.id
 				 INNER JOIN empleado emp
 				 ON pre.idempleado=emp.idempleado
-				WHERE pre.fecha_prestamo BETWEEN '$fechaInicial' AND '$fechaFinalMasUno'
+				WHERE pre.fecha_prestamo BETWEEN :fechaInicial AND :fechaFinal
 				ORDER BY pre.id desc");
 
 			}else{
@@ -290,10 +290,12 @@ class ModeloPrestamos{
 				 ON pre.idusuario=usu.id
 				 INNER JOIN empleado emp
 				 ON pre.idempleado=emp.idempleado
-				WHERE pre.fecha_prestamo BETWEEN '$fechaInicial' AND '$fechaFinal'
+				WHERE pre.fecha_prestamo BETWEEN :fechaInicial AND :fechaFinal
 				ORDER BY pre.id desc");
 
 			}
+			$stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
+       		 $stmt->bindParam(":fechaFinal", $fechaFinalMasUno, PDO::PARAM_STR);
 		
 			$stmt -> execute();
 

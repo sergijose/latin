@@ -49,7 +49,7 @@ class TablaProductosPrestamosPrincipal{
 
 			//$respuestaProducto = ControladorProductos::ctrMostrarProductos($item, $valor, $order);
 			//$codigoProducto=$respuestaProducto["cod_producto"];
-			$tipoServicio= $respuesta[$i]["tipo_servicio"] .'<br>'.'Cliente:'.$respuesta[$i]["codigo_cliente"];
+		$tipoServicio= "<span class='badge badge-secondary'>".strtoupper($respuesta[$i]["tipo_servicio"]) ."</span><br>".'CLIENTE:'.$respuesta[$i]["codigo_cliente"];
 			$productos = json_decode( $respuesta[$i]["productos"], true);
 			$productos_lotes = json_decode( $respuesta[$i]["productos_lotes"], true);
 
@@ -75,7 +75,7 @@ class TablaProductosPrestamosPrincipal{
 
 
 			  $estado="<button class='btn btn-danger btn-xs btn-asignar' data-toggle='modal' idPrestamo='" .$respuesta[$i]["id"] . "' idEmpleado='" .  $respuesta[$i]["idempleado"] . "'   data-target='#modalAsignarPrestamo'>" . $respuesta[$i]["estado_prestamo"] . "</button>";
-			} else {
+			} else  {
 
 				$estado="<button class='btn btn-success btn-xs'>" . $respuesta[$i]["estado_prestamo"] . "</button>";
 			}
@@ -90,7 +90,7 @@ class TablaProductosPrestamosPrincipal{
 				$botones.="<button class='btn btn-warning btn-xs btnEditarPrestamo' idPrestamo='" . $respuesta[$i]["id"] . "' data-toggle='modal' data-target='#modalDevolverProducto' data-toggle='tooltip' title='Editar Producto'><i class='fas fa-pencil-alt'></i></button>";
 			  }
 
-			  if ($respuesta[$i]["estado_prestamo"] == "PENDIENTE" ||$respuesta[$i]["estado_prestamo"] == "ASIGNADO" ) {
+			  if ($respuesta[$i]["estado_prestamo"] == "PENDIENTE" ||$respuesta[$i]["estado_prestamo"] == "INSTALADO" ) {
 				$botones.="<button class='btn btn-danger btn-xs btnEliminarPrestamo' idPrestamo='" . $respuesta[$i]["id"] . "' disabled><i class='fa fa-times'></i></button>";
 			  } else {
 				$botones.="<button class='btn btn-danger btn-xs btnEliminarPrestamo' idPrestamo='" . $respuesta[$i]["id"] . "'><i class='fa fa-times'></i></button>";
@@ -106,7 +106,7 @@ class TablaProductosPrestamosPrincipal{
 
 			$datosJson .= '[
 				"' . ($i + 1) . '",
-				"' . $respuesta[$i]["empleado"] . '",
+				"' . strtoupper($respuesta[$i]["empleado"]) . '",
 				"' . $respuesta[$i]["codigo_prestamo"] . '",
 				"' . $tipoServicio.'",
 				"' . $resumenProducto.'",
