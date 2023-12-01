@@ -11,6 +11,18 @@ class ajaxProductosLotes
   public $idProducto;
   public $traerProductos;
   public $nombreProducto;
+  public $idCategoria;
+
+  public function ajaxCrearCodigoProducto(){
+
+    $item = "idcategoria";
+    $valor = $this->idCategoria;
+
+    $respuesta = ControladorProductosLotes::ctrMostrarProductosLotes($item, $valor,"asc");
+
+    echo json_encode($respuesta);
+
+  }
 
   public function ajaxEditarProductoLotes()
   {
@@ -73,6 +85,14 @@ if (isset($_POST["nombreProducto"])) {
   $traerProductos = new ajaxProductosLotes();
   $traerProductos->nombreProducto = $_POST["nombreProducto"];
   $traerProductos->ajaxEditarProductoLotes();
+}
+
+if(isset($_POST["idCategoria"])){
+
+  $codigoProducto = new ajaxProductosLotes();
+  $codigoProducto -> idCategoria = $_POST["idCategoria"];
+  $codigoProducto -> ajaxCrearCodigoProducto();
+
 }
 /*=============================================
 Validacion para No Repetir Codigo

@@ -170,7 +170,7 @@ class ControladorModelos{
 			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ. ]+$/', $_POST["editarModelo"])){
 
 				
-							$ruta = $_POST["imagenActual"];
+				$ruta = $_POST["imagenActual"];
 
 			   	if(isset($_FILES["editarImagen"]["tmp_name"]) && !empty($_FILES["editarImagen"]["tmp_name"])){
 
