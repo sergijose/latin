@@ -43,7 +43,7 @@ $('.tablaProductosLotes').DataTable( {
 
 	},
   "lengthMenu":[5, 10, 15, 20, 50, 100],
-  "pageLength":5
+  "pageLength":50
 
 });
 

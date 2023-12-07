@@ -83,7 +83,7 @@ $pdf->SetXY(7, 12); // el numero 2 representa el tamaño de la letra
 $bloque1 = <<<EOF
 
 <img src="images/logo-prueba.png"  >
-<table style="font-size:6px; text-align:left">
+<table style="font-size:8px; text-align:left;">
 	<tr>
 	<td>
 	<strong style="text-align:center;font-size:8px">ENTREGA DE PEDIDOS</strong>		
@@ -103,21 +103,21 @@ $bloque1 = <<<EOF
 
 
 	<tr>
-	<td style="width:40px;"><b>Direccion:</b></td>
-	<td style="width:100px;">#########</td>
+	<td style="width:40px;"><b>Dir:</b></td>
+	<td style="width:50px;">#########</td>
 	</tr>
 
 
 	<tr>
 	<td style="width:40px;"><b>Ticket:</b></td>
-	<td style="width:40px;">$codigoPedido</td>
+	<td style="width:50px;">$codigoPedido</td>
 	<td style="width:40px;"><b>Fecha:</b></td>
-	<td style="width:40px;">$fecha</td>
+	<td style="width:50px;">$fecha</td>
 	</tr>
 	<br>
 
 	<tr>
-	<div style="font-size:6.5px; text-align:left;">
+	<div style="font-size:8px; text-align:left;">
 	<b>DATOS DEL SOLICITANTE</b>
 	</div>
 	</tr>
@@ -143,7 +143,7 @@ $bloque1 = <<<EOF
 
 </table>
 
-<div  style="text-align:center;font-size:7px">*******************************************************</div>
+<div  style="text-align:center;font-size:10px">**************************************</div>
 <b style="font-size:7.5px; text-align:left">LISTA DE PRODUCTOS</b>
 <br>
 <table style="font-size:6.5px; text-align:left">
@@ -163,7 +163,7 @@ $valorQr=$item["cantidad"]." ". $item["descripcion"]."\n";
 $listaPedido.=$valorQr;
 
 $bloque2 = <<<EOF
-<table id="valoresProducto" style="font-size:6px;">
+<table id="valoresProducto" style="font-size:10px;">
 	<tr style="text-align:left;">
 		<td style="width:40px;text-align: center;">$item[cantidad]</td>
 		<td style="width:75px;">$item[descripcion]</td>

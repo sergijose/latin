@@ -256,6 +256,7 @@
               <thead>
                 <tr>
                   <th style="width: 10px">#</th>
+                  <th>Imagen</th>
                   <th>Categoria</th>
                   <th>Producto</th>
                   <th>Medida</th>

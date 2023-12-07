@@ -199,6 +199,7 @@
               <thead>
                 <tr>
                   <th style="width: 10px">#</th>
+                  <th>imagen</th>
                   <th>Categoria</th>
                   <th>Producto</th>
                   <th>Medida</th>

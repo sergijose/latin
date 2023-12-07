@@ -280,8 +280,7 @@ $(".formularioPedido").on("change", "select.nuevaDescripcionProducto", function 
 MODIFICAR LA CANTIDAD
 =============================================*/
 $(".formularioPedido").on("change", "input.nuevaCantidadProducto", function () {
-  alert("hola");
-
+  //alert("hola");
  // var precio = $(this).parent().parent().children(".ingresoPrecio").children().children(".nuevoPrecioProducto");
   //var precioFinal = $(this).val() * precio.attr("precioReal");//
   //precio.val(precioFinal);

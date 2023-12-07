@@ -31,7 +31,8 @@ class TablaProductosPedidos
 
     for ($i = 0; $i < count($productos); $i++) {
       /*=======================================Traemos la imagen =============================================*/
-     // $imagen = "<img src='" . $productos[$i]["imagen"] . "' width='40px'>";
+      $imagen = "<img src='" . $productos[$i]["imagen"] . "' width='40px'>";
+     
       /*=============================================Traemos la Sucursal=============================================*/
      $item = "id";
       $valor = $productos[$i]["idcategoria"];
@@ -49,6 +50,7 @@ class TablaProductosPedidos
 
       $datosJson .= '[
 			      "' . ($i + 1) . '",
+            "'.$imagen.'",
             "' . $categoria["descripcion"] . '",
 			      "' . $productos[$i]["nombre"] . '",
             "' . $productos[$i]["unidad_medida"] . '",

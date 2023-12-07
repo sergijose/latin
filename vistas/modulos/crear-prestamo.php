@@ -265,7 +265,6 @@ if ($_SESSION["perfil"] == "Visitante") {
                   <th>Modelo</th>
                   <th>Código del Producto</th>
                   <th>Serie</th>
-                  <th>Mac</th>
                   <th>Estado Producto</th>
                   <th>Estado del Prestamo</th>
                   <th>Acciones</th>
@@ -296,6 +295,7 @@ if ($_SESSION["perfil"] == "Visitante") {
               <thead>
                 <tr>
                   <th style="width: 10px">#</th>
+                  <th>Imagen</th>
                   <th>Categoria</th>
                   <th>Producto</th>
                   <th>Medida</th>

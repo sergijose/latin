@@ -48,8 +48,8 @@ $respuestaPrestamo = ControladorPrestamos::ctrMostrarPrestamos($itemPrestamo, $v
 $codigoPrestamo = $respuestaPrestamo["codigo_prestamo"];
 //Sacamos la fecha de la venta
 // Le asignamos el siguiente formato a la fecha: dia/mes/año
-//$fecha = date('d/m/Y',strtotime(substr($respuestaVenta[0]["fecha_registro"],0,-8)));
-$fecha = substr($respuestaPrestamo["fecha_prestamo"],0,-8);
+$fecha = substr($respuestaPrestamo["fecha_prestamo"],0,10);
+//$fecha = substr($respuestaPrestamo["fecha_prestamo"],0,-8);
 //Decodificamos el JSON productos que se grabó en la tabla ventas
 $productosLotes = json_decode($respuestaPrestamo["productos_lotes"], true);
 $productosPrestamos = json_decode($respuestaPrestamo["productos"], true);
@@ -98,7 +98,7 @@ $pdf->SetXY(7, 12); // el numero 2 representa el tamaño de la letra
 $bloque1 = <<<EOF
 
 <img src="images/logo-prueba.png">
-<table style="font-size:6px; text-align:left">
+<table style="font-size:8px; text-align:left">
 	<tr>
 	<td>
 	<strong style="text-align:center;font-size:8px">ENTREGA DE PEDIDOS</strong>		
@@ -118,7 +118,7 @@ $bloque1 = <<<EOF
 
 
 	<tr>
-	<td style="width:40px;"><b>Direccion:</b></td>
+	<td style="width:40px;"><b>Dir:</b></td>
 	<td style="width:100px;">#########</td>
 	</tr>
 
@@ -127,12 +127,12 @@ $bloque1 = <<<EOF
 	<td style="width:40px;"><b>Ticket:</b></td>
 	<td style="width:40px;">$codigoPrestamo</td>
 	<td style="width:40px;"><b>Fecha:</b></td>
-	<td style="width:40px;">$fecha</td>
+	<td style="width:50px;">$fecha</td>
 	</tr>
 	<br>
 
 	<tr>
-	<div style="font-size:6.5px; text-align:left;">
+	<div style="font-size:7px; text-align:left;">
 	<b>DATOS DEL SOLICITANTE</b>
 	</div>
 	</tr>
@@ -153,16 +153,16 @@ $bloque1 = <<<EOF
 <div  style="text-align:center;font-size:7px;">*******************************************************</div>
 
 <tr>
-<b style="font-size:6.5px; text-align:left;padding:0px">LISTA DE PRODUCTOS</b>
+<b style="font-size:7px; text-align:left;padding:0px">LISTA DE PRODUCTOS</b>
 </tr>
 
 <br>
-<table style="font-size:5px; text-align:left">
+<table style="font-size:7px; text-align:left">
 	<tr style="text-align:left; font-weight: bold">
-	<td style="width:50px; text-align:center">CATEGORIA</td>
-		<td style="width:40px; text-align:center">MODELO</td>
-		<td style="width:40px; text-align:center">MARCA</td>
-		<td style="width:60px; text-align:center">CODIGO</td>
+	<td style="width:30px; text-align:center">CAT.</td>
+		<td style="width:30px; text-align:center">MOD.</td>
+		<td style="width:40px; text-align:center">MAR.</td>
+		<td style="width:80px; text-align:center">COD.</td>
 		
 	</tr>
 </table>
@@ -174,7 +174,7 @@ $pdf->writeHTML($bloque1, false, false, false, false, '');
 // Aca colocamos losdatos de la tabla de arriba CANT DETALLE P.U y TOTAL
 
 foreach ($productosLotes as $key2 => $value2) {	
-	$cantidad .="CANTIDAD:"." ".$value2["cantidad"]." DESCRIPCION: ".strtoupper($value2["descripcion"]).'<br>';
+	$cantidad .="CANT:"." ".$value2["cantidad"]." DESC: ".strtoupper($value2["descripcion"]).'<br>';
 }
 
 foreach ($productosPrestamos as $key => $item) {
@@ -194,7 +194,7 @@ $itemModelo = "id";
 $valorModelo = $respuestaProducto["idmodelo"];
 
 $respuestaModelo = ControladorModelos::ctrMostrarModelo($itemModelo, $valorModelo);
-
+$nombreModelo=strtoupper($respuestaModelo["descripcion"]);
 
 //TRAEMOS LA INFORMACIÓN DE LA CATEGORIA
 $itemCategoria = "id";
@@ -213,13 +213,13 @@ $valorQr=$item1["cantidad"]." ". $item1["descripcion"]."\n";
 $listaPedido.=$valorQr;
 
 $bloque2 = <<<EOF
-<table id="valoresProducto" style="font-size:5px;">
+<table id="valoresProducto" style="font-size:8px;">
 	<tr style="text-align:center;">
 
-		<td style="width:50px">$nombreCategoria</td>
-		<td style="width:40px">$respuestaModelo[descripcion]</td>
+		<td style="width:30px">$nombreCategoria</td>
+		<td style="width:30px">$nombreModelo</td>
 		<td style="width:40px">$nombreMarca</td>
-		<td style="width:60px"><b>MAC:</b> $respuestaProducto[mac] <b>COD INT.</b>$respuestaProducto[cod_producto]</td>
+		<td style="width:80px">$respuestaProducto[cod_producto] S/N $respuestaProducto[num_serie]</td>
 	</tr>
 
 	
@@ -236,9 +236,9 @@ $pdf->writeHTML($bloque2, false, false, false, false, '');
 // ---------------------------------------------------------
 $bloque3 = <<<EOF
 <div  style="text-align:center;font-size:7px;">*******************************************************</div>
-<table style="font-size:6.5px; text-align:right; padding-right: 5px">
+<table style="font-size:7px; text-align:right; padding-right: 5px">
 <tr style="text-align:left;font-weight: bold">
-<td style="width:150px">$cantidad</td>
+<td style="width:200px">$cantidad</td>
 </tr>
 <br>
 <br>
@@ -246,13 +246,13 @@ $bloque3 = <<<EOF
 <br>
 
 <tr>
-<td style="width:30px;"></td>
+<td style="width:40px;"></td>
 <td style="width:100px;">---------------------------------------</td>
 </tr>
 
 
 <tr>
-<td style="width:30px;"></td>
+<td style="width:40px;"></td>
 
 
 <td style="width:100px;"><b>FIRMA DE CONFORMIDAD</b></td>
@@ -260,12 +260,12 @@ $bloque3 = <<<EOF
 </tr>
 
 <tr>
-<td style="width:16px;"></td>
+<td style="width:30px;"></td>
 <td style="width:100px;"><b>Solicitud atendida</b></td>
 </tr>
 
 </table>
-<div  style="text-align:center;font-size:7px;">*******************************************************</div>
+<div  style="text-align:center;font-size:7px;">**********************************************************</div>
 
 EOF;
 
