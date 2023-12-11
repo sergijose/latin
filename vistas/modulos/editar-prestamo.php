@@ -433,7 +433,7 @@ if ($_SESSION["perfil"] == "Visitante") {
           <div class="box-header with-border"></div>
           <div class="box-body">
           <p>PRODUCTOS POR STOCK</p> 
-            <table class="table table-bordered table-striped dt-responsive tablaN text-center">
+            <table class="table table-bordered table-striped dt-responsive tablaN tablaProductoLotes  text-center">
               <thead>
                 <tr>
                   <th style="width: 10px">#</th>

@@ -48,7 +48,7 @@ class ControladorPrestamos
 			=============================================*/
 
 			if (($_POST["listaProductos"] == "" or $_POST["listaProductos"] == "[]")
-			&& ($_POST["listaProductosPedidos"] == "" or $_POST["listaProductosPedidos"] == "[]")
+				&& ($_POST["listaProductosPedidos"] == "" or $_POST["listaProductosPedidos"] == "[]")
 			) {
 
 				echo '<script>
@@ -75,42 +75,44 @@ class ControladorPrestamos
 			$listaProductos = json_decode($_POST["listaProductos"], true);
 			//$listaProductos2 = json_decode($_POST["listaProductos2"], true);
 
-			foreach ($listaProductos as $key => $value) {
+			if (!is_null($listaProductos) && is_array($listaProductos)) {
+				foreach ($listaProductos as $key => $value) {
 
 
-				//con esto actualizo todos los productos que tienen ese id de la listaProductos
-				$tablaPrestamo = "producto";
-				$valor = $value["id"];
-				$item1a = "estado_prestamo";
-				$valor1a = "OCUPADO";
-				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
+					//con esto actualizo todos los productos que tienen ese id de la listaProductos
+					$tablaPrestamo = "producto";
+					$valor = $value["id"];
+					$item1a = "estado_prestamo";
+					$valor1a = "OCUPADO";
+					$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
+				}
 			}
 
 
 			/*PROBAR SI FUNCIONA*/
 			$listaProductosPedidos = json_decode($_POST["listaProductosPedidos"], true);
 			$totalProductosComprados = array();
+			if (!is_null($listaProductosPedidos) && is_array($listaProductosPedidos)) {
+				foreach ($listaProductosPedidos as $key => $value) {
 
-			foreach ($listaProductosPedidos as $key => $value) {
+					array_push($totalProductosComprados, $value["cantidad"]);
+					$tablaProductos = "producto_lotes";
 
-				array_push($totalProductosComprados, $value["cantidad"]);
-				$tablaProductos = "producto_lotes";
+					$item = "id";
+					$valor = $value["id"];
+					$orden = "id";
 
-				$item = "id";
-				$valor = $value["id"];
-				$orden = "id";
+					$traerProducto = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
+					$item1a = "salidas";
+					$valor1a = $value["cantidad"] + $traerProducto["salidas"];
 
-				$traerProducto = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductos, $item, $valor, $orden);
-				$item1a = "salidas";
-				$valor1a = $value["cantidad"] + $traerProducto["salidas"];
+					$nuevasVentas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
+					$item1b = "stock";
+					$valor1b = $value["stock"];
 
-				$nuevasVentas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
-				$item1b = "stock";
-				$valor1b = $value["stock"];
-
-				$nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
+					$nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
+				}
 			}
-
 
 
 
@@ -131,7 +133,7 @@ class ControladorPrestamos
 				"estado_prestamo" => "PENDIENTE",
 				"tipo_servicio" => $_POST["servicio"],
 				"creado_por" => $_POST["creado_por"],
-				"codigo_cliente" => $_POST["codigo_cliente"],
+				"codigo_cliente" => strtolower($_POST["codigo_cliente"]),
 				"comentario_asignado" => $_POST["comentario_asignado"]
 			);
 
@@ -192,17 +194,19 @@ class ControladorPrestamos
 			/*=============================================
 			//REVISAR SI VIENE PRODUCTOS EDITADOS
 			=============================================*/
-			
+
 
 
 
 			$producto = json_decode($traerPrestamo["productos"], true);
-			foreach ($producto as $key => $value) {
-				$tablaProducto = "producto";
-				$item1b_2 = "estado_prestamo";
-				$valor1b_2 = "DISPONIBLE";
-				$valor_2 = $value["id"];
-				$actualizarEstado_2 = ModeloProductos::mdlActualizarProducto($tablaProducto, $item1b_2, $valor1b_2, $valor_2);
+			if (!is_null($producto) && is_array($producto)) {
+				foreach ($producto as $key => $value) {
+					$tablaProducto = "producto";
+					$item1b_2 = "estado_prestamo";
+					$valor1b_2 = "DISPONIBLE";
+					$valor_2 = $value["id"];
+					$actualizarEstado_2 = ModeloProductos::mdlActualizarProducto($tablaProducto, $item1b_2, $valor1b_2, $valor_2);
+				}
 			}
 			/*=============================================
 			ACTUALIZAR LAS EL ESTADO DE PRESTAMO DE LOS PRODUCTOS 
@@ -214,19 +218,19 @@ class ControladorPrestamos
 				$listaProductos = $_POST["listaProductos"];
 			}
 
-				//PARA EL PEDIDO POR LOTES
-				if ($_POST["listaProductosPedidos"] == "") {
+			//PARA EL PEDIDO POR LOTES
+			if ($_POST["listaProductosPedidos"] == "") {
 
-					$listaProductosPedidos = $traerPrestamo["productos_lotes"];
-					$cambioProductoPedidos = false;
-				} else {
-	
-					$listaProductosPedidos = $_POST["listaProductosPedidos"];
-					$cambioProductoPedidos = true;
-				}
-	
+				$listaProductosPedidos = $traerPrestamo["productos_lotes"];
+				$cambioProductoPedidos = false;
+			} else {
+
+				$listaProductosPedidos = $_POST["listaProductosPedidos"];
+				$cambioProductoPedidos = true;
+			}
+
 			if (($listaProductos == "" or $listaProductos == "[]")
-			&&( $listaProductosPedidos  == "" or $listaProductosPedidos  == "[]")
+				&& ($listaProductosPedidos  == "" or $listaProductosPedidos  == "[]")
 			) {
 
 				echo '<script>
@@ -247,19 +251,20 @@ class ControladorPrestamos
 
 			$listaProductos_2 = json_decode($listaProductos, true);
 			//$listaProductos2 = json_decode($_POST["listaProductos2"], true);
+			if (!is_null($listaProductos_2) && is_array($listaProductos_2)) {
+				foreach ($listaProductos_2 as $key => $value) {
 
-			foreach ($listaProductos_2 as $key => $value) {
 
-
-				//con esto actualizo todos los productos que tienen ese id de la listaProductos
-				$tablaPrestamo = "producto";
-				$valor = $value["id"];
-				$item1a = "estado_prestamo";
-				$valor1a = "OCUPADO";
-				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
+					//con esto actualizo todos los productos que tienen ese id de la listaProductos
+					$tablaPrestamo = "producto";
+					$valor = $value["id"];
+					$item1a = "estado_prestamo";
+					$valor1a = "OCUPADO";
+					$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
+				}
 			}
 
-		
+
 			if ($cambioProductoPedidos) {
 
 				$productosPedido =  json_decode($traerPrestamo["productos_lotes"], true);
@@ -352,7 +357,7 @@ class ControladorPrestamos
 				"observacion_prestamo" => $_POST["observacionPrestamo"],
 				"tipo_servicio" => $_POST["editar_servicio"],
 				"estado_prestamo" => $estadoPrestamo,
-				"codigo_cliente" => $_POST["codigo_cliente"],
+				"codigo_cliente" => strtolower($_POST["codigo_cliente"]),
 				"comentario_asignado" => $_POST["comentario_asignado"],
 				"observacion_devolucion" => null,
 				"fecha_devolucion" => null,
@@ -363,7 +368,7 @@ class ControladorPrestamos
 
 
 
-			var_dump($datos);
+			//var_dump($datos);
 
 			$respuesta = ModeloPrestamos::mdlEditarPrestamo($tabla, $datos);
 
@@ -454,31 +459,31 @@ class ControladorPrestamos
 			}
 
 			//PROCEDIMIENTO PARA RECUPERAR PRODUCTOS LOTES SI ES QUE FINALIZA UN PRESTAMO
-			
+
 			foreach ($traerPrestamo as $key => $value) {
 				$productosLotes =  json_decode($traerPrestamo["productos_lotes"], true);
-			  };
-			   // var_dump($productos);
-		
-			  $totalProductosComprados = array();
-		
-			  foreach ($productosLotes as $key => $value) {
-		
+			};
+			// var_dump($productos);
+
+			$totalProductosComprados = array();
+
+			foreach ($productosLotes as $key => $value) {
+
 				array_push($totalProductosComprados, $value["cantidad"]);
-		
+
 				$tablaProductosLotes = "producto_lotes";
-		
+
 				$item = "id";
 				$valor = $value["id"];
 				$orden = "id";
-		
+
 				$traerProductoLotes = ModeloProductosLotes::mdlMostrarProductosLotes($tablaProductosLotes, $item, $valor, $orden);
 				$item1b = "stock";
 				$valor1b = $value["cantidad"] + $traerProductoLotes["stock"];
-		
+
 				$nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductosLotes, $item1b, $valor1b, $valor);
-			  }
-			
+			}
+
 			//FIN DE PROCEDIMIENTO PARA RECUPERAR PRODUCTOS LOTES SI ES QUE FINALIZA UN PRESTAMO
 
 			$tabla = "prestamo";
@@ -556,7 +561,7 @@ swal({
 
 			$datos = array(
 				"id_prestamo" =>  $_POST["idPrestamoAsignar"],
-				"codigo_cliente" => $_POST["codigo_cliente"],
+				"codigo_cliente" => strtolower($_POST["codigo_cliente"]),
 				"comentario_asignado" => $_POST["comentario_asignado"],
 				"estado_prestamo" => "INSTALADO",
 				"fecha_asignado" => $fechaActual,
@@ -724,19 +729,19 @@ alertify.error("No se pudo Finalizar ");
 				echo utf8_decode("</td><td style='border:1px solid #eee;'>");
 
 				if (!is_null($productos) && is_array($productos)) {
-				foreach ($productos as $key => $valueProductos) {
+					foreach ($productos as $key => $valueProductos) {
 
-					echo utf8_decode($valueProductos["codigo"] . "<br>");
+						echo utf8_decode($valueProductos["codigo"] . "<br>");
+					}
 				}
-			}
 
 				if (!is_null($productos_lotes) && is_array($productos_lotes)) {
 
-				foreach ($productos_lotes as $key => $valueProductosLotes) {
+					foreach ($productos_lotes as $key => $valueProductosLotes) {
 
-					echo utf8_decode($valueProductosLotes["cantidad"] ." ".$valueProductosLotes["descripcion"]. "<br>");
+						echo utf8_decode($valueProductosLotes["cantidad"] . " " . $valueProductosLotes["descripcion"] . "<br>");
+					}
 				}
-			}
 
 				echo utf8_decode("</td>
 							
@@ -754,11 +759,4 @@ alertify.error("No se pudo Finalizar ");
 			echo "</table>";
 		}
 	}
-	
 }
-
-
-
-
-
-

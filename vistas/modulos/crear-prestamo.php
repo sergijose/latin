@@ -52,23 +52,23 @@ if ($_SESSION["perfil"] == "Visitante") {
             <div class="box-body">
 
               <div class="box">
-                  
-              <!-- TIPO DE SERVICIO
--->
-               <div class="form-group">
-                <label>Servicio:</label>
-                <label class="radio-inline">
-                    <input type="radio" name="servicio" value="instalacion" checked> Instalación
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="servicio" value="averia"> Avería
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="servicio" value="reserva"> Reserva
-                </label>
-            </div>
 
-             
+                <!-- TIPO DE SERVICIO
+-->
+                <div class="form-group">
+                  <label>Servicio:</label>
+                  <label class="radio-inline">
+                    <input type="radio" name="servicio" value="instalacion" checked> Instalación
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="servicio" value="averia"> Avería
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="servicio" value="reserva"> Reserva
+                  </label>
+                </div>
+
+
 
                 <!--=====================================
                 ENTRADA DEL USUARIO
@@ -153,8 +153,8 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                       foreach ($modelo as $key => $value) {
 
-                       
-                        echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] ). "-[D.N.I:" . $value["num_documento"] . ']</option>';
+
+                        echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
                       }
 
                       ?>
@@ -178,7 +178,7 @@ if ($_SESSION["perfil"] == "Visitante") {
                 </div>
 
                 <input type="hidden" id="listaProductosPrestamos" name="listaProductos">
-                <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">     
+                <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">
 
 
 
@@ -213,13 +213,13 @@ if ($_SESSION["perfil"] == "Visitante") {
               </div>
 
               <div class="form-group">
-            <label for="codigoCliente">Código del Cliente:</label>
-            <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente">
-          </div>
-          <div class="form-group">
-            <label for="comentario">Nota o Observacion del cliente:</label>
-            <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2"></textarea>
-          </div>
+                <label for="codigoCliente">Código del Cliente:</label>
+                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente">
+              </div>
+              <div class="form-group">
+                <label for="comentario">Nota o Observacion del cliente:</label>
+                <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2"></textarea>
+              </div>
 
 
             </div>
@@ -285,13 +285,13 @@ if ($_SESSION["perfil"] == "Visitante") {
  <!--=====================================
       LA TABLA DE PRODUCTOS
       ======================================-->
-
+                      
       <div class="col-lg-8 hidden-md hidden-sm hidden-xs">
         <div class="box  box-warning">
           <div class="box-header with-border"></div>
           <div class="box-body">
             <p>PRODUCTOS POR STOCK</p>
-            <table class="table table-bordered table-striped dt-responsive tablaN text-center">
+            <table class="table table-bordered table-striped dt-responsive tablaN tablaProductoLotes text-center">
               <thead>
                 <tr>
                   <th style="width: 10px">#</th>
@@ -304,13 +304,13 @@ if ($_SESSION["perfil"] == "Visitante") {
                 </tr>
               </thead>
 
-              
+
             </table>
           </div>
         </div>
       </div>
+   
 
-                    
 
     </div>
 
