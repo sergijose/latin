@@ -270,11 +270,11 @@ MODAL AGREGAR PRODUCTO
 
 
                 $estado = ControladorProductos::ctrMostrarEstadoFisicoProducto($item, $valor);
-
+                $valorSeleccionado = "operativo";
                 foreach ($estado as $key => $value) {
 
-
-                  echo '<option value="' . $value["id"] . '">' . $value["descripcion"] . '</option>';
+                  $selected = ($value["descripcion"] == $valorSeleccionado) ? 'selected' : '';
+                  echo '<option value="' . $value["id"] . '" ' . $selected .'>' . strtoupper($value["descripcion"]) . '</option>';
                 }
 
                 ?>
@@ -462,7 +462,7 @@ MODAL EDITAR PRODUCTO
                   foreach ($estado as $key => $value) {
 
 
-                    echo '<option value="' . $value["id"] . '">' . $value["descripcion"] . '</option>';
+                    echo '<option value="' . $value["id"] . '">' . strtoupper($value["descripcion"]). '</option>';
                   }
 
                   ?>
