@@ -59,7 +59,10 @@ session_start();
 
   <!-- Morris chart -->
   <link rel="stylesheet" href="vistas/bower_components/morris.js/morris.css">
-
+<!-- ExcelJS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+  <!-- Agrega Popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
   <!-- select 2 -->
   <link rel="stylesheet" href="vistas/bower_components/select2/dist/css/select2.min.css">

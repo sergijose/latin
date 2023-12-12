@@ -16,8 +16,18 @@ require_once "../controladores/marcas.controlador.php";
 require_once "../modelos/marcas.modelo.php";
 
 
+if (isset($_POST['descargarExcel'])) {
+$codigoProducto = isset($_POST['busquedaCodigoProducto']) ? $_POST['busquedaCodigoProducto'] : null;
+$serie = isset($_POST['busquedaSerie']) ? $_POST['busquedaSerie'] : null;
+$mac = isset($_POST['busquedaMac']) ? $_POST['busquedaMac'] : null;
 
 
+
+$productos = ControladorProductos::ctrMostrarProductosDetalle($codigoProducto, $serie, $mac);
+echo json_encode($productos);
+exit; // Terminar la ejecución para evitar el resto del código
+
+}
 
 class TablaProductos
 {
@@ -30,6 +40,7 @@ class TablaProductos
 	{
 
 		// Verificar si las claves existen en $_POST
+		
 		$codigoProducto = isset($_POST['busquedaCodigoProducto']) ? $_POST['busquedaCodigoProducto'] : null;
 		$serie = isset($_POST['busquedaSerie']) ? $_POST['busquedaSerie'] : null;
 		$mac = isset($_POST['busquedaMac']) ? $_POST['busquedaMac'] : null;
@@ -37,6 +48,7 @@ class TablaProductos
 
 
 		$productos = ControladorProductos::ctrMostrarProductosDetalle($codigoProducto, $serie, $mac);
+	
 		//return var_dump($productos);
 		if (count($productos) == 0) {
 

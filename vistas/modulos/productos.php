@@ -45,6 +45,27 @@ if ($_SESSION["perfil"] == "Visitante") {
           Agregar producto
 
         </button>
+        <button id="descargarExcel" class="btn btn-success" data-toggle="modal" data-target="#confirmacionModal">Descargar Excel</button>
+
+        <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmacionModalLabel">Confirmación de Descarga</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ¿Desea descargar el archivo Excel?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="confirmarDescarga">Descargar</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!--
         <a href="productos-cpu">
@@ -61,8 +82,8 @@ if ($_SESSION["perfil"] == "Visitante") {
 
         <div class="card" style="margin-top:15px;">
           <div class="card-body">
-            
-          <!--
+
+            <!--
             <div class="form-group row">
               <div class="col-md-3">
                 <label for="categoria">Categoria</label>
@@ -274,7 +295,7 @@ MODAL AGREGAR PRODUCTO
                 foreach ($estado as $key => $value) {
 
                   $selected = ($value["descripcion"] == $valorSeleccionado) ? 'selected' : '';
-                  echo '<option value="' . $value["id"] . '" ' . $selected .'>' . strtoupper($value["descripcion"]) . '</option>';
+                  echo '<option value="' . $value["id"] . '" ' . $selected . '>' . strtoupper($value["descripcion"]) . '</option>';
                 }
 
                 ?>
@@ -317,18 +338,18 @@ MODAL AGREGAR PRODUCTO
               <textarea cols="30" rows="2" class="form-control input-md" id="nuevaObservaciones" name="nuevaObservaciones" placeholder="Ingresar observaciones o notas"></textarea>
 
             </div>
-           </div>     
-       </div>
-            <!--=====================================
+          </div>
+        </div>
+        <!--=====================================
         PIE DEL MODAL
         ======================================-->
-            <div class="modal-footer">
+        <div class="modal-footer">
 
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-              <button type="submit" class="btn btn-primary">Guardar producto</button>
+          <button type="submit" class="btn btn-primary">Guardar producto</button>
 
-            </div>
+        </div>
 
       </form>
 
@@ -339,11 +360,11 @@ MODAL AGREGAR PRODUCTO
 
       ?>
 
-    
+
+
+    </div>
 
   </div>
-
-</div>
 </div>
 
 
@@ -384,92 +405,92 @@ MODAL EDITAR PRODUCTO
             <!-- ENTRADA PARA EDITAR  SELECCIONAR MODELO -->
 
             <div class="form-group">
-            <label for="editarModelo">MODELO DEL PRODUCTO</label>
-            
+              <label for="editarModelo">MODELO DEL PRODUCTO</label>
 
-                <select class="form-control input-md" id="editarModelo" name="editarModelo" required>
 
-                  <option value="">--SELECCIONAR</option>
+              <select class="form-control input-md" id="editarModelo" name="editarModelo" required>
 
-                  <?php
+                <option value="">--SELECCIONAR</option>
 
-                  $item = null;
-                  $valor = null;
+                <?php
 
-                  $modelo = ControladorModelos::ctrMostrarModelo($item, $valor);
+                $item = null;
+                $valor = null;
 
-                  foreach ($modelo as $key => $value) {
+                $modelo = ControladorModelos::ctrMostrarModelo($item, $valor);
 
-                    echo '<option value="' . $value["id"] . '">' . $value["categoria"] . "| " . $value["marca"] . "| " . $value["descripcion"] . '</option>';
-                  }
+                foreach ($modelo as $key => $value) {
 
-                  ?>
+                  echo '<option value="' . $value["id"] . '">' . $value["categoria"] . "| " . $value["marca"] . "| " . $value["descripcion"] . '</option>';
+                }
 
-                </select>
+                ?>
 
-             
+              </select>
+
+
 
             </div>
 
             <!-- ENTRADA PARA EL CÓDIGO -->
 
             <div class="form-group">
-            <label for="editarModelo">CODIGO INTERNO DEL PRODUCTO</label>
-                <input type="text" class="form-control input-md" id="editarCodigo" name="editarCodigo" placeholder="Ingrese Codigo" required>
-                <!-- oculto el id del producto para poder editar -->
-                <input type="hidden" id="id" name="id" require>
-                <input type="hidden" class="form-control input-md" name="actualizado_por" value="<?php echo $_SESSION["id"]; ?>" required>
+              <label for="editarModelo">CODIGO INTERNO DEL PRODUCTO</label>
+              <input type="text" class="form-control input-md" id="editarCodigo" name="editarCodigo" placeholder="Ingrese Codigo" required>
+              <!-- oculto el id del producto para poder editar -->
+              <input type="hidden" id="id" name="id" require>
+              <input type="hidden" class="form-control input-md" name="actualizado_por" value="<?php echo $_SESSION["id"]; ?>" required>
 
             </div>
             <!-- ENTRADA PARA EL NUMERO DE SERIE -->
 
             <div class="form-group">
-            <label for="editarNumSerie">NUMERO DE SERIE</label>
-                <input type="text" class="form-control input-md" id="editarNumSerie" name="editarNumSerie" placeholder="editar numero de serie">
+              <label for="editarNumSerie">NUMERO DE SERIE</label>
+              <input type="text" class="form-control input-md" id="editarNumSerie" name="editarNumSerie" placeholder="editar numero de serie">
 
-             
+
 
             </div>
 
-             <!-- ENTRADA PARA EL NUMERO DE MAC -->
+            <!-- ENTRADA PARA EL NUMERO DE MAC -->
 
-             <div class="form-group">
-            <label for="editarMac">NUMERO DE MAC</label>
-            
-                <input type="text" class="form-control input-md" id="editarMac" name="editarMac" placeholder="editar numero de mac">
+            <div class="form-group">
+              <label for="editarMac">NUMERO DE MAC</label>
 
-             
+              <input type="text" class="form-control input-md" id="editarMac" name="editarMac" placeholder="editar numero de mac">
+
+
 
             </div>
 
             <!-- ENTRADA PARA EL ESTADO -->
 
             <div class="form-group">
-            <label for="editarEstado">ESTADO FISICO DEL PRODUCTO</label>
-                <select class="form-control input-md" id="editarEstado" name="editarEstado" required>
+              <label for="editarEstado">ESTADO FISICO DEL PRODUCTO</label>
+              <select class="form-control input-md" id="editarEstado" name="editarEstado" required>
 
-                  <option value="">--SELECCIONAR</option>
+                <option value="">--SELECCIONAR</option>
 
-                  <?php
+                <?php
 
-                  $item = null;
-                  $valor = null;
-
-
-
-                  $estado = ControladorProductos::ctrMostrarEstadoFisicoProducto($item, $valor);
-
-                  foreach ($estado as $key => $value) {
+                $item = null;
+                $valor = null;
 
 
-                    echo '<option value="' . $value["id"] . '">' . strtoupper($value["descripcion"]). '</option>';
-                  }
 
-                  ?>
+                $estado = ControladorProductos::ctrMostrarEstadoFisicoProducto($item, $valor);
 
-                </select>
+                foreach ($estado as $key => $value) {
 
-             
+
+                  echo '<option value="' . $value["id"] . '">' . strtoupper($value["descripcion"]) . '</option>';
+                }
+
+                ?>
+
+              </select>
+
+
 
             </div>
 
@@ -477,40 +498,40 @@ MODAL EDITAR PRODUCTO
             <!-- ENTRADA PARA ESTADO DE PRESTAMO DEL PRODUCTO -->
 
             <div class="form-group">
-            <label for="editarEstadoPrestamo">ESTADO DE PRESTAMO DEL PRODUCTO</label>
-                <select class="form-control input-md" id="editarEstadoPrestamo" name="editarEstadoPrestamo" required>
+              <label for="editarEstadoPrestamo">ESTADO DE PRESTAMO DEL PRODUCTO</label>
+              <select class="form-control input-md" id="editarEstadoPrestamo" name="editarEstadoPrestamo" required>
 
-                  <option value="">--SELECCIONAR--</option>
-                  <option value="DISPONIBLE">DISPONIBLE</option>
-                  <option value="OCUPADO">OCUPADO</option>
-                  <option value="NO APLICA">NO APLICA</option>
-                </select>
+                <option value="">--SELECCIONAR--</option>
+                <option value="DISPONIBLE">DISPONIBLE</option>
+                <option value="OCUPADO">OCUPADO</option>
+                <option value="NO APLICA">NO APLICA</option>
+              </select>
 
-             
+
 
             </div>
 
-             <!-- ENTRADA PARA SITUACION ACTUAL DEL PRODUCTO -->
+            <!-- ENTRADA PARA SITUACION ACTUAL DEL PRODUCTO -->
 
-             <div class="form-group">
-            <label for="editarSituacionActual">SITUACION ACTUAL DEL PRODUCTO</label>
-                <select class="form-control input-md" id="editarSituacionActual" name="editarSituacionActual" required>
+            <div class="form-group">
+              <label for="editarSituacionActual">SITUACION ACTUAL DEL PRODUCTO</label>
+              <select class="form-control input-md" id="editarSituacionActual" name="editarSituacionActual" required>
 
-                  <option value="">--SELECCIONAR--</option>
-                  <option value="nuevo">NUEVO</option>
-                  <option value="usado">USADO</option>
-                </select>
+                <option value="">--SELECCIONAR--</option>
+                <option value="nuevo">NUEVO</option>
+                <option value="usado">USADO</option>
+              </select>
 
-             
+
 
             </div>
 
             <!-- ENTRADA PARA LA DESCRIPCIÓN -->
 
             <div class="form-group">
-            <label for="editarObservaciones">NOTA/OBSERVACION</label>
-                <textarea cols="30" rows="2" class="form-control input-md" id="editarObservaciones" name="editarObservaciones" placeholder="Ingresar descripción o notas"></textarea>
-                
+              <label for="editarObservaciones">NOTA/OBSERVACION</label>
+              <textarea cols="30" rows="2" class="form-control input-md" id="editarObservaciones" name="editarObservaciones" placeholder="Ingresar descripción o notas"></textarea>
+
             </div>
 
 

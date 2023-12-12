@@ -55,6 +55,93 @@ var tableProduct = $(".tablaProductos").DataTable({
     },
   },
 });
+document.getElementById('confirmarDescarga').addEventListener('click', function() {
+	// Realizar la solicitud AJAX para obtener los datos
+	$.ajax({
+		url: "ajax/datatable-productos.ajax.php?perfilOculto=" + perfilOculto,
+		type: 'POST',
+		data: {
+			// Agrega aquí los parámetros necesarios para tu solicitud AJAX
+			descargarExcel: true, // Parámetro para descargar Excel
+      busquedaCodigoProducto:$("#busquedaCodigoProducto").val(),
+      busquedaSerie:$("#busquedaSerie").val(),
+      busquedaMac:$("#busquedaMac").val()
+		},
+		dataType: 'json',
+		success: function (response) {
+			//console.log('Datos recibidos:', response);
+			var data = response; // El objeto JSON recibido
+
+			// Generar el archivo Excel con los datos recibidos
+			generarExcel(data);
+		},
+		error: function (xhr, textStatus, errorThrown) {
+			console.error('Error en la solicitud AJAX:', errorThrown);
+		}
+	});
+  // Cierra la modal después de confirmar la descarga
+  $('#confirmacionModal').modal('hide');
+});
+
+function generarExcel(data) {
+
+	var workbook = new ExcelJS.Workbook();
+	var worksheet = workbook.addWorksheet('Productos');
+
+	// Agregar encabezados (modifica esto según tus encabezados)
+	var headers = [
+    "Código",
+		"Categoria",
+		"Marca",
+		"Modelo",
+		"Estado Prestamo",
+    "Estado Fisico",
+    "Situacion Actual",
+    "Serie",
+    "Mac",
+		"Nota",
+		"Fecha Registro"
+	];
+
+	// Agregar fila de encabezados
+	var headerRow = worksheet.addRow(headers);
+	// Aplicar formato negrita a las celdas de encabezado
+	headerRow.eachCell(function (cell) {
+		cell.font = { bold: true };
+	});
+	data.forEach(function (row) {
+		worksheet.addRow([
+			row["codigo"], // Valor de la primera propiedad numérica
+			row["categoria"], // Valor de la segunda propiedad numérica
+			row["marca"], // Valor de la tercera propiedad numérica
+			row["modelo"],
+			row["estado_prestamo"],
+      row["estado_fisico"],
+			row["situacion_actual"],
+      row["num_serie"],
+      row["mac"],
+      row["observaciones"],
+			row["fecha"]
+			// ... continúa con las propiedades descriptivas
+		]);
+		// Agregar filtro a las columnas
+		worksheet.autoFilter = {
+			from: { row: 1, column: 1 }, // Fila y columna donde comienzan los encabezados
+			to: { row: 1, column: headers.length } // Fila y columna donde terminan los encabezados
+		};
+	});
+
+	// Descargar el archivo Excel
+	workbook.xlsx.writeBuffer().then(function (buffer) {
+		var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+		var url = URL.createObjectURL(blob);
+		var link = document.createElement('a');
+		link.href = url;
+		link.download = 'productos.xlsx'; // Nombre del archivo Excel
+		link.click();
+	});
+}
+
 /*
 $("#busquedaCategoria").on("change", function () {
   tableProduct.ajax.reload();
