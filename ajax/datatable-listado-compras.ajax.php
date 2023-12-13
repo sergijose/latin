@@ -88,20 +88,20 @@ class TablaListadoCompras
       // Precio por producto
        $precioProducto = '';
       foreach ($productos as $key2 => $value2) {
-       $precioProducto .= "$ " . number_format($value2["precio"], 2) . "<br>";
+       $precioProducto .= "S/ " . number_format($value2["precio"], 2) . "<br>";
       }
       // Total
       $total = '';
       foreach ($productos as $key4 => $value4) {
-        $total .= "$ " . number_format($value4["total"], 2) . "<br>";
+        $total .= "S/  " . number_format($value4["total"], 2) . "<br>";
       }
       // Metódo de pago
       //$metodoPago = $value["metodo_pago"];
       // Neto 
-      $neto = "$" . number_format($value["neto"], 2);
-      $impuesto = "$" . number_format($value["impuesto"], 2);
+      $neto = "S/ " . number_format($value["neto"], 2);
+      $impuesto = "S/ " . number_format($value["impuesto"], 2);
       // Total Venta
-      $total2 = "$" . number_format($value["total"], 2);
+      $total2 = "S/ " . number_format($value["total"], 2);
       // Fecha venta
       $fecha = $value["fecha"];
 

@@ -49,7 +49,7 @@ class TablaProductosPrestamosPrincipal{
 
 			//$respuestaProducto = ControladorProductos::ctrMostrarProductos($item, $valor, $order);
 			//$codigoProducto=$respuestaProducto["cod_producto"];
-		$tipoServicio= "<span class='badge badge-secondary'>".strtoupper($respuesta[$i]["tipo_servicio"]) ."</span><br>".'CLIENTE:'.strtoupper($respuesta[$i]["codigo_cliente"]);
+		$tipoServicio= "<span class='badge badge-secondary'>".strtoupper($respuesta[$i]["tipo_servicio"]) ."</span>";
 			$productos = json_decode( $respuesta[$i]["productos"], true);
 			$productos_lotes = json_decode( $respuesta[$i]["productos_lotes"], true);
 
@@ -107,7 +107,7 @@ class TablaProductosPrestamosPrincipal{
 			$datosJson .= '[
 				"' . ($i + 1) . '",
 				"' . strtoupper($respuesta[$i]["empleado"]) . '",
-				"' . $respuesta[$i]["codigo_prestamo"] . '",
+				"' . strtoupper($respuesta[$i]["codigo_cliente"]) . '",
 				"' . $tipoServicio.'",
 				"' . $resumenProducto.'",
 				"' . $respuesta[$i]["fecha_prestamo"] . '",

@@ -176,7 +176,7 @@ $pdf->writeHTML($bloque1, false, false, false, false, '');
 foreach ($productosLotes as $key2 => $value2) {	
 	$cantidad .="CANT:"." ".$value2["cantidad"]." DESC: ".strtoupper($value2["descripcion"]).'<br>';
 }
-
+if (!is_null($productosPrestamos) && is_array($productosPrestamos)) {
 foreach ($productosPrestamos as $key => $item) {
 
 	
@@ -232,6 +232,7 @@ EOF;
 //UTILIZAR EL DODIGO QR
 $pdf->writeHTML($bloque2, false, false, false, false, '');
 }
+}
 
 // ---------------------------------------------------------
 $bloque3 = <<<EOF
@@ -274,7 +275,9 @@ EOF;
 $pdf->writeHTML($bloque3, false, false, false, false, '');
 
 //CREACION DE CODIGO QR Y GUARDAR EN IMAGEN
+if(isset($listaPedido)){
 QRcode::png($listaPedido, $ruta_qr, 'Q',15, 0);
+}
 $pdf->Image($ruta_qr, 28 , $pdf->GetY(),25,25);
 // ---------------------------------------------------------
 //SALIDA DEL ARCHIVO 

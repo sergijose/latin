@@ -94,7 +94,7 @@
               <th style="width:10px">#</th>
               <!--<th>Usuario</th>-->
               <th>Empleado</th>
-              <th>Codigo Prestamo</th>
+              <th>Cod_Cliente</th>
               <th>Tipo Servicio</th>
               <th>Productos</th>
               <th>F_Prestamo</th>

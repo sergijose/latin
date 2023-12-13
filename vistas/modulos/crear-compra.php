@@ -310,6 +310,7 @@ if($_SESSION["perfil"] == "Especial"){
 
                  <tr>
                   <th style="width: 10px">#</th>
+                  <th>imagen</th>
                   <th>producto</th>
                   <th>unidad medida</th>
                   <th>stock</th>

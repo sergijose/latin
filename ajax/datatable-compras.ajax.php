@@ -12,12 +12,12 @@ class TablaProductosCompras
   public function mostrarTablaProductosCompras()
   {
 
-   
-    $item = null;
-		$valor = null;
-		$orden = "id";
 
-		$productosLotes = ControladorProductosLotes::ctrMostrarProductosLotes($item, $valor, $orden);
+    $item = null;
+    $valor = null;
+    $orden = "id";
+
+    $productosLotes = ControladorProductosLotes::ctrMostrarProductosLotes($item, $valor, $orden);
     //SI LA TABLA ESTA VACIA SE MOSTRARA DE IGUAL FORMA LOS PRODUCTOS CON ESTA CONDICIONAL
     if (count($productosLotes) != 0) {
       $datosJson = '{
@@ -27,12 +27,12 @@ class TablaProductosCompras
         /*=============================================
         TRAEMOS LA IMAGEN
         =============================================*/
-      //  $imagen = "<img src='" . $productosLotes[$i]["imagen"] . "' width='40px'>";
+         $imagen = "<img src='" . $productosLotes[$i]["imagen"] . "' width='40px'>";
 
         /*=============================================
         Traemos la Sucursal
         ============================================*/
-       
+
         /*=============================================
         STOCK
         =============================================*/
@@ -49,6 +49,7 @@ class TablaProductosCompras
         $botones = "<div clas='btn-group'><button class='btn btn-primary agregarProducto recuperarBoton' idProducto='" . $productosLotes[$i]["id"] . "' >Agregar</button></div>";
         $datosJson .= '[
 						"' . ($i + 1) . '",
+            "' . $imagen. '",
 					     "' . $productosLotes[$i]["nombre"] . '",
 					    "' . $productosLotes[$i]["unidad_medida"] . '",
               "' . $productosLotes[$i]["stock"] . '",

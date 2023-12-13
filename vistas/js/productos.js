@@ -53,6 +53,7 @@ var tableProduct = $(".tablaProductos").DataTable({
       sSortDescending:
         ": Activar para ordenar la columna de manera descendente",
     },
+    
   },
 });
 document.getElementById('confirmarDescarga').addEventListener('click', function() {

@@ -46,7 +46,7 @@ $('.tablaListadoCompras').dataTable({
 
   },
   "lengthMenu": [3, 10, 15, 20, 50, 100],
-  "pageLength": 3
+  "pageLength": 10
 
 });
 

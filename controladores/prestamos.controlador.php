@@ -434,6 +434,8 @@ class ControladorPrestamos
 			}
 
 			$producto = json_decode($traerPrestamo["productos"], true);
+
+			if (!is_null($producto) && is_array($producto)) {
 			foreach ($producto as $key => $value) {
 				$tablaProducto = "producto";
 				$item1b_2 = "estado_prestamo";
@@ -441,12 +443,14 @@ class ControladorPrestamos
 				$valor_2 = $value["id"];
 				$actualizarEstado_2 = ModeloProductos::mdlActualizarProducto($tablaProducto, $item1b_2, $valor1b_2, $valor_2);
 			}
+			}
 			/*=============================================
 			ACTUALIZAR LAS EL ESTADO DE PRESTAMO DE LOS PRODUCTOS 
 			=============================================*/
 			$listaProductos_2 = json_decode($listaProductos, true);
 			//$listaProductos2 = json_decode($_POST["listaProductos2"], true);
 
+			if (!is_null($listaProductos_2) && is_array($listaProductos_2)) {
 			foreach ($listaProductos_2 as $key => $value) {
 
 
@@ -456,6 +460,7 @@ class ControladorPrestamos
 				$item1a = "estado_prestamo";
 				$valor1a = "DISPONIBLE";
 				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
+			}
 			}
 
 			//PROCEDIMIENTO PARA RECUPERAR PRODUCTOS LOTES SI ES QUE FINALIZA UN PRESTAMO
