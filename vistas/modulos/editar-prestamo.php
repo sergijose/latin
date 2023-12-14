@@ -288,24 +288,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
               </div>
 
-              <!--=====================================
-               ENTRADA PARA INGRESAR LAS OBSERVACIONES DEL PRESTAMO
-                ======================================-->
-
-              <div class="form-group">
-                <p><strong>Comentario Prestamo Inicial<strong/></p>
-                <div class="input-group">
-
-
-                  <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
-
-                  <textarea class="form-control" id="observacionPrestamo" name="observacionPrestamo" cols="2" rows="2" placeholder="observaciones del prestamo"><?php echo $prestamo["observacion_prestamo"]; ?></textarea>
-              
-
-                </div>
-
-              </div>
-<?php
+              <?php
               if($prestamo["estado_prestamo"]=="INSTALADO" || $prestamo["estado_prestamo"]=="PENDIENTE"){
                 echo '
                 <em>estado del prestamo</em>
@@ -318,19 +301,47 @@ if ($_SESSION["perfil"] == "Visitante") {
             echo '</label>';
            
              }
+            }
+             ?>
+              <!--=====================================
+               ENTRADA PARA CODIGO DEL CLIENTE
+                ======================================-->
 
-              echo'
-                <div class="form-group">
+              <div class="form-group">
                 <label for="codigoCliente">Código de Cliente:</label>
-                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente" value="'.$codigoCliente.'">
+                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente" value="<?php echo $prestamo["codigo_cliente"]; ?>">
+              </div>
+
+              <div class="form-group">
+                <label for="editar_nombre_cliente">Nombre del Cliente:</label>
+                <input type="text" class="form-control" id="editar_nombre_cliente" name="editar_nombre_cliente"  value="<?php echo $prestamo["nombre_cliente"]; ?>">
               </div>
               <div class="form-group">
-                <label for="comentario">Nota o Observacion del cliente:</label>
-                <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2">'.$comentarioAsignado.'</textarea>
-              </div>';
-              }
+                <label for="editar_documento_cliente">Nro. Documento del Cliente:</label>
+                <input type="text" class="form-control" id="editar_documento_cliente" name="editar_documento_cliente"  value="<?php echo $prestamo["documento_cliente"]; ?>">
+              </div>
 
-              ?>
+              <!--=====================================
+               ENTRADA PARA INGRESAR LAS OBSERVACIONES DEL PRESTAMO
+                ======================================-->
+
+              <div class="form-group">
+                <p><strong>Comentario Plan del cliente:<strong/></p>
+                <div class="input-group">
+
+
+                  <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
+
+                  <textarea class="form-control" id="observacionPrestamo" name="observacionPrestamo" cols="2" rows="2" placeholder="observaciones del prestamo"><?php echo $prestamo["observacion_prestamo"]; ?></textarea>
+              
+
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label for="comentario">Comentario del Prestamo:</label>
+                <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2"><?php echo $prestamo["comentario_asignado"]; ?></textarea>
+              </div>
               <div class="box-footer">
 
                 <button type="submit" class="btn btn-primary pull-right" id="guardarPrestamo">Guardar prestamo</button>

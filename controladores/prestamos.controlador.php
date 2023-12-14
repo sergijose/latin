@@ -134,7 +134,9 @@ class ControladorPrestamos
 				"tipo_servicio" => $_POST["servicio"],
 				"creado_por" => $_POST["creado_por"],
 				"codigo_cliente" => strtolower($_POST["codigo_cliente"]),
-				"comentario_asignado" => $_POST["comentario_asignado"]
+				"comentario_asignado" => $_POST["comentario_asignado"],
+				"nombre_cliente" => $_POST["nombre_cliente"],
+				"documento_cliente" => $_POST["documento_cliente"]
 			);
 
 			$respuesta = ModeloPrestamos::mdlIngresarPrestamo($tabla, $datos);
@@ -362,7 +364,10 @@ class ControladorPrestamos
 				"observacion_devolucion" => null,
 				"fecha_devolucion" => null,
 				"actualizado_por" => $_POST["actualizado_por"],
-				"fecha_actualizacion" => $fechaActual
+				"fecha_actualizacion" => $fechaActual,
+				"nombre_cliente" => strtolower($_POST["editar_nombre_cliente"]),
+				"documento_cliente" => strtolower($_POST["editar_documento_cliente"]),
+
 			);
 
 

@@ -115,7 +115,7 @@
 			<li>
 
 				<a href="productos">
-				<i class="fas fa-headphones"></i><i class="fas fa-desktop"></i>
+				<i class="fa fa-sitemap router-icon"></i>
 				
 					<span>Productos</span>
 
@@ -126,7 +126,7 @@
 
 				<a href="productos-lotes">
 
-					<i class="fas fa-box-open"></i>
+					<i class="fa fa-tools"></i>
 					<span>Productos Generales</span>
 
 				</a>

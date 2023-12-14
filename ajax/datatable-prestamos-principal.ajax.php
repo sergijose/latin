@@ -48,7 +48,7 @@ class TablaProductosPrestamosPrincipal{
 			//$order = "id";
 
 			//$respuestaProducto = ControladorProductos::ctrMostrarProductos($item, $valor, $order);
-			//$codigoProducto=$respuestaProducto["cod_producto"];
+			$codigoCliente=strtoupper($respuesta[$i]['codigo_cliente'])." ".strtoupper($respuesta[$i]['nombre_cliente']);
 		$tipoServicio= "<span class='badge badge-secondary'>".strtoupper($respuesta[$i]["tipo_servicio"]) ."</span>";
 			$productos = json_decode( $respuesta[$i]["productos"], true);
 			$productos_lotes = json_decode( $respuesta[$i]["productos_lotes"], true);
@@ -107,11 +107,11 @@ class TablaProductosPrestamosPrincipal{
 			$datosJson .= '[
 				"' . ($i + 1) . '",
 				"' . strtoupper($respuesta[$i]["empleado"]) . '",
-				"' . strtoupper($respuesta[$i]["codigo_cliente"]) . '",
+				"' .  $codigoCliente.'",
 				"' . $tipoServicio.'",
 				"' . $resumenProducto.'",
-				"' . $respuesta[$i]["fecha_prestamo"] . '",
-				"' . $respuesta[$i]["fecha_devolucion"] . '",
+				"' . date("d/m/Y", strtotime($respuesta[$i]["fecha_prestamo"])) . '",
+				"' . date("d/m/Y", strtotime($respuesta[$i]["fecha_devolucion"])) . '",
 				"' . $respuesta[$i]["observacion_prestamo"] .'",
 				"' . $respuesta[$i]["observacion_devolucion"] .'",
 				"' . $estado .'",

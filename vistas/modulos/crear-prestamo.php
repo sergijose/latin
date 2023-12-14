@@ -193,12 +193,26 @@ if ($_SESSION["perfil"] == "Visitante") {
 
 
               </div>
+
+              <div class="form-group">
+                <label for="codigoCliente">Código del Cliente:</label>
+                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente">
+              </div>
+
+              <div class="form-group">
+                <label for="nombre_cliente">Nombre del Cliente:</label>
+                <input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente">
+              </div>
+              <div class="form-group">
+                <label for="documento_cliente">Nro. Documento del Cliente:</label>
+                <input type="text" class="form-control" id="documento_cliente" name="documento_cliente">
+              </div>
               <!--=====================================
                ENTRADA PARA INGRESAR LAS OBSERVACIONES DEL PRESTAMO
                 ======================================-->
 
               <div class="form-group">
-                <p><strong>Comentario Prestamo Inicial </strong></p>
+                <p><strong>Comentario Plan del Cliente </strong></p>
                 <div class="input-group">
 
 
@@ -213,11 +227,7 @@ if ($_SESSION["perfil"] == "Visitante") {
               </div>
 
               <div class="form-group">
-                <label for="codigoCliente">Código del Cliente:</label>
-                <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente">
-              </div>
-              <div class="form-group">
-                <label for="comentario">Nota o Observacion del cliente:</label>
+                <label for="comentario">Comentario del Prestamo:</label>
                 <textarea class="form-control" id="comentario_asignado" name="comentario_asignado" rows="2"></textarea>
               </div>
 
