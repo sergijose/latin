@@ -19,7 +19,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
     <h1>
 
-      Crear Prestamo
+      Crear Servicio
 
     </h1>
 
@@ -27,7 +27,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
       <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-      <li class="active">Crear Prestamo</li>
+      <li class="active">Crear Servicio</li>
 
     </ol>
 

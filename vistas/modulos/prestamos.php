@@ -4,8 +4,7 @@
 
     <h1>
 
-      Administrar Prestamo
-
+      Administracion de Instalaciones - Control de Equipos
     </h1>
 
     <ol class="breadcrumb">
@@ -32,7 +31,7 @@
 
           <button class="btn btn-primary">
 
-            Agregar Prestamo
+            Agregar Servicio
 
           </button>
 
