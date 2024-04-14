@@ -1,147 +1,111 @@
 <?php
-
 require_once "../controladores/productos.controlador.php";
 require_once "../modelos/productos.modelo.php";
 
+class TablaProductosPrestamos
 
-require_once "../controladores/modelos.controlador.php";
-require_once "../modelos/modelos.modelo.php";
+{
 
-
-class TablaProductosPrestamos{
-
- 	/*=============================================
+	/*=============================================
  	 MOSTRAR LA TABLA DE PRODUCTOS
-  	=============================================*/ 
+  	=============================================*/
 
-	public function mostrarTablaProductosPrestamos(){
-
-		$item = "estado_prestamo";
-    	$valor = "NO APLICA";
-    	$orden = "id";
-
-          $productos = ControladorProductos::ctrMostrarProductosParaPrestamo($item, $valor, $orden);
-          
+	public function mostrarTablaProductosPrestamos()
+	{
+		$productos = ControladorProductos::ctrMostrarProductosParaPrestamo();
 
 
- 		
-  		if(count($productos) == 0){
 
-  			echo '{"data": []}';
 
-		  	return;
-  		}	
-		
-  		$datosJson = '{
+		if (count($productos) == 0) {
+
+			echo '{"data": []}';
+
+			return;
+		}
+
+		$datosJson = '{
 		  "data": [';
 
-		  for($i = 0; $i < count($productos); $i++){
+		for ($i = 0; $i < count($productos); $i++) {
 
 
 
-            /*=============================================
+			/*=============================================
  	 		TRAEMOS IMAGEN DEL MODELO
-  			=============================================*/ 
+  			=============================================*/
+			$imagenProducto = "<img src='" . $productos[$i]["imagen"] . "' width='40px'>";
 
-              $item = "id";
-              $valor = $productos[$i]["idmodelo"];
-  
-              $modelos = ControladorModelos::ctrMostrarModelo($item, $valor);
-              $imagenProducto = "<img src='".$modelos["imagen"]."' width='40px'>";
-
-		  	/*=============================================
+			/*=============================================
  	 		TRAEMOS EL MODELO
-  			=============================================*/ 
+  			=============================================*/
 
-              $item = "id";
-              $valor = $productos[$i]["idmodelo"];
-  
-              $modelos = ControladorModelos::ctrMostrarModelo($item, $valor);
+			$modelos = $productos[$i]["modelo"];
 
 
-              /*=============================================
+			/*=============================================
  	 		TRAEMOS ESTADO DEL PRODUCTO
-              =============================================*/ 
-              
-              $item = "id";
-              $valor = $productos[$i]["idestado"];
-              $order="id";
-  
-              $estadoProducto = ControladorProductos::ctrMostrarEstadoProducto($item, $valor,$order);
+              =============================================*/
 
-              if($estadoProducto["descripcion"] =="MALOGRADO"){
+			$estadoProducto =  $productos[$i]["estado_producto"];
 
-                $estado = "<button class='btn btn-danger  btn-xs'>".$estadoProducto["descripcion"]."</button>";
+			if ($estadoProducto == "MALOGRADO") {
 
-            }else if($estadoProducto["descripcion"]=="REPARACION GARANTIA" or $estadoProducto["descripcion"]=="REPARACION INTERNA" ){
+				$estado = "<span class='label label-danger  btn-xs'>" . $estadoProducto . "</span>";
+			} else if ($estadoProducto == "REPARACION GARANTIA" or $estadoProducto == "REPARACION INTERNA") {
 
-                $estado = "<button class='btn btn-warning  btn-xs'>".$estadoProducto["descripcion"]."</button>";
+				$estado = "<span class='label label-warning btn-xs'>" . $estadoProducto . "</span>";
+			} else {
 
-            }else{
+				$estado = "<span class='label label-primary   btn-xs'>" . $estadoProducto . "</span>";
+			}
 
-                $estado = "<button class='btn btn-success  btn-xs'>".$estadoProducto["descripcion"]."</button>";
-
-            }
-
-		  	/*=============================================
+			/*=============================================
  	 		TRAEMOS ESTADO DEL PRESTAMO DEL PRODUCTO
-              =============================================*/ 
-        
+              =============================================*/
 
-  			if($productos[$i]["estado_prestamo"] =="OCUPADO"){
 
-                $estadoPrestamoProducto = "<button class='btn btn-danger  btn-xs'>".$productos[$i]["estado_prestamo"]."</button>";
+			if ($productos[$i]["estado_prestamo"] == "OCUPADO") {
 
-  			}
-			  else if($productos[$i]["estado_prestamo"] =="NO APLICA"){
+				$estadoPrestamoProducto = "<span class='label label-danger  btn-xs'>" . $productos[$i]["estado_prestamo"] . "</span>";
+			} else if ($productos[$i]["estado_prestamo"] == "NO APLICA") {
 
-                $estadoPrestamoProducto = "<button class='btn btn-warning  btn-xs'>".$productos[$i]["estado_prestamo"]."</button>";
+				$estadoPrestamoProducto = "<span class='label label-warning btn-xs'>" . $productos[$i]["estado_prestamo"] . "</span>";
+			} else {
 
-  			} 
-			  else{
+				$estadoPrestamoProducto = "<span class='label label-success  btn-xs'>" . $productos[$i]["estado_prestamo"] . "</span>";
+			}
 
-                $estadoPrestamoProducto = "<button class='btn btn-success  btn-xs'>".$productos[$i]["estado_prestamo"]."</button>";
-
-  			}
-
-		  	/*=============================================
+			/*=============================================
  	 		TRAEMOS LAS ACCIONES
-  			=============================================*/ 
+  			=============================================*/
 
-		  	$botones =  "<div class='btn-group'><button class='btn btn-primary agregarProducto recuperarBoton' idProducto='".$productos[$i]["id"]."'>Prestar</button></div>"; 
+			$botones =  "<div class='btn-group'><button class='btn btn-primary agregarProducto recuperarBoton' idProducto='" . $productos[$i]["id"] . "'>Prestar</button></div>";
 
-		  	$datosJson .='[
+			$datosJson .= '[
 				"' . ($i + 1) . '",
-                "'.$imagenProducto.'",
-			      "'.$modelos["descripcion"].'",
-			      "'.$productos[$i]["cod_producto"].'",
-				  "'.$productos[$i]["num_serie"].'",
-			      "'.$estado.'",
-			      "'.$estadoPrestamoProducto.'",
-			      "'.$botones.'"
+                "' . $imagenProducto . '",
+			      "' . $modelos . '",
+			      "' . $productos[$i]["cod_producto"] . '",
+				  "' . $productos[$i]["num_serie"] . '",
+			      "' . $estado . '",
+			      "' . $estadoPrestamoProducto . '",
+			      "' . $botones . '"
 			    ],';
+		}
 
-		  }
+		$datosJson = substr($datosJson, 0, -1);
 
-		  $datosJson = substr($datosJson, 0, -1);
-
-		 $datosJson .=   '] 
+		$datosJson .=   '] 
 
 		 }';
-		
-        echo $datosJson;
-        
-        
 
-
+		echo $datosJson;
 	}
-
-
 }
 
 /*=============================================
 ACTIVAR TABLA DE PRODUCTOS
-=============================================*/ 
+=============================================*/
 $activarProductosPrestamos = new TablaProductosPrestamos();
-$activarProductosPrestamos -> mostrarTablaProductosPrestamos();
-
+$activarProductosPrestamos->mostrarTablaProductosPrestamos();

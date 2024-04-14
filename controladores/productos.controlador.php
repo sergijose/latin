@@ -72,12 +72,10 @@ class ControladorProductos
 	MOSTRAR PRODUCTOS QUE APLIQUEN PRESTAMOS
 	=============================================*/
 
-	static public function ctrMostrarProductosParaPrestamo($item, $valor)
+	static public function ctrMostrarProductosParaPrestamo()
 	{
 
-		$tabla = "producto";
-
-		$respuesta = ModeloProductos::mdlMostrarProductosParaPrestamo($tabla, $item, $valor);
+		$respuesta = ModeloProductos::mdlMostrarProductosParaPrestamo();
 
 		return $respuesta;
 	}

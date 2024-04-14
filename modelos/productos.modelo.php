@@ -13,7 +13,7 @@ class ModeloProductos
 	{
 
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idmodelo,cod_producto,num_serie,mac,idestado,estado_prestamo,observaciones,situacion_actual,creado_por) VALUES (:idmodelo,:cod_producto,:num_serie,:mac,:idestado,:estado_prestamo,:observaciones,:situacion_actual,:creado_por)");
-		
+
 		$stmt->bindParam(":idmodelo", $datos["idmodelo"], PDO::PARAM_INT);
 		$stmt->bindParam(":cod_producto", $datos["cod_producto"], PDO::PARAM_STR);
 		$stmt->bindParam(":num_serie", $datos["num_serie"], PDO::PARAM_STR);
@@ -60,7 +60,7 @@ class ModeloProductos
 		 ORDER BY pro.id desc");
 			//$stmt->bindValue(":categoria", $categoria !== '' ? $categoria : null, PDO::PARAM_INT);
 			//$stmt->bindValue(":marca", $marca !== '' ? $marca : null, PDO::PARAM_INT);
-			$stmt->bindValue(":codigo_producto", '%' .$codigoProducto . '%'!== '' ? '%'.$codigoProducto . '%': null, PDO::PARAM_STR);
+			$stmt->bindValue(":codigo_producto", '%' . $codigoProducto . '%' !== '' ? '%' . $codigoProducto . '%' : null, PDO::PARAM_STR);
 			$stmt->bindValue(":serie", '%' . $serie . '%', PDO::PARAM_STR);
 			$stmt->bindValue(":mac", '%' . $mac . '%', PDO::PARAM_STR);
 			$stmt->execute();
@@ -111,7 +111,7 @@ class ModeloProductos
 			return $stmt->fetch();
 		};
 	}
-	
+
 	/*=============================================
 	MOSTRAR PRODUCTOS
 	=============================================*/
@@ -181,11 +181,21 @@ class ModeloProductos
 		return $stmt->fetch();
 	}
 
-	static public function mdlMostrarProductosParaPrestamo($tabla, $item, $valor)
+	static public function mdlMostrarProductosParaPrestamo()
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item <> :$item");
+		$stmt = Conexion::conectar()->prepare("SELECT pro.id,mo.imagen,mo.descripcion AS modelo,pro.cod_producto,pro.num_serie,est.descripcion as estado_producto,pro.estado_prestamo
+		FROM producto pro
+				 INNER  JOIN modelo mo
+				 ON pro.idmodelo=mo.id
+				 INNER JOIN estado est
+				 ON pro.idestado=est.id
+				 INNER JOIN categoria cat
+				 ON mo.idcategoria=cat.id
+				 INNER JOIN marca mar
+				 ON mo.idmarca=mar.id
+		WHERE pro.estado_prestamo <> 'NO APLICA' ORDER BY id DESC");
 
-		$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+		//$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
 		$stmt->execute();
 
@@ -363,7 +373,7 @@ class ModeloProductos
 
 		$stmt = null;
 	}
-/*
+	/*
 	public static function search($searchTerm)
 	{
 		$stmt = Conexion::conectar()->prepare(
