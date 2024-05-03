@@ -51,7 +51,15 @@ class TablaProductosPrestamosPrincipal
 
 			//$respuestaProducto = ControladorProductos::ctrMostrarProductos($item, $valor, $order);
 			$codigoCliente = strtoupper($respuesta[$i]['codigo_cliente']) . " " . strtoupper($respuesta[$i]['nombre_cliente']);
-			$tipoServicio = "<span class='badge badge-secondary'>" . strtoupper($respuesta[$i]["tipo_servicio"]) . "</span>";
+			if ($respuesta[$i]["equipo_reserva"]) {
+			$tipoServicio = "<span class='badge badge-secondary'>" . strtoupper($respuesta[$i]["tipo_servicio"])."<br>(con equipo reserva)" ."</span>";
+		}
+		else
+		{
+			$tipoServicio = "<span class='badge badge-secondary'>" . strtoupper($respuesta[$i]["tipo_servicio"])."</span>";
+		}
+
+
 			$productos = json_decode($respuesta[$i]["productos"], true);
 			$productos_lotes = json_decode($respuesta[$i]["productos_lotes"], true);
 			$fecha_devolucion = $respuesta[$i]["fecha_devolucion"];

@@ -122,6 +122,7 @@ class ControladorPrestamos
 			=============================================*/
 
 			$tabla = "prestamo";
+			$equipo_reserva = isset($_POST["equipo_reserva"]) && $_POST["equipo_reserva"] === "on" ? true : false;
 
 			$datos = array(
 				"idusuario" => $_POST["idUsuario"],
@@ -132,6 +133,7 @@ class ControladorPrestamos
 				"observacion_prestamo" => $_POST["observacionPrestamo"],
 				"estado_prestamo" => "PENDIENTE",
 				"tipo_servicio" => $_POST["servicio"],
+				"equipo_reserva" => $equipo_reserva,
 				"creado_por" => $_POST["creado_por"],
 				"codigo_cliente" => strtolower($_POST["codigo_cliente"]),
 				"comentario_asignado" => $_POST["comentario_asignado"],
@@ -348,6 +350,13 @@ class ControladorPrestamos
 			}
 			//$tipoPrestamo = $_POST["editar_tipo_prestamo"];
 
+			// Verificar si el campo del checkbox está presente en $_POST
+if (!isset($_POST["editar_equipo_reserva"])) {
+    $editar_equipo_reserva = false;
+}
+else{
+	$editar_equipo_reserva = true;
+}
 			$datos = array(
 				"id_prestamo" => $_POST["idPrestamo"],
 				"idusuario" => $_POST["idUsuario"],
@@ -358,6 +367,7 @@ class ControladorPrestamos
 				"idempleado" => $_POST["nuevoEmpleado"],
 				"observacion_prestamo" => $_POST["observacionPrestamo"],
 				"tipo_servicio" => $_POST["editar_servicio"],
+				"equipo_reserva" => $editar_equipo_reserva,
 				"estado_prestamo" => $estadoPrestamo,
 				"codigo_cliente" => strtolower($_POST["codigo_cliente"]),
 				"comentario_asignado" => $_POST["comentario_asignado"],

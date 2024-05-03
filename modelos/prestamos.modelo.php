@@ -72,7 +72,8 @@ class ModeloPrestamos{
 
 	static public function mdlIngresarPrestamo($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idusuario,codigo_prestamo,productos,productos_lotes,idempleado,observacion_prestamo,estado_prestamo,tipo_servicio,creado_por,codigo_cliente,comentario_asignado,nombre_cliente,documento_cliente) VALUES (:idusuario,:codigo_prestamo,:productos,:productos_lotes,:idempleado,:observacion_prestamo,:estado_prestamo,:tipo_servicio,:creado_por,:codigo_cliente,:comentario_asignado,:nombre_cliente,:documento_cliente)");
+		 
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idusuario,codigo_prestamo,productos,productos_lotes,idempleado,observacion_prestamo,estado_prestamo,tipo_servicio,equipo_reserva,creado_por,codigo_cliente,comentario_asignado,nombre_cliente,documento_cliente) VALUES (:idusuario,:codigo_prestamo,:productos,:productos_lotes,:idempleado,:observacion_prestamo,:estado_prestamo,:tipo_servicio,:equipo_reserva,:creado_por,:codigo_cliente,:comentario_asignado,:nombre_cliente,:documento_cliente)");
 
 		$stmt->bindParam(":idusuario", $datos["idusuario"], PDO::PARAM_INT);
 		$stmt->bindParam(":codigo_prestamo", $datos["codigo_prestamo"], PDO::PARAM_INT);
@@ -82,6 +83,7 @@ class ModeloPrestamos{
 		$stmt->bindParam(":observacion_prestamo", $datos["observacion_prestamo"], PDO::PARAM_STR);
 		$stmt->bindParam(":estado_prestamo", $datos["estado_prestamo"], PDO::PARAM_STR);
 		$stmt->bindParam(":tipo_servicio", $datos["tipo_servicio"], PDO::PARAM_STR);
+		$stmt->bindParam(":equipo_reserva",$datos["equipo_reserva"], PDO::PARAM_BOOL);
 		$stmt->bindParam(":creado_por", $datos["creado_por"], PDO::PARAM_INT);
 		$stmt->bindParam(":codigo_cliente", $datos["codigo_cliente"], PDO::PARAM_STR);
 		$stmt->bindParam(":comentario_asignado", $datos["comentario_asignado"], PDO::PARAM_STR);
@@ -98,9 +100,6 @@ class ModeloPrestamos{
 		
 		}
 
-		
-		$stmt = null;
-
 	}
 
 	/*=============================================
@@ -109,7 +108,7 @@ class ModeloPrestamos{
 
 	static public function mdlEditarPrestamo($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET idusuario=:idusuario,codigo_prestamo=:codigo_prestamo,productos=:productos,productos_lotes=:productos_lotes,idempleado=:idempleado,observacion_prestamo=:observacion_prestamo,estado_prestamo=:estado_prestamo,observacion_devolucion=:observacion_devolucion,fecha_devolucion=:fecha_devolucion,actualizado_por=:actualizado_por,fecha_actualizacion=:fecha_actualizacion,codigo_cliente=:codigo_cliente,comentario_asignado=:comentario_asignado,tipo_servicio=:tipo_servicio,nombre_cliente=:nombre_cliente,documento_cliente=:documento_cliente WHERE id=:id_prestamo");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET idusuario=:idusuario,codigo_prestamo=:codigo_prestamo,productos=:productos,productos_lotes=:productos_lotes,idempleado=:idempleado,observacion_prestamo=:observacion_prestamo,estado_prestamo=:estado_prestamo,observacion_devolucion=:observacion_devolucion,fecha_devolucion=:fecha_devolucion,actualizado_por=:actualizado_por,fecha_actualizacion=:fecha_actualizacion,codigo_cliente=:codigo_cliente,comentario_asignado=:comentario_asignado,tipo_servicio=:tipo_servicio,equipo_reserva=:equipo_reserva,nombre_cliente=:nombre_cliente,documento_cliente=:documento_cliente WHERE id=:id_prestamo");
 
 		$stmt->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
 		$stmt->bindParam(":idusuario", $datos["idusuario"], PDO::PARAM_INT);
@@ -121,6 +120,7 @@ class ModeloPrestamos{
 		$stmt->bindParam(":estado_prestamo", $datos["estado_prestamo"], PDO::PARAM_STR);
 		$stmt->bindParam(":observacion_devolucion", $datos["observacion_devolucion"], PDO::PARAM_STR);
 		$stmt->bindParam(":tipo_servicio", $datos["tipo_servicio"], PDO::PARAM_STR);
+		$stmt->bindParam(":equipo_reserva", $datos["equipo_reserva"], PDO::PARAM_BOOL);
 		$stmt->bindParam(":fecha_devolucion", $datos["fecha_devolucion"], PDO::PARAM_STR);
 		$stmt->bindParam(":codigo_cliente", $datos["codigo_cliente"], PDO::PARAM_STR);
 		$stmt->bindParam(":comentario_asignado", $datos["comentario_asignado"], PDO::PARAM_STR);
@@ -228,7 +228,7 @@ class ModeloPrestamos{
 		if($fechaInicial == null){
 
 			$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
-			pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+			pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.equipo_reserva,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
 			pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo,pre.nombre_cliente,pre.documento_cliente
 				FROM prestamo pre
 			 INNER JOIN usuarios usu
@@ -244,7 +244,7 @@ class ModeloPrestamos{
 		}else if($fechaInicial == $fechaFinal){
 
 			$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
-			pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+			pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.equipo_reserva,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
 			pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo,pre.nombre_cliente,pre.documento_cliente
 				FROM prestamo pre
 			 INNER JOIN usuarios usu
@@ -273,7 +273,7 @@ class ModeloPrestamos{
 			if($fechaFinalMasUno == $fechaActualMasUno){
 
 				$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
-				pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+				pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.equipo_reserva,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
 				pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo,pre.nombre_cliente,pre.documento_cliente
 					FROM prestamo pre
 				 INNER JOIN usuarios usu
@@ -287,7 +287,7 @@ class ModeloPrestamos{
 
 
 				$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
-				pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
+				pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.equipo_reserva,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
 				pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo,pre.nombre_cliente,pre.documento_cliente
 					FROM prestamo pre
 				 INNER JOIN usuarios usu

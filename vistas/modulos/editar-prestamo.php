@@ -65,12 +65,13 @@ if ($_SESSION["perfil"] == "Visitante") {
                 //servicio capturado
                 $servicioSeleccionado=$prestamo["tipo_servicio"];
                 //lista de servicio
-                $servicios = ["instalacion", "averia", "reserva"];
+                $servicios = ["instalacion", "cambio de plan", "averia"];
 
 
                 //estado prestamo
                 $estadoPrestamoSeleccionado=$prestamo["estado_prestamo"];
                 $codigoCliente=$prestamo["codigo_cliente"];
+                $equipoReserva=$prestamo["equipo_reserva"];
                 $comentarioAsignado=$prestamo["comentario_asignado"];
                 //lista de servicio
                 $tipoDePrestamos = ["PENDIENTE", "INSTALADO"];
@@ -84,9 +85,14 @@ if ($_SESSION["perfil"] == "Visitante") {
                 $empleado = ControladorEmpleados::ctrMostrarEmpleados($itemEmpleado, $valorEmpleado);
 
                 ?>
+                   <div class="form-group">
+                  <label for="reserva">Usa reserva:</label>
+                  <input type="checkbox" id="editar_equipo_reserva" name="editar_equipo_reserva" <?php echo $equipoReserva ? 'checked' : ''; ?>>
+                  </div>  
                    <!--=====================================
                 TIPO DE SERVICIO
                 ======================================-->
+
 
                 <div class="form-group">
 
@@ -101,7 +107,7 @@ if ($_SESSION["perfil"] == "Visitante") {
               ?>
                 
 
-                </div  
+            </div>  
 
                 <!--=====================================
                 ENTRADA DEL USUARIO

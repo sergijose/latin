@@ -56,17 +56,25 @@ if ($_SESSION["perfil"] == "Visitante") {
                 <!-- TIPO DE SERVICIO
 -->
                 <div class="form-group">
+                  <label for="reserva">Usa reserva:</label>
+                  <input type="checkbox" id="equipo_reserva" name="equipo_reserva">
+                </div>
+                <div class="form-group">
                   <label>Servicio:</label>
                   <label class="radio-inline">
                     <input type="radio" name="servicio" value="instalacion" checked> Instalación
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="servicio" value="averia"> Avería
+                    <input type="radio" name="servicio" value="cambio de plan"> Cambio de Plan
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="servicio" value="reserva"> Reserva
+                    <input type="radio" name="servicio" value="averia"> Avería
                   </label>
+
+
+
                 </div>
+
 
 
 
@@ -295,7 +303,7 @@ if ($_SESSION["perfil"] == "Visitante") {
  <!--=====================================
       LA TABLA DE PRODUCTOS
       ======================================-->
-                      
+
       <div class="col-lg-8 hidden-md hidden-sm hidden-xs">
         <div class="box  box-warning">
           <div class="box-header with-border"></div>
@@ -319,7 +327,7 @@ if ($_SESSION["perfil"] == "Visitante") {
           </div>
         </div>
       </div>
-   
+
 
 
     </div>
