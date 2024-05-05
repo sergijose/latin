@@ -201,7 +201,7 @@ class ControladorCompras{
 					$nuevasVentas = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1a, $valor1a, $valor);
 
 					$item1b = "stock";
-					$valor1b =  $value["cantidad"] - $traerProducto["stock"];
+					$valor1b = $traerProducto["stock"]- $value["cantidad"]  ;
 
 					$nuevoStock = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos, $item1b, $valor1b, $valor);
 
@@ -245,7 +245,7 @@ class ControladorCompras{
 					$nuevasVentas_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1a_2, $valor1a_2, $valor_2);
 					//aqui ver
 					$item1b_2 = "stock";
-					$valor1b_2 =  $traerProducto_2["stock"]+$value["cantidad"];
+					$valor1b_2 =  $value["stock"];
 					
 
 					$nuevoStock_2 = ModeloProductosLotes::mdlActualizarProductoLotes($tablaProductos_2, $item1b_2, $valor1b_2, $valor_2);
