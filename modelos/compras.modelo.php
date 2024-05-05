@@ -51,12 +51,13 @@ class ModeloCompras
   static public function mdlIngresarCompra($tabla, $datos)
   {
 
-    $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, id_proveedor,id_usuario, productos, impuesto, neto, total) VALUES (:codigo, :id_proveedor,:id_usuario, :productos, :impuesto, :neto, :total)");
+    $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, id_proveedor,id_usuario, productos,descripcion_ingreso, impuesto, neto, total) VALUES (:codigo, :id_proveedor,:id_usuario, :productos,:descripcion_ingreso, :impuesto, :neto, :total)");
 
     $stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_INT);
     $stmt->bindParam(":id_proveedor", $datos["id_proveedor"], PDO::PARAM_INT);
     $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
     $stmt->bindParam(":productos", $datos["productos"], PDO::PARAM_STR);
+    $stmt->bindParam(":descripcion_ingreso", $datos["descripcion_ingreso"], PDO::PARAM_STR);
     $stmt->bindParam(":impuesto", $datos["impuesto"], PDO::PARAM_STR);
     $stmt->bindParam(":neto", $datos["neto"], PDO::PARAM_INT);
     $stmt->bindParam(":total", $datos["total"], PDO::PARAM_INT);
@@ -80,11 +81,12 @@ class ModeloCompras
   static public function mdlEditarCompra($tabla, $datos)
   {
 
-    $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET id_proveedor=:id_proveedor, id_usuario = :id_usuario, productos = :productos, impuesto = :impuesto, neto = :neto, total = :total,codigo=:codigo WHERE id=:id");
+    $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET id_proveedor=:id_proveedor, id_usuario = :id_usuario, productos = :productos,descripcion_ingreso=:descripcion_ingreso, impuesto = :impuesto, neto = :neto, total = :total,codigo=:codigo WHERE id=:id");
 
     $stmt->bindParam(":id_proveedor", $datos["id_proveedor"], PDO::PARAM_INT);
     $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
     $stmt->bindParam(":productos", $datos["productos"], PDO::PARAM_STR);
+    $stmt->bindParam(":descripcion_ingreso", $datos["descripcion_ingreso"], PDO::PARAM_STR);
     $stmt->bindParam(":impuesto", $datos["impuesto"], PDO::PARAM_STR);
     $stmt->bindParam(":neto", $datos["neto"], PDO::PARAM_STR);
     $stmt->bindParam(":total", $datos["total"], PDO::PARAM_STR);

@@ -20,7 +20,7 @@ if($_SESSION["perfil"] == "Especial"){
     
     <h1>
       
-      Crear Compra
+      Crear Ingreso
     
     </h1>
 
@@ -28,7 +28,7 @@ if($_SESSION["perfil"] == "Especial"){
       
       <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
       
-      <li class="active">Crear compra</li>
+      <li class="active">Crear Ingreso</li>
     
     </ol>
 
@@ -238,6 +238,20 @@ if($_SESSION["perfil"] == "Especial"){
                   </div>
 
                 </div>
+                <div class="form-group">
+              <p><strong>Escriba algun comentario para este ingreso</strong></p>
+                <div class="input-group">
+               
+
+                  <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
+
+                  <textarea class="form-control" id="descripcion_ingreso" name="descripcion_ingreso" cols="5" rows="2" placeholder="ingrese alguna observacion o comentario"></textarea>
+
+
+
+                </div>
+
+              </div>
 
                <!-- <hr>   -->
 

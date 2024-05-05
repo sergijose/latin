@@ -111,6 +111,7 @@ class ControladorCompras{
 						   "id_proveedor"=>$_POST["seleccionarProveedor"],
 						   "codigo"=>$_POST["nuevaCompra"],
 						   "productos"=>$_POST["listaProductosCompras"],
+						   "descripcion_ingreso"=>$_POST["descripcion_ingreso"],
 						   "impuesto"=>$_POST["nuevoPrecioImpuesto"],
 						   "neto"=>$_POST["nuevoPrecioNeto"],
 						   "total"=>$_POST["totalVenta"]);
@@ -283,6 +284,7 @@ class ControladorCompras{
 			$datos = array("id_usuario"=>$_POST["idVendedor"],
 						   "id_proveedor"=>$_POST["seleccionarProveedor"],
 						   "productos"=>$listaProductos,
+						   "descripcion_ingreso"=>$_POST["editarDescripcionIngreso"],
 						   "impuesto"=>$_POST["nuevoPrecioImpuesto"],
 						   "neto"=>$_POST["nuevoPrecioNeto"],
 						   "total"=>$_POST["totalVenta"],

@@ -4,7 +4,7 @@
     
     <h1>
       
-      Editar compra
+      Editar Ingreso
     
     </h1>
 
@@ -12,7 +12,7 @@
       
       <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
       
-      <li class="active">Editar compra</li>
+      <li class="active">Editar Ingreso</li>
     
     </ol>
 
@@ -267,7 +267,20 @@
                 </div>
 
                <hr>
+               <div class="form-group">
+                  <p><strong>Escriba algun comentario para este ingreso</strong></p>
+                  <div class="input-group">
 
+
+                    <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
+
+                    <textarea class="form-control" id="editarDescripcionIngreso" name="editarDescripcionIngreso" cols="5" rows="2" placeholder="escriba aqui"><?php echo $compra["descripcion_ingreso"]; ?></textarea>
+
+
+
+                  </div>
+
+                </div>
                 <!--=====================================
                 ENTRADA MÉTODO DE PAGO
                 ======================================-->
