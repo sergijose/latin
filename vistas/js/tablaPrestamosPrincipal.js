@@ -118,6 +118,34 @@ $(".tablaPrestamoPrincipal").on("click", ".btn-asignar", function () {
  
 });
 
+//TRAER DATOS PARA VER TECNICOS QUE INSTALO
+$(".tablaPrestamoPrincipal").on("click", ".btnVerTecnicoInstalacion", function () {
+  var idPrestamo = $(this).attr("idPrestamo");
+  var datos = new FormData();
+  datos.append("idPrestamo", idPrestamo);
+  $.ajax({
+    url: "ajax/instalaciones.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      console.log(respuesta);
+      $("#idPrestamoInstalacion").val(idPrestamo);
+     $("#nombre_tecnico1").val(respuesta[0]['tecnico_uno']);
+     $("#nombre_tecnico2").val(respuesta[0]['tecnico_dos']);
+    $("#codigo_cliente_prestamo").val(respuesta[0]["cod_cliente"]);
+    $("#nombre_cliente").val(respuesta[0]["nombre_cliente"]);
+    $("#documento_cliente").val(respuesta[0]["documento_cliente"]);
+    },
+  });
+
+ 
+});
+
+
 
 
 /*=============================================

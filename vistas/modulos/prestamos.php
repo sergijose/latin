@@ -132,11 +132,12 @@ $eliminarPrestamo->ctrEliminarPrestamo();
           </button>
           <h4 class="modal-title" id="modalProductoLabel">Asignar Prestamo</h4>
         </div>
+
         <div class="modal-body">
 
           <input type="hidden" name="idPrestamoAsignar" id="idPrestamoAsignar" value="">
           <input type="hidden" class="form-control input-md" name="asignado_por" value="<?php echo $_SESSION["id"]; ?>" required>
-        
+
           <div class="form-group">
             <label for="codigoCliente">Código de Cliente:</label>
             <input type="text" class="form-control" id="codigo_cliente" name="codigo_cliente">
@@ -150,13 +151,11 @@ $eliminarPrestamo->ctrEliminarPrestamo();
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>
 
+
         </div>
+      </div>
 
-       
-
-         
-              
-    </form>
+    </form>>
 
     <?php
 
@@ -166,20 +165,72 @@ $eliminarPrestamo->ctrEliminarPrestamo();
     ?>
   </div>
 </div>
+
+<!-- MODAL VER TECNICO QUE INSTALO -->
+<div class="modal fade" id="modalVerTecnicoInstalacion" tabindex="-1" role="dialog" aria-labelledby="modalProductoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form role="form" method="post" class="formularioPrestamo" id="formularioPrestamo">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="modalProductoLabel"><b>TECNICO QUE INSTALO</b></h4>
+        </div>
+        <div class="modal-body">
+
+          <input type="hidden" name="idPrestamoInstalacion" id="idPrestamoInstalacion" value="">
+          <input type="hidden" class="form-control input-md" name="asignado_por" value="<?php echo $_SESSION["id"]; ?>" required>
+
+          <div class="form-group">
+            <label for="codigo_cliente_prestamo">Código Cliente:</label>
+            <input type="text" class="form-control" id="codigo_cliente_prestamo" name="codigo_cliente_prestamo" disabled>
+          </div>
+
+          <div class="form-group">
+            <label for="nombreCliente">Nombre Cliente:</label>
+            <input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente" disabled>
+          </div>
+          <div class="form-group">
+            <label for="documentoCliente">Dni Cliente:</label>
+            <input type="text" class="form-control" id="documento_cliente" name="documento_cliente" disabled>
+          </div>
+
+          <div class="form-group">
+            <label for="codigoCliente">Tecnico que instalo:</label>
+            <input type="text" class="form-control" id="nombre_tecnico1" name="nombre_tecnico1" disabled>
+          </div>
+          <div class="form-group">
+            <label for="codigoCliente">Tecnico que instalo:</label>
+            <input type="text" class="form-control" id="nombre_tecnico2" name="nombre_tecnico2" disabled>
+          </div>
+
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary pull-right" disabled>Agregar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+
+        </div>
+      </div>
+
+    </form>
+
+
+  </div>
 </div>
+
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+  $(document).ready(function() {
 
-$(document).ready(function() {
-	
- 
- 
-  $('.asignarEmpleado').select2({
-   width: '250px'
- 
+
+
+    $('.asignarEmpleado').select2({
+      width: '250px'
+
+    });
   });
- });
- 
 </script>

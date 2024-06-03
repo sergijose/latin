@@ -67,6 +67,44 @@ class ModeloPrestamos{
 	}
 
 	/*=============================================
+	MOSTRAR INSTALACIONES POR TECNICO
+	=============================================*/
+
+	static public function mdlMostrarInstalacionesTecnicos($tabla, $item, $valor){
+
+		if($item != null){
+
+			$stmt = Conexion::conectar()->prepare("SELECT inst.id_instalacion_tecnico AS id_instalacion,UPPER(concat(emp1.nombres,' ',emp1.ape_pat,' ',emp1.ape_mat))AS tecnico_uno,UPPER(concat(emp2.nombres,' ',emp2.ape_pat,' ',emp2.ape_mat))AS tecnico_dos,UPPER(pres.codigo_cliente) as cod_cliente,UPPER(pres.nombre_cliente) as nombre_cliente,pres.documento_cliente
+			FROM instalacion_tecnico inst
+			INNER JOIN prestamo pres
+			ON inst.id_prestamo=pres.id
+			INNER JOIN empleado as emp1
+			ON emp1.idempleado=inst.tecnico_uno
+			INNER JOIN empleado as emp2
+			ON emp2.idempleado=inst.tecnico_dos WHERE $item=:$item ORDER BY id_instalacion ASC");
+
+			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+		}else{
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY id ASC");
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+		}
+		
+	
+		$stmt = null;
+
+	}
+
+	/*=============================================
 	REGISTRO DE PRESTAMO
 	=============================================*/
 
@@ -90,6 +128,31 @@ class ModeloPrestamos{
 		$stmt->bindParam(":nombre_cliente", $datos["nombre_cliente"], PDO::PARAM_STR);
 		$stmt->bindParam(":documento_cliente", $datos["documento_cliente"], PDO::PARAM_STR);
 
+		if($stmt->execute()){
+
+			return "ok";
+
+		}else{
+
+			return "error";
+		
+		}
+
+	}
+
+	/*=============================================
+	REGISTRO DE INSTALACIONES POR TECNICO
+	=============================================*/
+
+	static public function mdlIngresarInstalacionTecnico($tabla, $datos){
+
+		 
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_prestamo,tecnico_uno,tecnico_dos,agregado_por) VALUES (:id_prestamo,:tecnico_uno,:tecnico_dos,:agregado_por)");
+
+		$stmt->bindParam(":id_prestamo", $datos["id_prestamo"], PDO::PARAM_INT);
+		$stmt->bindParam(":tecnico_uno", $datos["tecnico_uno"], PDO::PARAM_STR);
+		$stmt->bindParam(":tecnico_dos", $datos["tecnico_dos"], PDO::PARAM_STR);
+		$stmt->bindParam(":agregado_por", $datos["agregado_por"], PDO::PARAM_INT);
 		if($stmt->execute()){
 
 			return "ok";

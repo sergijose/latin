@@ -55,24 +55,25 @@ if ($_SESSION["perfil"] == "Visitante") {
 
                 <?php
 
-              
+
 
                 $item = "id";
                 $valor = $_GET["idPrestamo"];
 
                 $prestamo = ControladorPrestamos::ctrMostrarPrestamos($item, $valor);
+                $instalacionTecnico = ControladorPrestamos::ctrMostrarInstalacionesTecnicos("id_prestamo", $valor);
 
                 //servicio capturado
-                $servicioSeleccionado=$prestamo["tipo_servicio"];
+                $servicioSeleccionado = $prestamo["tipo_servicio"];
                 //lista de servicio
                 $servicios = ["instalacion", "cambio de plan", "averia"];
 
 
                 //estado prestamo
-                $estadoPrestamoSeleccionado=$prestamo["estado_prestamo"];
-                $codigoCliente=$prestamo["codigo_cliente"];
-                $equipoReserva=$prestamo["equipo_reserva"];
-                $comentarioAsignado=$prestamo["comentario_asignado"];
+                $estadoPrestamoSeleccionado = $prestamo["estado_prestamo"];
+                $codigoCliente = $prestamo["codigo_cliente"];
+                $equipoReserva = $prestamo["equipo_reserva"];
+                $comentarioAsignado = $prestamo["comentario_asignado"];
                 //lista de servicio
                 $tipoDePrestamos = ["PENDIENTE", "INSTALADO"];
 
@@ -85,29 +86,28 @@ if ($_SESSION["perfil"] == "Visitante") {
                 $empleado = ControladorEmpleados::ctrMostrarEmpleados($itemEmpleado, $valorEmpleado);
 
                 ?>
-                   <div class="form-group">
+                <div class="form-group">
                   <label for="reserva">Usa reserva:</label>
                   <input type="checkbox" id="editar_equipo_reserva" name="editar_equipo_reserva" <?php echo $equipoReserva ? 'checked' : ''; ?>>
-                  </div>  
-                   <!--=====================================
+                </div>
+                <!--=====================================
                 TIPO DE SERVICIO
                 ======================================-->
 
 
                 <div class="form-group">
 
-                <?php
-                foreach ($servicios as $servicio) {
-            $checked = ($servicio == $servicioSeleccionado) ? 'checked' : '';
-            echo '<label class="radio-inline">';
-            echo '<input type="radio" name="editar_servicio" value="' . $servicio . '" ' . $checked . '>' . $servicio;
-            echo '</label>';
-           
-             }
-              ?>
-                
+                  <?php
+                  foreach ($servicios as $servicio) {
+                    $checked = ($servicio == $servicioSeleccionado) ? 'checked' : '';
+                    echo '<label class="radio-inline">';
+                    echo '<input type="radio" name="editar_servicio" value="' . $servicio . '" ' . $checked . '>' . $servicio;
+                    echo '</label>';
+                  }
+                  ?>
 
-            </div>  
+
+                </div>
 
                 <!--=====================================
                 ENTRADA DEL USUARIO
@@ -176,8 +176,7 @@ if ($_SESSION["perfil"] == "Visitante") {
                       $modelo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
 
                       foreach ($modelo as $key => $value) {
-                        echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"] ). "-[D.N.I:" . $value["num_documento"] . ']</option>';
-                       
+                        echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
                       }
 
                       ?>
@@ -195,15 +194,15 @@ if ($_SESSION["perfil"] == "Visitante") {
                 ENTRADA PARA AGREGAR PRODUCTO
                 ======================================-->
 
-                <div class="form-group row nuevoProducto" >
+                <div class="form-group row nuevoProducto">
 
                   <?php
                   $listaProducto = json_decode($prestamo["productos"], true);
-                  if (!is_null($listaProducto) && is_array($listaProducto)) {   
-                  foreach ($listaProducto as $key => $value) {
+                  if (!is_null($listaProducto) && is_array($listaProducto)) {
+                    foreach ($listaProducto as $key => $value) {
 
 
-                    echo '<div class="row" style="padding:5px 15px">
+                      echo '<div class="row" style="padding:5px 15px">
                   
                     <div class="col-xs-6" style="padding-right:0px" >
                     <div class="input-group" >
@@ -220,25 +219,25 @@ if ($_SESSION["perfil"] == "Visitante") {
                     </div>
                     </div>
                     </div>';
+                    }
                   }
-                }
 
 
                   ?>
 
                 </div>
 
-               
-                        <!--======================================= 
+
+                <!--======================================= 
                           ENTRADA PARA AGREGAR PRODUCTO  POR LOTE
                          =========================================-->
-                  <div class="form-group row nuevoProductoPedido">
+                <div class="form-group row nuevoProductoPedido">
 
-                    <?php
-                    $listaProductoLote = json_decode($prestamo["productos_lotes"], true);
-                    if($listaProductoLote !== null && is_array($listaProductoLote)){
+                  <?php
+                  $listaProductoLote = json_decode($prestamo["productos_lotes"], true);
+                  if ($listaProductoLote !== null && is_array($listaProductoLote)) {
 
-                    
+
                     foreach ($listaProductoLote as $key => $value) {
                       $item = "id";
                       $valor = $value["id"];
@@ -268,14 +267,13 @@ if ($_SESSION["perfil"] == "Visitante") {
   </div>
   </div>';
                     }
-
                   }
 
-                    ?>
+                  ?>
 
-                  </div>
+                </div>
 
-              
+
                 <input type="hidden" id="listaProductosPrestamos" name="listaProductos">
                 <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">
 
@@ -295,20 +293,34 @@ if ($_SESSION["perfil"] == "Visitante") {
               </div>
 
               <?php
-              if($prestamo["estado_prestamo"]=="INSTALADO" || $prestamo["estado_prestamo"]=="PENDIENTE"){
+              if ($prestamo["estado_prestamo"] == "INSTALADO" || $prestamo["estado_prestamo"] == "PENDIENTE") {
                 echo '
                 <em>estado del prestamo</em>
                 ';
-                
+
                 foreach ($tipoDePrestamos as $tipoPrestamo) {
-            $checked = ($tipoPrestamo == $estadoPrestamoSeleccionado) ? 'checked' : '';
-            echo '<label class="radio-inline">';
-            echo '<input type="radio" name="editar_tipo_prestamo" value="' . $tipoPrestamo . '" ' . $checked . '>' . $tipoPrestamo;
-            echo '</label>';
-           
-             }
-            }
-             ?>
+                  $checked = ($tipoPrestamo == $estadoPrestamoSeleccionado) ? 'checked' : '';
+                  echo '<label class="radio-inline">';
+                  echo '<input type="radio" name="editar_tipo_prestamo" value="' . $tipoPrestamo . '" ' . $checked . '>' . $tipoPrestamo;
+                  echo '</label>';
+                }
+              }
+
+             
+              if ($prestamo["estado_prestamo"] == "INSTALADO" ) {
+
+                if(count($instalacionTecnico)>0)
+                {
+                  echo '<button type="button" class="btn btn-primary btn-xs">se registro quien instalo <i class="fas fa-thumbs-up"></i></button>';
+                }
+                else{
+                  echo '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalVerTecnicoInstalacion" data-dismiss="modal">Agregar tecnico que instala</button>';
+                }
+
+              }
+              
+              
+              ?>
               <!--=====================================
                ENTRADA PARA CODIGO DEL CLIENTE
                 ======================================-->
@@ -320,11 +332,11 @@ if ($_SESSION["perfil"] == "Visitante") {
 
               <div class="form-group">
                 <label for="editar_nombre_cliente">Nombre del Cliente:</label>
-                <input type="text" class="form-control" id="editar_nombre_cliente" name="editar_nombre_cliente"  value="<?php echo $prestamo["nombre_cliente"]; ?>">
+                <input type="text" class="form-control" id="editar_nombre_cliente" name="editar_nombre_cliente" value="<?php echo $prestamo["nombre_cliente"]; ?>">
               </div>
               <div class="form-group">
                 <label for="editar_documento_cliente">Nro. Documento del Cliente:</label>
-                <input type="text" class="form-control" id="editar_documento_cliente" name="editar_documento_cliente"  value="<?php echo $prestamo["documento_cliente"]; ?>">
+                <input type="text" class="form-control" id="editar_documento_cliente" name="editar_documento_cliente" value="<?php echo $prestamo["documento_cliente"]; ?>">
               </div>
 
               <!--=====================================
@@ -332,14 +344,14 @@ if ($_SESSION["perfil"] == "Visitante") {
                 ======================================-->
 
               <div class="form-group">
-                <p><strong>Comentario Plan del cliente:<strong/></p>
+                <p><strong>Comentario Plan del cliente:<strong /></p>
                 <div class="input-group">
 
 
                   <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
 
                   <textarea class="form-control" id="observacionPrestamo" name="observacionPrestamo" cols="2" rows="2" placeholder="observaciones del prestamo"><?php echo $prestamo["observacion_prestamo"]; ?></textarea>
-              
+
 
                 </div>
 
@@ -364,34 +376,34 @@ if ($_SESSION["perfil"] == "Visitante") {
           ?>
 
           <div class="form-group">
-          <form role="form" method="post" class="formularioPrestamo">
+            <form role="form" method="post" class="formularioPrestamo">
 
-            <input type="checkbox" id="cbovalidar" value="second_checkbox" onChange="comprobar(this);"> <label for="cbovalidar">Finalizar Prestamo</label>
-            <input type="hidden" class="form-control" name="editarPrestamoFinalizar" value="<?php echo $prestamo["codigo_prestamo"]; ?>" >
+              <input type="checkbox" id="cbovalidar" value="second_checkbox" onChange="comprobar(this);"> <label for="cbovalidar">Finalizar Prestamo</label>
+              <input type="hidden" class="form-control" name="editarPrestamoFinalizar" value="<?php echo $prestamo["codigo_prestamo"]; ?>">
 
-            <input type="hidden" id="listaProductos" name="listaProductos">
-            <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">
-            <input type="hidden" class="form-control input-lg" name="finalizado_por" value="<?php echo $_SESSION["id"]; ?>" required>
-            
-
-            <div class="input-group" readonly style="display:none" id="caja">
+              <input type="hidden" id="listaProductos" name="listaProductos">
+              <input type="hidden" id="listaProductosPedidos" name="listaProductosPedidos">
+              <input type="hidden" class="form-control input-lg" name="finalizado_por" value="<?php echo $_SESSION["id"]; ?>" required>
 
 
-              <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
+              <div class="input-group" readonly style="display:none" id="caja">
 
-              <textarea class="form-control" id="observacionDevolucion" name="observacionDevolucion" cols="5" rows="2" placeholder="observaciones de la devolucion del prestamo" readonly style="display:none" required></textarea>
 
-            </div>
-            <button type="submit" class="btn btn-danger pull-left" id="btnFinalizar"readonly style="display:none">Finalizar</button>   
-            <?php
+                <span class="input-group-addon"><i class="fas fa-pencil-alt"></i></span>
+
+                <textarea class="form-control" id="observacionDevolucion" name="observacionDevolucion" cols="5" rows="2" placeholder="observaciones de la devolucion del prestamo" readonly style="display:none" required></textarea>
+
+              </div>
+              <button type="submit" class="btn btn-danger pull-left" id="btnFinalizar" readonly style="display:none">Finalizar</button>
+              <?php
 
               $finalizarPrestamo = new ControladorPrestamos();
               $finalizarPrestamo->ctrfinalizarPrestamo();
 
-?>
+              ?>
 
           </div>
-          
+
           </form>
 
 
@@ -402,7 +414,7 @@ if ($_SESSION["perfil"] == "Visitante") {
       </div>
 
     </div>
-   
+
 
 
     <!--=====================================
@@ -415,7 +427,7 @@ if ($_SESSION["perfil"] == "Visitante") {
 
         <div class="box-header with-border"></div>
 
-        <div class="box-body">    
+        <div class="box-body">
           <table class="table table-bordered table-striped dt-responsive tablaPrestamos">
 
             <thead>
@@ -442,38 +454,138 @@ if ($_SESSION["perfil"] == "Visitante") {
 
     </div>
 
-      <!--=====================================
+    <!--=====================================
       LA TABLA DE PRODUCTOS POR LOTES
 ======================================-->
-<div class="col-lg-8 hidden-md hidden-sm hidden-xs">
-        <div class="box  box-warning">
-          <div class="box-header with-border"></div>
-          <div class="box-body">
-          <p>PRODUCTOS POR STOCK</p> 
-            <table class="table table-bordered table-striped dt-responsive tablaN tablaProductoLotes  text-center">
-              <thead>
-                <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Imagen</th>
-                  <th>Categoria</th>
-                  <th>Producto</th>
-                  <th>Medida</th>
-                  <th>Stock</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
+    <div class="col-lg-8 hidden-md hidden-sm hidden-xs">
+      <div class="box  box-warning">
+        <div class="box-header with-border"></div>
+        <div class="box-body">
+          <p>PRODUCTOS POR STOCK</p>
+          <table class="table table-bordered table-striped dt-responsive tablaN tablaProductoLotes  text-center">
+            <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Imagen</th>
+                <th>Categoria</th>
+                <th>Producto</th>
+                <th>Medida</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
 
 
-            </table>
-          </div>
+          </table>
         </div>
       </div>
+    </div>
 
 </div>
 
 </section>
 
 </div>
+
+
+<?php
+
+$asignarPrestamo = new ControladorPrestamos();
+$asignarPrestamo->ctrAsignarPrestamo();
+
+?>
+
+
+<!-- MODAL VER TECNICO QUE INSTALO -->
+<div class="modal fade" id="modalVerTecnicoInstalacion" tabindex="-1" role="dialog" aria-labelledby="modalProductoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form role="form" method="post" class="formularioAgregarTecnicoInstalacion" id="formularioAgregarTecnicoInstalacio">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="modalProductoLabel"><b>TECNICO QUE INSTALO</b></h4>
+        </div>
+        <div class="modal-body">
+
+          <input type="hidden" name="id_prestamo" id="id_prestamo" value="<?php echo $_GET["idPrestamo"]; ?>">
+          <input type="hidden" class="form-control input-md" required name="agregado_por" value="<?php echo $_SESSION['id']; ?>">
+
+
+          <!--=====================================
+                ENTRADA PARA REGISTRAR A QUIEN SE LE ESTA HACIENDO EL PRESTAMO
+                ======================================-->
+
+          <div class="form-group">
+            <label for="nuevo_tecnico_uno">Tecnico que instalo N1:</label>
+            <select class="form-control mi-selector" id="nuevo_tecnico_uno" name="nuevo_tecnico_uno" style="width: auto;" required>
+
+              <option value="">--SELECCIONAR--</option>
+
+              <?php
+
+              $item = null;
+              $valor = null;
+
+              $modelo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+
+              foreach ($modelo as $key => $value) {
+
+
+                echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
+              }
+
+              ?>
+
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="nuevo_tecnico_dos">Tecnico que instalo N2:</label>
+            <select class="form-control mi-selector" id="nuevo_tecnico_dos" name="nuevo_tecnico_dos" style="width: auto;" >
+
+              <option value="">--SELECCIONAR--</option>
+
+              <?php
+
+              $item = null;
+              $valor = null;
+
+              $modelo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+
+              foreach ($modelo as $key => $value) {
+
+
+                echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
+              }
+
+              ?>
+
+            </select>
+
+          </div>
+
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary pull-right">Agregar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+
+        </div>
+      </div>
+      <?php
+
+      $asignarTecnico = new ControladorPrestamos();
+      $asignarTecnico->ctrCrearInstalacionTecnico();
+
+      ?>
+    </form>
+
+  </div>
+</div>
+
+
 
 <div id="modalAgregarEmpleado" class="modal fade" role="dialog">
 

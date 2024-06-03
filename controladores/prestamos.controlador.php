@@ -34,6 +34,20 @@ class ControladorPrestamos
 
 		return $respuesta;
 	}
+
+	/*=============================================
+	MOSTRAR INSTALACIONES POR TECNICOS
+	=============================================*/
+
+	static public function ctrMostrarInstalacionesTecnicos($item, $valor)
+	{
+
+		$tabla = "instalacion_tecnico";
+
+		$respuesta = ModeloPrestamos::mdlMostrarInstalacionesTecnicos($tabla, $item, $valor);
+
+		return $respuesta;
+	}
 	/*=============================================
 	CREAR PRESTAMOS
 	=============================================*/
@@ -176,6 +190,50 @@ class ControladorPrestamos
 		}
 	}
 
+
+	/*=============================================
+	CREAR INSTALACION POR TECNICO
+	=============================================*/
+	static public function ctrCrearInstalacionTecnico()
+	{
+
+		if (isset($_POST["id_prestamo"])) {
+
+			if (preg_match('/^[0-9]+$/', $_POST["nuevo_tecnico_uno"])) {
+
+				$tabla = "instalacion_tecnico";
+
+				$datos = array(
+					"id_prestamo" => $_POST["id_prestamo"],
+					"tecnico_uno" => $_POST["nuevo_tecnico_uno"],
+					"tecnico_dos" => $_POST["nuevo_tecnico_dos"],
+					"agregado_por" => $_POST["agregado_por"]
+				);
+
+				$respuesta = ModeloPrestamos::mdlIngresarInstalacionTecnico($tabla, $datos);
+
+				if ($respuesta == "ok") {
+
+					echo '<script>
+
+					alertify.success("Agregado con exito");
+					setTimeout(function(){
+						window.location.href = window.location.href;
+					}, 100);
+
+						</script>';
+				}
+			} else {
+
+				echo '<script>
+
+				alertify.error("No se pudo agregar ");
+						
+
+			  	</script>';
+			}
+		}
+	}
 
 	/*=============================================
 	EDITAR PRESTAMO
@@ -351,12 +409,11 @@ class ControladorPrestamos
 			//$tipoPrestamo = $_POST["editar_tipo_prestamo"];
 
 			// Verificar si el campo del checkbox está presente en $_POST
-if (!isset($_POST["editar_equipo_reserva"])) {
-    $editar_equipo_reserva = false;
-}
-else{
-	$editar_equipo_reserva = true;
-}
+			if (!isset($_POST["editar_equipo_reserva"])) {
+				$editar_equipo_reserva = false;
+			} else {
+				$editar_equipo_reserva = true;
+			}
 			$datos = array(
 				"id_prestamo" => $_POST["idPrestamo"],
 				"idusuario" => $_POST["idUsuario"],
@@ -451,13 +508,13 @@ else{
 			$producto = json_decode($traerPrestamo["productos"], true);
 
 			if (!is_null($producto) && is_array($producto)) {
-			foreach ($producto as $key => $value) {
-				$tablaProducto = "producto";
-				$item1b_2 = "estado_prestamo";
-				$valor1b_2 = "DISPONIBLE";
-				$valor_2 = $value["id"];
-				$actualizarEstado_2 = ModeloProductos::mdlActualizarProducto($tablaProducto, $item1b_2, $valor1b_2, $valor_2);
-			}
+				foreach ($producto as $key => $value) {
+					$tablaProducto = "producto";
+					$item1b_2 = "estado_prestamo";
+					$valor1b_2 = "DISPONIBLE";
+					$valor_2 = $value["id"];
+					$actualizarEstado_2 = ModeloProductos::mdlActualizarProducto($tablaProducto, $item1b_2, $valor1b_2, $valor_2);
+				}
 			}
 			/*=============================================
 			ACTUALIZAR LAS EL ESTADO DE PRESTAMO DE LOS PRODUCTOS 
@@ -466,16 +523,16 @@ else{
 			//$listaProductos2 = json_decode($_POST["listaProductos2"], true);
 
 			if (!is_null($listaProductos_2) && is_array($listaProductos_2)) {
-			foreach ($listaProductos_2 as $key => $value) {
+				foreach ($listaProductos_2 as $key => $value) {
 
 
-				//con esto actualizo todos los productos que tienen ese id de la listaProductos
-				$tablaPrestamo = "producto";
-				$valor = $value["id"];
-				$item1a = "estado_prestamo";
-				$valor1a = "DISPONIBLE";
-				$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
-			}
+					//con esto actualizo todos los productos que tienen ese id de la listaProductos
+					$tablaPrestamo = "producto";
+					$valor = $value["id"];
+					$item1a = "estado_prestamo";
+					$valor1a = "DISPONIBLE";
+					$nuevoPrestamos = ModeloProductos::mdlActualizarProducto($tablaPrestamo, $item1a, $valor1a, $valor);
+				}
 			}
 
 			//PROCEDIMIENTO PARA RECUPERAR PRODUCTOS LOTES SI ES QUE FINALIZA UN PRESTAMO

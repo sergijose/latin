@@ -48,9 +48,16 @@ class TablaProductosPrestamosPrincipal
 			//$item = "id";
 			//$valor = $respuesta[$i]["idproducto"];
 			//$order = "id";
+			
+			$empleado= strtoupper($respuesta[$i]["empleado"]);
+			if ($respuesta[$i]["estado_prestamo"] == "INSTALADO") {
+				$empleado.= "<button class='btn btn-info btn-xs btnVerTecnicoInstalacion' idPrestamo='" . $respuesta[$i]["id"] . "' data-toggle='modal' data-target='#modalVerTecnicoInstalacion' data-toggle='tooltip' title='Tecnico que instalo'><i class='fas fa-eye'></i> ver tecnico que instalo</button>";
+			}	
+		
+			$codigoCliente= strtoupper($respuesta[$i]['codigo_cliente']) . " " . strtoupper($respuesta[$i]['nombre_cliente']);
+			
+	
 
-			//$respuestaProducto = ControladorProductos::ctrMostrarProductos($item, $valor, $order);
-			$codigoCliente = strtoupper($respuesta[$i]['codigo_cliente']) . " " . strtoupper($respuesta[$i]['nombre_cliente']);
 			if ($respuesta[$i]["equipo_reserva"]) {
 			$tipoServicio = "<span class='badge badge-secondary'>" . strtoupper($respuesta[$i]["tipo_servicio"])."<br>(con equipo reserva)" ."</span>";
 		}
@@ -136,8 +143,8 @@ class TablaProductosPrestamosPrincipal
 
 			$datosJson .= '[
 				"' . ($i + 1) . '",
-				"' . strtoupper($respuesta[$i]["empleado"]) . '",
-				"' .  $codigoCliente . '",
+				"' . $empleado . '",
+				"' .  $codigoCliente .'",
 				"' . $tipoServicio . '",
 				"' . $resumenProducto . '",
 				"' . date("d/m/Y", strtotime($respuesta[$i]["fecha_prestamo"])) . '",
