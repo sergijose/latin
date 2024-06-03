@@ -74,15 +74,15 @@ class ModeloPrestamos{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT inst.id_instalacion_tecnico AS id_instalacion,UPPER(concat(emp1.nombres,' ',emp1.ape_pat,' ',emp1.ape_mat))AS tecnico_uno,UPPER(concat(emp2.nombres,' ',emp2.ape_pat,' ',emp2.ape_mat))AS tecnico_dos,UPPER(pres.codigo_cliente) as cod_cliente,UPPER(pres.nombre_cliente) as nombre_cliente,pres.documento_cliente
+			$stmt = Conexion::conectar()->prepare("SELECT inst.id_prestamo,inst.id_instalacion_tecnico AS id_instalacion,UPPER(concat(emp1.nombres,' ',emp1.ape_pat,' ',emp1.ape_mat))AS tecnico_uno,UPPER(concat(emp2.nombres,' ',emp2.ape_pat,' ',emp2.ape_mat))AS tecnico_dos,UPPER(pres.codigo_cliente) as cod_cliente,UPPER(pres.nombre_cliente) as nombre_cliente,pres.documento_cliente
 			FROM instalacion_tecnico inst
 			INNER JOIN prestamo pres
 			ON inst.id_prestamo=pres.id
 			INNER JOIN empleado as emp1
 			ON emp1.idempleado=inst.tecnico_uno
-			INNER JOIN empleado as emp2
-			ON emp2.idempleado=inst.tecnico_dos WHERE $item=:$item ORDER BY id_instalacion ASC");
-
+			LEFT JOIN empleado as emp2
+			ON emp2.idempleado=inst.tecnico_dos WHERE $item = :$item ORDER BY id_instalacion ASC");
+			
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_INT);
 
 			$stmt -> execute();

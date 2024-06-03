@@ -308,8 +308,9 @@ if ($_SESSION["perfil"] == "Visitante") {
 
              
               if ($prestamo["estado_prestamo"] == "INSTALADO" ) {
-
-                if(count($instalacionTecnico)>0)
+                
+                if(!empty($instalacionTecnico))
+                
                 {
                   echo '<button type="button" class="btn btn-primary btn-xs">se registro quien instalo <i class="fas fa-thumbs-up"></i></button>';
                 }

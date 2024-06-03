@@ -207,7 +207,7 @@ $eliminarPrestamo->ctrEliminarPrestamo();
 
 
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary pull-right" disabled>Agregar</button>
+            
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>
 
@@ -215,7 +215,12 @@ $eliminarPrestamo->ctrEliminarPrestamo();
       </div>
 
     </form>
+    <?php
 
+$asignarInstalacion = new ControladorPrestamos();
+$asignarInstalacion->ctrCrearInstalacionTecnico();
+
+?>
 
   </div>
 </div>

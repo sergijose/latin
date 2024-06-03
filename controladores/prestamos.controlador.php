@@ -197,7 +197,7 @@ class ControladorPrestamos
 	static public function ctrCrearInstalacionTecnico()
 	{
 
-		if (isset($_POST["id_prestamo"])) {
+		if (isset($_POST["nuevo_tecnico_uno"])) {
 
 			if (preg_match('/^[0-9]+$/', $_POST["nuevo_tecnico_uno"])) {
 
@@ -216,11 +216,21 @@ class ControladorPrestamos
 
 					echo '<script>
 
-					alertify.success("Agregado con exito");
-					setTimeout(function(){
-						window.location.href = window.location.href;
-					}, 100);
-
+					
+					swal({
+						type: "success",
+						title: "Se guardo los datos con exito",
+						showConfirmButton: true,
+						allowOutsideClick: false,
+						confirmButtonText: "Cerrar"
+						}).then(function(result){
+								if (result.value) {
+						
+								window.location = "prestamos";
+						
+								}
+							})
+						
 						</script>';
 				}
 			} else {
