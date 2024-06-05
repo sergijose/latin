@@ -48,10 +48,20 @@ class TablaProductosPrestamosPrincipal
 			//$item = "id";
 			//$valor = $respuesta[$i]["idproducto"];
 			//$order = "id";
+			$respuesta_tecnicos = ControladorPrestamos::ctrMostrarInstalacionesTecnicos("id_prestamo",$respuesta[$i]["id"]);
 			
 			$empleado= strtoupper($respuesta[$i]["empleado"]);
 			if ($respuesta[$i]["estado_prestamo"] == "INSTALADO") {
-				$empleado.= "<br><button class='btn btn-info btn-xs btnVerTecnicoInstalacion' idPrestamo='" . $respuesta[$i]["id"] . "' data-toggle='modal' data-target='#modalVerTecnicoInstalacion' data-toggle='tooltip' title='Tecnico que instalo'><i class='fas fa-eye'></i> ver tecnico que instalo</button>";
+
+				if (empty($respuesta_tecnicos)) {
+
+					$empleado.= "<br><button class='btn btn-danger btn-xs'>no se registro que tecnico instalo</button>";
+
+				}	
+				else{
+					$empleado.= "<br><button class='btn btn-info btn-xs btnVerTecnicoInstalacion' idPrestamo='" . $respuesta[$i]["id"] . "' data-toggle='modal' data-target='#modalVerTecnicoInstalacion' data-toggle='tooltip' title='Tecnico que instalo'><i class='fas fa-eye'></i> ver tecnico que instalo</button>";
+				}
+				
 			}	
 		
 			$codigoCliente= strtoupper($respuesta[$i]['codigo_cliente']) . " " . strtoupper($respuesta[$i]['nombre_cliente']);

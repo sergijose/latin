@@ -306,21 +306,17 @@ if ($_SESSION["perfil"] == "Visitante") {
                 }
               }
 
-             
-              if ($prestamo["estado_prestamo"] == "INSTALADO" ) {
-                
-                if(!empty($instalacionTecnico))
-                
-                {
+
+              if ($prestamo["estado_prestamo"] == "INSTALADO") {
+
+                if (!empty($instalacionTecnico)) {
                   echo '<button type="button" class="btn btn-primary btn-xs">se registro quien instalo <i class="fas fa-thumbs-up"></i></button>';
-                }
-                else{
+                } else {
                   echo '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalVerTecnicoInstalacion" data-dismiss="modal">Agregar tecnico que instala</button>';
                 }
-
               }
-              
-              
+
+
               ?>
               <!--=====================================
                ENTRADA PARA CODIGO DEL CLIENTE
@@ -520,7 +516,7 @@ $asignarPrestamo->ctrAsignarPrestamo();
 
           <div class="form-group">
             <label for="nuevo_tecnico_uno">Tecnico que instalo N1:</label>
-            <select class="form-control mi-selector" id="nuevo_tecnico_uno" name="nuevo_tecnico_uno" style="width: auto;" required>
+            <select class="form-control mi-selector-tecnico" id="nuevo_tecnico_uno" name="nuevo_tecnico_uno" required>
 
               <option value="">--SELECCIONAR--</option>
 
@@ -529,9 +525,9 @@ $asignarPrestamo->ctrAsignarPrestamo();
               $item = null;
               $valor = null;
 
-              $modelo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+              $tecnico_uno = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
 
-              foreach ($modelo as $key => $value) {
+              foreach ($tecnico_uno as $key => $value) {
 
 
                 echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
@@ -544,7 +540,7 @@ $asignarPrestamo->ctrAsignarPrestamo();
           </div>
           <div class="form-group">
             <label for="nuevo_tecnico_dos">Tecnico que instalo N2:</label>
-            <select class="form-control mi-selector" id="nuevo_tecnico_dos" name="nuevo_tecnico_dos" style="width: auto;" >
+            <select class="form-control  mi-selector-tecnico" id="nuevo_tecnico_dos" name="nuevo_tecnico_dos">
 
               <option value="">--SELECCIONAR--</option>
 
@@ -553,9 +549,9 @@ $asignarPrestamo->ctrAsignarPrestamo();
               $item = null;
               $valor = null;
 
-              $modelo = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+              $tecnico_dos = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
 
-              foreach ($modelo as $key => $value) {
+              foreach ($tecnico_dos as $key => $value) {
 
 
                 echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
@@ -567,13 +563,15 @@ $asignarPrestamo->ctrAsignarPrestamo();
 
           </div>
 
-
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary pull-right">Agregar</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          </div>
-
+          
         </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary pull-right">Agregar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+
+
       </div>
       <?php
 
@@ -722,3 +720,14 @@ $asignarPrestamo->ctrAsignarPrestamo();
   </div>
 
 </div>
+<script>
+$(document).ready(function() {
+	$('.mi-selector-tecnico').select2({
+		//width : 'resolve'
+		width: '380px',
+    dropdownParent: $('#modalVerTecnicoInstalacion .modal-body')
+		
+	});
+	
+  });
+  </script>

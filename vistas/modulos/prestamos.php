@@ -183,20 +183,6 @@ $eliminarPrestamo->ctrEliminarPrestamo();
           <input type="hidden" class="form-control input-md" name="asignado_por" value="<?php echo $_SESSION["id"]; ?>" required>
 
           <div class="form-group">
-            <label for="codigo_cliente_prestamo">Código Cliente:</label>
-            <input type="text" class="form-control" id="codigo_cliente_prestamo" name="codigo_cliente_prestamo" disabled>
-          </div>
-
-          <div class="form-group">
-            <label for="nombreCliente">Nombre Cliente:</label>
-            <input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente" disabled>
-          </div>
-          <div class="form-group">
-            <label for="documentoCliente">Dni Cliente:</label>
-            <input type="text" class="form-control" id="documento_cliente" name="documento_cliente" disabled>
-          </div>
-
-          <div class="form-group">
             <label for="codigoCliente">Tecnico que instalo:</label>
             <input type="text" class="form-control" id="nombre_tecnico1" name="nombre_tecnico1" disabled>
           </div>

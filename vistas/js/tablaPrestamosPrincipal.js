@@ -136,9 +136,6 @@ $(".tablaPrestamoPrincipal").on("click", ".btnVerTecnicoInstalacion", function (
       $("#idPrestamoInstalacion").val(idPrestamo);
      $("#nombre_tecnico1").val(respuesta[0]['tecnico_uno']);
      $("#nombre_tecnico2").val(respuesta[0]['tecnico_dos']);
-    $("#codigo_cliente_prestamo").val(respuesta[0]["cod_cliente"]);
-    $("#nombre_cliente").val(respuesta[0]["nombre_cliente"]);
-    $("#documento_cliente").val(respuesta[0]["documento_cliente"]);
     },
   });
 
