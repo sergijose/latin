@@ -166,6 +166,103 @@ $eliminarPrestamo->ctrEliminarPrestamo();
   </div>
 </div>
 
+
+
+<!-- MODAL CREAR TECNICO QUE INSTALO -->
+<div class="modal fade" id="modalCrearTecnicoInstalacion" tabindex="-1" role="dialog" aria-labelledby="modalProductoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form role="form" method="post" class="formularioAgregarTecnicoInstalacion" id="formularioAgregarTecnicoInstalacio">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="modalProductoLabel"><b>ASIGNAR TECNICO QUE INSTALO</b></h4>
+        </div>
+        <div class="modal-body">
+
+
+           <input type="hidden" name="id_prestamo" id="id_prestamo" value="">
+         
+          <input type="hidden" class="form-control input-md" required name="agregado_por" value="<?php echo $_SESSION['id']; ?>">
+
+
+          <!--=====================================
+                ENTRADA PARA REGISTRAR A QUIEN SE LE ESTA HACIENDO EL PRESTAMO
+                ======================================-->
+
+          <div class="form-group">
+            <label for="nuevo_tecnico_uno">Tecnico que instalo N1:</label>
+            <select class="form-control mi-selector-tecnico" id="nuevo_tecnico_uno" name="nuevo_tecnico_uno" required>
+
+              <option value="">--SELECCIONAR--</option>
+
+              <?php
+
+              $item = null;
+              $valor = null;
+
+              $tecnico_uno = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+
+              foreach ($tecnico_uno as $key => $value) {
+
+
+                echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
+              }
+
+              ?>
+
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="nuevo_tecnico_dos">Tecnico que instalo N2:</label>
+            <select class="form-control  mi-selector-tecnico" id="nuevo_tecnico_dos" name="nuevo_tecnico_dos">
+
+              <option value="">--SELECCIONAR--</option>
+
+              <?php
+
+              $item = null;
+              $valor = null;
+
+              $tecnico_dos = ControladorEmpleados::ctrMostrarEmpleados($item, $valor);
+
+              foreach ($tecnico_dos as $key => $value) {
+
+
+                echo '<option value="' . $value["idempleado"] . '">' . strtoupper($value["nombres"] . " " . $value["ape_pat"] . " " . $value["ape_mat"]) . "-[D.N.I:" . $value["num_documento"] . ']</option>';
+              }
+
+              ?>
+
+            </select>
+
+          </div>
+
+          
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary pull-right">Agregar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+
+
+      </div>
+      <?php
+
+      $crearTecnico = new ControladorPrestamos();
+      $crearTecnico->ctrCrearInstalacionTecnico();
+
+      ?>
+    </form>
+
+  </div>
+</div>
+
+
+
 <!-- MODAL VER TECNICO QUE INSTALO -->
 <div class="modal fade" id="modalVerTecnicoInstalacion" tabindex="-1" role="dialog" aria-labelledby="modalProductoLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -175,7 +272,7 @@ $eliminarPrestamo->ctrEliminarPrestamo();
           <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="modalProductoLabel"><b>TECNICO QUE INSTALO</b></h4>
+          <h4 class="modal-title" id="modalProductoLabel"><b>REPORTE TECNICO QUE INSTALO</b></h4>
         </div>
         <div class="modal-body">
 
@@ -201,12 +298,7 @@ $eliminarPrestamo->ctrEliminarPrestamo();
       </div>
 
     </form>
-    <?php
 
-$asignarInstalacion = new ControladorPrestamos();
-$asignarInstalacion->ctrCrearInstalacionTecnico();
-
-?>
 
   </div>
 </div>
@@ -223,5 +315,15 @@ $asignarInstalacion->ctrCrearInstalacionTecnico();
       width: '250px'
 
     });
+
+
+    $('.mi-selector-tecnico').select2({
+		//width : 'resolve'
+		width: '380px',
+    dropdownParent: $('#modalCrearTecnicoInstalacion .modal-body')
+		
+	});
   });
 </script>
+
+

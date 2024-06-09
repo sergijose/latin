@@ -293,12 +293,14 @@ class ModeloPrestamos{
 
 			$stmt = Conexion::conectar()->prepare("SELECT pre.id,usu.nombre AS usuario,concat(emp.nombres,' ',emp.ape_pat,' ',emp.ape_mat)AS empleado,emp.idempleado,emp.num_documento AS dni_empleado,
 			pre.codigo_prestamo AS codigo_prestamo,pre.tipo_servicio,pre.equipo_reserva,pre.productos,pre.productos_lotes,pre.fecha_prestamo,pre.fecha_devolucion,
-			pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo,pre.nombre_cliente,pre.documento_cliente
+			pre.observacion_prestamo,pre.observacion_devolucion,pre.codigo_cliente,pre.estado_prestamo,pre.nombre_cliente,pre.documento_cliente,inst.id_prestamo
 				FROM prestamo pre
 			 INNER JOIN usuarios usu
 			 ON pre.idusuario=usu.id
 			 INNER JOIN empleado emp
 			 ON pre.idempleado=emp.idempleado
+			 LEFT JOIN instalacion_tecnico inst
+			 ON inst.id_prestamo=pre.id
 			 ORDER BY pre.id desc");
 			$stmt -> execute();
 

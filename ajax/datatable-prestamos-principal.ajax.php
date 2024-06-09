@@ -44,18 +44,12 @@ class TablaProductosPrestamosPrincipal
 
 		for ($i = 0; $i < count($respuesta); $i++) {
 
-
-			//$item = "id";
-			//$valor = $respuesta[$i]["idproducto"];
-			//$order = "id";
-			$respuesta_tecnicos = ControladorPrestamos::ctrMostrarInstalacionesTecnicos("id_prestamo",$respuesta[$i]["id"]);
-			
 			$empleado= strtoupper($respuesta[$i]["empleado"]);
 			if ($respuesta[$i]["estado_prestamo"] == "INSTALADO") {
 
-				if (empty($respuesta_tecnicos)) {
+				if (empty($respuesta[$i]["id_prestamo"])) {
 
-					$empleado.= "<br><button class='btn btn-danger btn-xs'>no se registro que tecnico instalo</button>";
+					$empleado.= "<br><button class='btn btn-danger btn-xs  btnCrearTecnicoInstalacion' data-toggle='modal' data-target='#modalCrearTecnicoInstalacion' idPrestamo='" . $respuesta[$i]["id"] . "' data-dismiss='modal'>click aqui para registrar tecnico</button>";
 
 				}	
 				else{
@@ -154,13 +148,13 @@ class TablaProductosPrestamosPrincipal
 			$datosJson .= '[
 				"' . ($i + 1) . '",
 				"' . $empleado . '",
-				"' .  $codigoCliente .'",
+				"' . addslashes( $codigoCliente) .'",
 				"' . $tipoServicio . '",
 				"' . $resumenProducto . '",
 				"' . date("d/m/Y", strtotime($respuesta[$i]["fecha_prestamo"])) . '",
 				"' . $fecha_devolucion.'",
-				"' . $respuesta[$i]["observacion_prestamo"] . '",
-				"' . $respuesta[$i]["observacion_devolucion"] . '",
+				"' . addslashes($respuesta[$i]["observacion_prestamo"] ). '",
+				"' . addslashes($respuesta[$i]["observacion_devolucion"]) . '",
 				"' . $estado . '",
 				"' . $botones . '"
 			  ],';
@@ -172,6 +166,7 @@ class TablaProductosPrestamosPrincipal
 		 }';
 
 		echo $datosJson;
+		//echo json_encode(["datosJson" => $datosJson], JSON_UNESCAPED_UNICODE);
 	}
 }
 

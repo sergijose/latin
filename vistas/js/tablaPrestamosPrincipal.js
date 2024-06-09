@@ -143,6 +143,29 @@ $(".tablaPrestamoPrincipal").on("click", ".btnVerTecnicoInstalacion", function (
 });
 
 
+//TRAER DATOS PARA PINTAR INFORMACION MODAL AGREGAR TECNICOVER TECNICOS QUE INSTALO
+$(".tablaPrestamoPrincipal").on("click", ".btnCrearTecnicoInstalacion", function () {
+  var idPrestamo = $(this).attr("idPrestamo");
+  var datos = new FormData();
+  datos.append("idPrestamo", idPrestamo);
+  $.ajax({
+    url: "ajax/instalaciones.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      $("#id_prestamo").val(idPrestamo);
+    },
+  });
+
+ 
+});
+
+
+
 
 
 /*=============================================

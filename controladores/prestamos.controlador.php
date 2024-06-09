@@ -216,22 +216,21 @@ class ControladorPrestamos
 
 					echo '<script>
 
-					
 					swal({
 						type: "success",
-						title: "Se guardo los datos con exito",
+						title: "Se agrego con Exito!",
 						showConfirmButton: true,
 						allowOutsideClick: false,
 						confirmButtonText: "Cerrar"
 						}).then(function(result){
-								if (result.value) {
-						
-								window.location = "prestamos";
-						
-								}
-							})
-						
-						</script>';
+								  if (result.value) {
+  
+								  window.location = "prestamos";
+  
+								  }
+							  })
+  
+				  </script>';
 				}
 			} else {
 
