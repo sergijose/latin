@@ -15,20 +15,23 @@ if(localStorage.getItem("capturarRango") != null){
 }
 
 //esto nos servira para comprobar si nuestro json esta bien estructurado
-/*
+
 var perfilOculto = $("#perfilOculto").val();
+
+
 $.ajax({
   url: "ajax/datatable-prestamos-principal.ajax.php?perfilOculto=" + perfilOculto,
   success: function (respuesta) {
-   // console.log("respuestaPrincipal", respuesta);
+    console.log("respuestaPrincipal", respuesta);
   },
 });
-*/
+
 $(".tablaPrestamoPrincipal").DataTable({
   //ajax:"ajax/datatable-prestamos-principal.ajax.php?perfilOculto=" + perfilOculto,
   ajax: {
     url: "ajax/datatable-prestamos-principal.ajax.php?perfilOculto=" + perfilOculto,
     data: function (d) {
+      // console.log("respuesta", d);
       // Agregar lógica para obtener las fechas desde la URL
       var urlParams = new URLSearchParams(window.location.search);
       d.fechaInicial = urlParams.get('fechaInicial');

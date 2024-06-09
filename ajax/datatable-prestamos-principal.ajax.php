@@ -148,13 +148,13 @@ class TablaProductosPrestamosPrincipal
 			$datosJson .= '[
 				"' . ($i + 1) . '",
 				"' . $empleado . '",
-				"' . addslashes( $codigoCliente) .'",
+				"' . $codigoCliente .'",
 				"' . $tipoServicio . '",
 				"' . $resumenProducto . '",
 				"' . date("d/m/Y", strtotime($respuesta[$i]["fecha_prestamo"])) . '",
 				"' . $fecha_devolucion.'",
-				"' . addslashes($respuesta[$i]["observacion_prestamo"] ). '",
-				"' . addslashes($respuesta[$i]["observacion_devolucion"]) . '",
+				"' . $respuesta[$i]["observacion_prestamo"] . '",
+				"' . $respuesta[$i]["observacion_devolucion"] . '",
 				"' . $estado . '",
 				"' . $botones . '"
 			  ],';
